@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aulas de Inglês Online | Professor Particular</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+
+        /* Header - Azul Acadêmico */
+        header {
+            background: linear-gradient(135deg, #003366 0%, #004080 100%); /* Azul Navy */
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 51, 102, 0.9), rgba(0, 51, 102, 0.9)), url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 180px 2rem 120px;
+            text-align: center;
+            margin-top: 0;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: #cc0000; /* Vermelho destaque (Inglaterra/EUA) */
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            background: #b30000;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #003366;
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #003366;
+        }
+
+        /* Services */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2.5rem 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 4px solid #cc0000;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 51, 102, 0.15);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            color: #003366;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        /* About & Methodology */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            color: #003366;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .about-text ul {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .about-text li {
+            padding: 0.5rem 0;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .about-text li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #cc0000; /* Check vermelho */
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Contact Section */
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, #003366 0%, #004080 100%);
+            color: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+        }
+
+        .contact-info h3 {
+            color: white;
+            margin-bottom: 2rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            color: #003366;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #003366;
+        }
+
+        /* Footer */
+        footer {
+            background: #111;
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 3rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            color: #cc0000;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2.2rem; }
+            .about-content, .contact-content, .history-container { grid-template-columns: 1fr; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <span style="font-size: 1.5rem;">🇺🇸</span>
+                <span style="font-weight: bold; margin-left: 10px;">Teacher [Nome]</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#metodologia">Como Funciona</a></li>
+                <li><a href="#sobre">Sobre Mim</a></li>
+                <li><a href="#contato">Agendar Aula</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero" id="inicio">
+        <h1>Domine o Inglês e Conquiste o Mundo 🌎</h1>
+        <p>Aulas particulares online 100% focadas na sua conversação, carreira e objetivos pessoais. Chega de travar na hora de falar.</p>
+        <div class="cta-buttons">
+            <a href="#contato" class="btn btn-primary">Agendar Aula Experimental</a>
+            <a href="https://wa.me/5515999999999" class="btn btn-secondary" target="_blank">Falar no WhatsApp</a>
+        </div>
+    </section>
+
+    <section id="metodologia">
+        <h2>Como posso te ajudar?</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🗣️</div>
+                <h3>Conversação & Fluência</h3>
+                <p>Perca o medo de falar. Aulas dinâmicas focadas em destravar sua fala desde o primeiro dia.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">💼</div>
+                <h3>Business English</h3>
+                <p>Inglês para o mercado de trabalho. Prepare-se para entrevistas, reuniões e apresentações.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">✈️</div>
+                <h3>Inglês para Viagens</h3>
+                <p>Vai viajar? Aprenda o essencial para passar pela imigração, hotel e restaurantes sem sufoco.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">📚</div>
+                <h3>Preparação para Exames</h3>
+                <p>Suporte focado para certificações internacionais (TOEFL, IELTS) e provas acadêmicas.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="sobre">
+        <h2>Sobre as Aulas</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <h3>Metodologia Personalizada</h3>
+                <p>Esqueça os cursos tradicionais engessados. Aqui o foco é o <strong>seu objetivo</strong>. As aulas são desenhadas para o seu ritmo e necessidade.</p>
+                <ul>
+                    <li>Aulas 100% Online (Google Meet/Zoom)</li>
+                    <li>Horários Flexíveis para quem trabalha</li>
+                    <li>Material didático moderno e digital</li>
+                    <li>Foco total na prática (Speaking/Listening)</li>
+                    <li>Feedback constante da sua evolução</li>
+                </ul>
+            </div>
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Estudando Inglês" style="width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+            </div>
+        </div>
+    </section>
+
+    <section id="contato">
+        <h2>Comece Agora</h2>
+        <div class="contact-content">
+            <div class="contact-info">
+                <h3>Entre em Contato</h3>
+                <p style="margin-bottom: 20px; color: #eee;">Preencha o formulário para agendar sua aula ou tirar dúvidas.</p>
+                
+                <div class="info-item">
+                    <span class="info-icon">📍</span>
+                    <span>Atendimento Online para todo o Brasil</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">📱</span>
+                    <span>(15) 99999-9999</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">📧</span>
+                    <span>contato@teacher.com.br</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">🇺🇸</span>
+                    <span>Instagram: @seuwinstagram</span>
+                </div>
+            </div>
+            
+            <form class="contact-form">
+                <h3 style="color: #003366; margin-bottom: 1rem;">Solicitar Informações</h3>
+                
+                <div class="form-group">
+                    <label>Seu Nome</label>
+                    <input type="text" id="nome" placeholder="Como você se chama?" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Seu WhatsApp</label>
+                    <input type="tel" id="telefone" placeholder="(DDD) 99999-9999" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Qual seu principal objetivo?</label>
+                    <input type="text" id="objetivo" placeholder="Ex: Trabalho, Viagem, Hobbies..." required>
+                </div>
+
+                <div class="form-group">
+                    <label>Seu nível atual de Inglês</label>
+                    <select id="nivel" required>
+                        <option value="">Selecione uma opção</option>
+                        <option>Básico (Nunca estudei)</option>
+                        <option>Básico (Já estudei um pouco)</option>
+                        <option>Intermediário</option>
+                        <option>Avançado</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Mensagem (Opcional)</label>
+                    <textarea id="mensagem" rows="3" placeholder="Tem alguma dúvida específica?"></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Enviar no WhatsApp 🚀</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="social-links">
+            <a href="#" target="_blank">📷</a> <a href="#" target="_blank">💬</a> </div>
+        <p>© 2026 Teacher [Nome]. Todos os direitos reservados.</p>
+        <p style="font-size: 0.8rem; margin-top: 10px; color: #666;">Desenvolvido por GTI Tecnologia</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // LÓGICA DE ENVIO
+        document.querySelector('.contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 1. Pega os valores (IDs atualizados)
+            const nome = document.getElementById('nome').value;
+            const telefone = document.getElementById('telefone').value;
+            const objetivo = document.getElementById('objetivo').value; // Antigo Carro
+            const nivel = document.getElementById('nivel').value;       // Antigo Serviço
+            const mensagem = document.getElementById('mensagem').value;
+            
+            // 2. Prepara o Texto
+            const parte1 = "*Olá Teacher! Vim pelo site e gostaria de saber sobre as aulas* ";
+            
+            let parte2 = "\n\n----------------------------------\n";
+            parte2 += "*Nome:* " + nome + "\n";
+            parte2 += "*Telefone:* " + telefone + "\n";
+            parte2 += "*Objetivo:* " + objetivo + "\n";
+            parte2 += "*Nível:* " + nivel + "\n";
+            
+            if(mensagem) {
+                parte2 += "*Mensagem:* " + mensagem + "\n";
+            }
+            parte2 += "----------------------------------";
+
+            // 3. Codifica
+            const texto1Codificado = encodeURIComponent(parte1);
+            const texto2Codificado = encodeURIComponent(parte2);
+            
+            // 4. Emojis Blindados (Livros e Bandeira)
+            // 📚 = %F0%9F%93%9A
+            // 🇺🇸 = %F0%9F%87%BA%F0%9F%87%B8
+            const emojisBlindados = "%F0%9F%93%9A%20%F0%9F%87%BA%F0%9F%87%B8";
+
+            // 5. Link Final (COLOQUE O NÚMERO DELE AQUI DEPOIS)
+            // Deixei o seu final 1113095 como placeholder seguro
+            const whatsappLink = `https://wa.me/5515999999999?text=${texto1Codificado}${emojisBlindados}${texto2Codificado}`;
+            
+            window.open(whatsappLink, '_blank');
+            this.reset(); // Limpa o formulário
+        });
+
+        // Animação Scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.service-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
