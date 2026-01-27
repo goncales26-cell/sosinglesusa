@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SOS English | Teacher Lourival Sampaio</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🇺🇸</text></svg>">
+    <link rel="icon" type="image/png" href="https://i.imgur.com/sc5KPkR.png">
+    
     <style>
         * {
             margin: 0;
@@ -279,7 +280,7 @@
 
         .info-item {
             display: flex;
-            align-items: center;
+            align-items: flex-start; /* Alinhamento ao topo para endereço longo */
             gap: 1rem;
             margin-bottom: 1.5rem;
             font-size: 1.1rem;
@@ -289,9 +290,10 @@
             width: 24px;
             height: 24px;
             fill: white;
+            margin-top: 3px; /* Ajuste fino */
         }
 
-        .info-item a {
+        .info-item a, .info-item span {
             color: white;
             text-decoration: none;
             transition: opacity 0.3s;
@@ -300,6 +302,14 @@
         .info-item a:hover {
             opacity: 0.8;
             text-decoration: underline;
+        }
+
+        /* Mapa do Google */
+        .map-container {
+            margin-top: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
         .contact-form {
@@ -376,7 +386,7 @@
             fill: #cc0000;
         }
 
-        /* --- RESPONSIVE (CORREÇÃO DAS FOTOS AQUI) --- */
+        /* --- RESPONSIVE --- */
         @media (max-width: 768px) {
             .nav-links { display: none; }
             .hero h1 { font-size: 2.2rem; }
@@ -386,29 +396,25 @@
             .about-image-container {
                 min-height: auto;
                 margin-bottom: 3rem;
-                display: flex; /* Para alinhar centralizado */
+                display: flex;
                 flex-direction: column;
                 align-items: center;
             }
             .photo-card { 
                 width: 100%; 
-                /* Garante que o texto fique acima da segunda foto se precisar */
                 z-index: 2; 
             }
             .photo-card-2 {
                 position: relative;
                 bottom: 0;
                 right: 0;
-                width: 95%; /* Um pouco menor que a de cima */
-                /* Mudei de -40px para 20px positivo para dar espaço */
+                width: 95%;
                 margin: 20px auto 0 auto; 
                 display: block;
                 z-index: 1;
-                /* Borda um pouco mais fina no mobile */
                 border: 4px solid white; 
             }
             
-            /* Ajuste fino no texto do selo para telas pequenas */
             .photo-card div {
                 bottom: 15px;
                 left: -5px;
@@ -492,28 +498,28 @@
 
             <div class="about-text">
                 <span style="color: #cc0000; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem;">Minha Trajetória</span>
-                <h2 style="text-align: left; margin-bottom: 1.5rem; line-height: 1.2;">De Maratonista a Professor.<br>Uma vida de disciplina.</h2>
+                <h2 style="text-align: left; margin-bottom: 1.5rem; line-height: 1.2;">De Maratonista a Professor.<br>Uma missão de vida.</h2>
                 
                 <p style="font-size: 1.1rem; color: #555; margin-bottom: 1.5rem;">
-                    "Meu pai me disse uma vez: <em>'Meu filho, o esporte vai abrir portas onde seu nome ainda não chega'</em>. Ele estava certo."
+                    "Saber que posso abrir portas e mudar histórias de vida é o que me motiva todos os dias."
                 </p>
 
                 <div class="timeline-item" style="border-left: 3px solid #003366; margin-bottom: 1.5rem; padding-left: 15px;">
-                    <strong style="color: #003366; display: block; margin-bottom: 5px;">A Corrida pela Vida</strong>
+                    <strong style="color: #003366; display: block; margin-bottom: 5px;">O Sonho e a Disciplina</strong>
                     <p style="font-size: 0.95rem;">
-                        Nasci com um sonho: aprender inglês nos EUA. Sem dinheiro, descobri que a Maratona de SP dava uma viagem como prêmio. Treinei 160km por semana, venci a prova e embarquei com <strong>US$ 200 no bolso</strong>.
+                        Desde criança, carregava o sonho de aprender inglês nos EUA, pois sabia que o idioma mudava vidas. Sem condições financeiras, usei o esporte para chegar lá. Venci a Maratona de SP e embarquei para o meu sonho com pouco dinheiro, mas muita determinação.
                     </p>
                 </div>
 
                 <div class="timeline-item" style="border-left: 3px solid #cc0000; margin-bottom: 1.5rem; padding-left: 15px;">
-                    <strong style="color: #cc0000; display: block; margin-bottom: 5px;">O Sonho Americano</strong>
+                    <strong style="color: #cc0000; display: block; margin-bottom: 5px;">Do Silêncio à Fluência</strong>
                     <p style="font-size: 0.95rem;">
-                        Nos EUA, lavei carros e pratos, mas mantive a disciplina de atleta. Estudava inglês dia e noite até atingir a fluência e me tornar referência no ensino.
+                        A realidade foi dura. Cheguei achando que falava, mas na primeira aula não entendi nada. <strong>Entrava quieto e saía calado, com medo de errar.</strong> Mas decidi não desistir. Transformei a dificuldade em motivação e venci a barreira do idioma.
                     </p>
                 </div>
 
                 <p style="font-weight: 600; color: #333; font-size: 1.1rem; margin-top: 1rem;">
-                    Hoje, uso a mesma garra das pistas para fazer você cruzar a linha de chegada da fluência.
+                    Hoje, me vejo nos meus alunos. Minha missão é ajudar você a acreditar em si mesmo e abrir as portas do mundo.
                 </p>
 
                 <a href="#contato" class="btn btn-primary" style="margin-top: 1.5rem;">Quero Treinar com um Campeão 🚀</a>
@@ -568,12 +574,22 @@
         <div class="contact-content">
             <div class="contact-info">
                 <h3>Entre em Contato</h3>
-                <p style="margin-bottom: 20px; color: #eee;">Preencha o formulário para agendar sua aula ou tirar dúvidas.</p>
+                <p style="margin-bottom: 20px; color: #eee;">Venha nos fazer uma visita ou agende online.</p>
                 
                 <div class="info-item">
                     <span class="info-icon">📍</span>
-                    <span>Atendimento Online para todo o Brasil</span>
+                    <span>
+                        Rua Benedito dos Santos, 730<br>
+                        Jd. Santa Rita de Cássia, Capivari - SP<br>
+                        CEP: 13368-530
+                    </span>
                 </div>
+                
+                <div class="map-container">
+                    <iframe src="https://maps.google.com/maps?q=Rua%20Benedito%20dos%20Santos%20730%20Capivari%20SP&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+                <br>
+
                 <div class="info-item">
                     <span class="info-icon">📱</span>
                     <span>(15) 98179-3811</span>
@@ -594,7 +610,7 @@
                     <span class="info-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                     </span>
-                    <span> @lourivalsampaio_ </span>
+                    <a href="https://www.instagram.com/lourivalsampaio_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank"> @lourivalsampaio_ </a>
                 </div>
             </div>
             
@@ -720,5 +736,3 @@
     </script>
 </body>
 </html>
-
-
