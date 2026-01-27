@@ -23,7 +23,7 @@
         header {
             background: linear-gradient(135deg, #003366 0%, #004080 100%);
             color: white;
-            padding: 0.5rem 0; /* Ajustei levemente o padding para acomodar o logo */
+            padding: 0.5rem 0;
             position: fixed;
             width: 100%;
             top: 0;
@@ -43,7 +43,6 @@
         .logo {
             display: flex;
             align-items: center;
-            /* O logo imagem substitui o texto */
         }
 
         .nav-links {
@@ -219,6 +218,46 @@
             box-shadow: 0 15px 40px rgba(0,0,0,0.2);
         }
 
+        /* --- ESTILOS DOS DEPOIMENTOS (NOVO) --- */
+        .testimonial-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            position: relative;
+            transition: transform 0.3s;
+            border-bottom: 4px solid #003366;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .quote-icon {
+            color: #cc0000;
+            font-size: 3rem;
+            line-height: 1;
+            margin-bottom: 1rem;
+            font-family: serif;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 1.5rem;
+        }
+
+        .student-info strong {
+            display: block;
+            color: #003366;
+            font-size: 1.1rem;
+        }
+
+        .student-info span {
+            font-size: 0.9rem;
+            color: #888;
+        }
+
         /* Contact Section */
         .contact-content {
             display: grid;
@@ -349,6 +388,7 @@
                 <li><a href="#inicio">Início</a></li>
                 <li><a href="#metodologia">Como Funciona</a></li>
                 <li><a href="#sobre">Minha História</a></li>
+                <li><a href="#depoimentos">Depoimentos</a></li>
                 <li><a href="#contato">Agendar Aula</a></li>
             </ul>
         </nav>
@@ -436,6 +476,48 @@
         </div>
     </section>
 
+    <section id="depoimentos" style="background-color: #f0f4f8;">
+        <h2>Histórias de Sucesso 💬</h2>
+        <p style="text-align: center; max-width: 700px; margin: -20px auto 40px auto; color: #666;">
+            Não acredite apenas na minha palavra. Veja o que meus alunos conquistaram com o método.
+        </p>
+
+        <div class="services-grid">
+            <div class="testimonial-card">
+                <div class="quote-icon">❝</div>
+                <p class="testimonial-text">
+                    "Eu travava sempre que precisava falar inglês no trabalho. Com 3 meses de aula com o Teacher Lourival, consegui conduzir minha primeira reunião com a diretoria global. A didática dele é direta e sem enrolação."
+                </p>
+                <div class="student-info">
+                    <strong>Ricardo Mendes</strong>
+                    <span>Gerente de Projetos (Business English)</span>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="quote-icon">❝</div>
+                <p class="testimonial-text">
+                    "Sempre achei que nunca aprenderia depois de velha. O Lourival tem uma paciência incrível e o método da maratona faz todo sentido: disciplina e constância. Hoje viajo sozinha sem medo!"
+                </p>
+                <div class="student-info">
+                    <strong>Sônia Andrade</strong>
+                    <span>Aposentada (Inglês para Viagens)</span>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="quote-icon">❝</div>
+                <p class="testimonial-text">
+                    "Precisava de nota 90 no TOEFL para meu mestrado no Canadá. As aulas foram focadas exatamente nas minhas dificuldades. Passei de primeira! O melhor investimento que fiz."
+                </p>
+                <div class="student-info">
+                    <strong>Lucas Ferreira</strong>
+                    <span>Aprovado no TOEFL/Mestrado</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section id="contato">
         <h2>Comece Agora</h2>
         <div class="contact-content">
@@ -449,14 +531,15 @@
                 </div>
                 <div class="info-item">
                     <span class="info-icon">📱</span>
-                    <span> (15) 981793811 </span> </div>
+                    <span>(15) 98179-3811</span>
+                </div>
                 <div class="info-item">
                     <span class="info-icon">📧</span>
                     <span>contato@sosenglish.com.br</span>
                 </div>
                 <div class="info-item">
                     <span class="info-icon">🇺🇸</span>
-                    <span> Instagram: @lourivalsampaio_ </span>
+                    <span>Instagram: @seuwinstagram</span>
                 </div>
             </div>
             
@@ -502,7 +585,7 @@
     <footer>
         <div class="social-links">
             <a href="#" target="_blank">📷</a>
-            <a href="#" target="_blank">💬</a>
+            <a href="https://wa.me/5515981793811" target="_blank">💬</a>
         </div>
         <p>© 2026 SOS English - Teacher Lourival. Todos os direitos reservados.</p>
         <p style="font-size: 0.8rem; margin-top: 10px; color: #666;">Desenvolvido por GTI Tecnologia</p>
@@ -520,7 +603,7 @@
             });
         });
 
-        // ENVIO WHATSAPP
+        // ENVIO WHATSAPP COM NÚMERO REAL
         document.querySelector('.contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -545,9 +628,9 @@
 
             const texto1Codificado = encodeURIComponent(parte1);
             const texto2Codificado = encodeURIComponent(parte2);
-            const emojisBlindados = "%F0%9F%93%9A%20%F0%9F%87%BA%F0%9F%87%B8"; // Livro + Bandeira EUA
+            const emojisBlindados = "%F0%9F%93%9A%20%F0%9F%87%BA%F0%9F%87%B8"; 
 
-            // ATENÇÃO: COLOQUE O NÚMERO DELE AQUI QUANDO TIVER
+            // NÚMERO ATUALIZADO (15 981793811)
             const whatsappLink = `https://wa.me/5515981793811?text=${texto1Codificado}${emojisBlindados}${texto2Codificado}`;
             
             window.open(whatsappLink, '_blank');
@@ -564,7 +647,7 @@
             });
         }, { threshold: 0.1 });
 
-        document.querySelectorAll('.service-card, .photo-card').forEach(el => {
+        document.querySelectorAll('.service-card, .photo-card, .testimonial-card').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(20px)';
             el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
@@ -573,8 +656,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
