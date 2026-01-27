@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teacher Lourival Sampaio | Aulas de Inglês Online</title>
+    <title>SOS English | Teacher Lourival Sampaio</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🇺🇸</text></svg>">
     <style>
         * {
@@ -23,7 +23,7 @@
         header {
             background: linear-gradient(135deg, #003366 0%, #004080 100%);
             color: white;
-            padding: 1rem 0;
+            padding: 0.5rem 0; /* Ajustei levemente o padding para acomodar o logo */
             position: fixed;
             width: 100%;
             top: 0;
@@ -43,9 +43,7 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-weight: bold;
-            font-size: 1.2rem;
+            /* O logo imagem substitui o texto */
         }
 
         .nav-links {
@@ -179,7 +177,7 @@
             font-size: 1.5rem;
         }
 
-        /* --- ESTILOS DA SEÇÃO HISTÓRIA (NOVO) --- */
+        /* --- ESTILOS DA SEÇÃO HISTÓRIA --- */
         .about-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -201,7 +199,7 @@
         /* Efeito das Fotos Sobrepostas */
         .about-image-container {
             position: relative;
-            min-height: 400px; /* Garante altura para as fotos */
+            min-height: 400px;
         }
         
         .photo-card {
@@ -330,7 +328,7 @@
                 bottom: 0;
                 right: 0;
                 width: 90%;
-                margin: -40px auto 0 auto; /* Sobe um pouco pra cobrir a de cima */
+                margin: -40px auto 0 auto;
                 display: block;
             }
         }
@@ -345,8 +343,7 @@
     <header>
         <nav>
             <div class="logo">
-                <span style="font-size: 1.5rem;">🇺🇸</span>
-                <span style="font-weight: bold; margin-left: 10px;">Teacher Lourival</span>
+                <img src="./logo.jpeg" alt="SOS English Logo" style="height: 70px; width: auto; border-radius: 5px;">
             </div>
             <ul class="nav-links">
                 <li><a href="#inicio">Início</a></li>
@@ -455,7 +452,7 @@
                     <span>(15) 99999-9999</span> </div>
                 <div class="info-item">
                     <span class="info-icon">📧</span>
-                    <span>contato@teacherlourival.com.br</span>
+                    <span>contato@sosenglish.com.br</span>
                 </div>
                 <div class="info-item">
                     <span class="info-icon">🇺🇸</span>
@@ -507,7 +504,7 @@
             <a href="#" target="_blank">📷</a>
             <a href="#" target="_blank">💬</a>
         </div>
-        <p>© 2026 Teacher Lourival Sampaio. Todos os direitos reservados.</p>
+        <p>© 2026 SOS English - Teacher Lourival. Todos os direitos reservados.</p>
         <p style="font-size: 0.8rem; margin-top: 10px; color: #666;">Desenvolvido por GTI Tecnologia</p>
     </footer>
 
@@ -533,7 +530,7 @@
             const nivel = document.getElementById('nivel').value;
             const mensagem = document.getElementById('mensagem').value;
             
-            const parte1 = "*Olá Teacher Lourival! Vim pelo site e gostaria de saber sobre as aulas* ";
+            const parte1 = "*Olá Teacher Lourival! Vim pelo site SOS English e gostaria de saber sobre as aulas* ";
             
             let parte2 = "\n\n----------------------------------\n";
             parte2 += "*Nome:* " + nome + "\n";
@@ -576,4 +573,3 @@
     </script>
 </body>
 </html>
-
