@@ -369,25 +369,78 @@
         </div>
     </section>
 
-    <section id="sobre">
-        <h2>Sobre as Aulas</h2>
-        <div class="about-content">
-            <div class="about-text">
-                <h3>Metodologia Personalizada</h3>
-                <p>Esqueça os cursos tradicionais engessados. Aqui o foco é o <strong>seu objetivo</strong>. As aulas são desenhadas para o seu ritmo e necessidade.</p>
-                <ul>
-                    <li>Aulas 100% Online (Google Meet/Zoom)</li>
-                    <li>Horários Flexíveis para quem trabalha</li>
-                    <li>Material didático moderno e digital</li>
-                    <li>Foco total na prática (Speaking/Listening)</li>
-                    <li>Feedback constante da sua evolução</li>
-                </ul>
+    <section id="sobre" style="background: white;">
+        <div class="about-content" style="gap: 4rem;">
+            
+            <div class="about-image-container" style="position: relative;">
+                <div class="photo-card" style="position: relative; z-index: 1;">
+                    <img src="./maratona-sp-85.jpg" onerror="this.src='https://images.unsplash.com/photo-1552674605-4694c0cc7c14?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80'" alt="Campeão Maratona SP 1985" style="width: 100%; border-radius: 15px; box-shadow: 0 15px 40px rgba(0,0,0,0.2); filter: grayscale(100%); transition: filter 0.5s;">
+                    <div style="position: absolute; bottom: 20px; left: -20px; background: #cc0000; color: white; padding: 10px 20px; font-weight: bold; font-size: 0.9rem; border-radius: 5px; box-shadow: 5px 5px 15px rgba(0,0,0,0.2);">
+                        🏆 Campeão Maratona SP (1985)
+                    </div>
+                </div>
+                
+                <div class="photo-card-2" style="position: absolute; bottom: -50px; right: -30px; width: 65%; z-index: 2; border: 5px solid white; border-radius: 15px;">
+                    <img src="./professor-lourival.jpg" onerror="this.src='https://images.unsplash.com/photo-1544717305-2782549b5136?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80'" alt="Professor Lourival Sampaio" style="width: 100%; border-radius: 10px; box-shadow: 0 15px 40px rgba(0,0,0,0.2);">
+                </div>
             </div>
-            <div class="about-image">
-                <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Estudando Inglês" style="width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+
+            <div class="about-text">
+                <span style="color: #cc0000; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem;">Minha Trajetória</span>
+                <h2 style="text-align: left; margin-bottom: 1.5rem; line-height: 1.2;">De Mecânico a Campeão.<br>De Imigrante a Professor.</h2>
+                
+                <p style="font-size: 1.1rem; color: #555; margin-bottom: 1.5rem;">
+                    "Meu pai me disse uma vez: <em>'Meu filho, o esporte vai abrir portas onde seu nome ainda não chega'</em>. Ele estava certo."
+                </p>
+
+                <div class="timeline-item" style="border-left: 3px solid #003366; padding-left: 20px; margin-bottom: 1.5rem;">
+                    <strong style="color: #003366; display: block; margin-bottom: 5px;">1985: A Corrida pela Vida</strong>
+                    <p style="font-size: 0.95rem;">
+                        Nasci pobre em Sorocaba. Meu sonho era aprender inglês nos EUA, mas não tinha dinheiro. Descobri que a Maratona de SP dava uma viagem como prêmio. Treinei 160km por semana, venci a prova e embarquei com <strong>US$ 200 no bolso</strong>.
+                    </p>
+                </div>
+
+                <div class="timeline-item" style="border-left: 3px solid #cc0000; padding-left: 20px; margin-bottom: 1.5rem;">
+                    <strong style="color: #cc0000; display: block; margin-bottom: 5px;">O Sonho Americano Real</strong>
+                    <p style="font-size: 0.95rem;">
+                        Nos EUA, lavei carros e pratos. Mas tinha a disciplina de atleta. Estudava inglês dia e noite até atingir a fluência em <strong>8 meses</strong>.
+                    </p>
+                </div>
+
+                <p style="font-weight: 600; color: #333; font-size: 1.1rem; margin-top: 1rem;">
+                    Hoje, uso a mesma garra de maratonista para fazer você cruzar a linha de chegada da fluência. Sem atalhos, mas com a direção certa.
+                </p>
+
+                <a href="#contato" class="btn btn-primary" style="margin-top: 1.5rem;">Quero Treinar com um Campeão 🚀</a>
             </div>
         </div>
     </section>
+
+    <style>
+        /* CSS Extra para a História */
+        .timeline-item {
+            transition: transform 0.3s;
+        }
+        .timeline-item:hover {
+            transform: translateX(10px);
+            background: #f9f9f9;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .photo-card-2 {
+                position: relative;
+                bottom: 0;
+                right: 0;
+                width: 100%;
+                margin-top: -30px;
+                margin-left: 20px;
+            }
+            .about-image-container {
+                margin-bottom: 3rem;
+            }
+        }
+    </style>
 
     <section id="contato">
         <h2>Comece Agora</h2>
@@ -532,4 +585,5 @@
         });
     </script>
 </body>
+
 </html>
