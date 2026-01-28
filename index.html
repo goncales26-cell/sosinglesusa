@@ -280,7 +280,7 @@
 
         .info-item {
             display: flex;
-            align-items: flex-start; /* Alinhamento ao topo para endereço longo */
+            align-items: flex-start;
             gap: 1rem;
             margin-bottom: 1.5rem;
             font-size: 1.1rem;
@@ -290,7 +290,7 @@
             width: 24px;
             height: 24px;
             fill: white;
-            margin-top: 3px; /* Ajuste fino */
+            margin-top: 3px;
         }
 
         .info-item a, .info-item span {
@@ -440,6 +440,7 @@
                 <li><a href="#metodologia">Como Funciona</a></li>
                 <li><a href="#sobre">Minha História</a></li>
                 <li><a href="#depoimentos">Depoimentos</a></li>
+                <li><a href="#teste-nivel">Teste de Nível</a></li>
                 <li><a href="#contato">Agendar Aula</a></li>
             </ul>
         </nav>
@@ -450,7 +451,7 @@
         <p>Aprenda inglês com a mesma disciplina de um campeão. Aulas particulares focadas em destravar sua fala e sua carreira.</p>
         <div class="cta-buttons">
             <a href="#contato" class="btn btn-primary">Agendar Aula Experimental</a>
-            <a href="#sobre" class="btn btn-secondary">Conheça Minha História</a>
+            <a href="#teste-nivel" class="btn btn-secondary">Teste Seu Nível Agora</a>
         </div>
     </section>
 
@@ -569,6 +570,57 @@
         </div>
     </section>
 
+    <section id="teste-nivel" style="background: linear-gradient(135deg, #003366 0%, #004080 100%); color: white; padding: 4rem 2rem;">
+        <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+            <h2 style="color: white; margin-bottom: 1rem;">Descubra seu Nível de Inglês 🇺🇸</h2>
+            <p style="margin-bottom: 2rem; opacity: 0.9;">Faça um teste rápido de 10 perguntas e receba sua avaliação na hora.</p>
+
+            <div id="quiz-container" style="background: white; color: #333; border-radius: 15px; padding: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; overflow: hidden;">
+                
+                <div id="step-register">
+                    <h3 style="color: #003366;">Antes de começar...</h3>
+                    <p style="font-size: 0.9rem; margin-bottom: 1.5rem; color: #666;">Precisamos saber quem é o futuro aluno bilíngue! 😉</p>
+                    
+                    <div class="form-group" style="text-align: left; margin-bottom: 1rem;">
+                        <label>Seu Nome</label>
+                        <input type="text" id="quiz-nome" placeholder="Digite seu nome" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px;">
+                    </div>
+                    <div class="form-group" style="text-align: left; margin-bottom: 1.5rem;">
+                        <label>Seu WhatsApp</label>
+                        <input type="tel" id="quiz-phone" placeholder="(DDD) 99999-9999" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px;">
+                    </div>
+                    <button onclick="startQuiz()" class="btn btn-primary" style="width: 100%;">Iniciar Teste 🚀</button>
+                </div>
+
+                <div id="step-questions" style="display: none; text-align: left;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; color: #888; font-size: 0.9rem;">
+                        <span id="question-count">Pergunta 1 de 10</span>
+                        <span style="color: #cc0000; font-weight: bold;">SOS English Quiz</span>
+                    </div>
+                    
+                    <h3 id="question-text" style="color: #003366; margin-bottom: 1.5rem; font-size: 1.2rem;">Texto da Pergunta aqui?</h3>
+                    
+                    <div id="options-container" style="display: flex; flex-direction: column; gap: 10px;">
+                        </div>
+                </div>
+
+                <div id="step-result" style="display: none;">
+                    <div style="font-size: 4rem; margin-bottom: 10px;">🎯</div>
+                    <h3 style="color: #003366;">Teste Finalizado!</h3>
+                    <p>Sua pontuação foi:</p>
+                    <h2 id="final-score" style="color: #cc0000; font-size: 3rem; margin: 10px 0;">80%</h2>
+                    <p id="feedback-text" style="margin-bottom: 2rem; font-weight: 500;">Muito bom!</p>
+                    
+                    <button id="btn-send-result" class="btn btn-primary" style="width: 100%;">
+                        Enviar Resultado para o Teacher 📲
+                    </button>
+                    <p style="font-size: 0.8rem; color: #888; margin-top: 10px;">Ao clicar, você enviará seu resultado via WhatsApp para avaliação.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
     <section id="contato">
         <h2>Comece Agora</h2>
         <div class="contact-content">
@@ -586,7 +638,7 @@
                 </div>
                 
                 <div class="map-container">
-                    <iframe src="https://maps.google.com/maps?q=Rua%20Benedito%20dos%20Santos%20730%20Capivari%20SP&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    <iframe src="https://maps.google.com/maps?width=100%25&height=200&hl=pt-BR&q=Rua%20Benedito%20dos%20Santos%20730%20Capivari%20SP+(SOS%20English)&t=&z=14&ie=UTF8&iwloc=B&output=embed" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                 </div>
                 <br>
 
@@ -596,7 +648,7 @@
                 </div>
                 <div class="info-item">
                     <span class="info-icon">📧</span>
-                    <span> sosenglish.educational@gmail.com </span>
+                    <span>sosenglish.educational@gmail.com</span>
                 </div>
                 
                 <div class="info-item">
@@ -660,7 +712,7 @@
             </a>
 
             <a href="https://www.instagram.com/lourivalsampaio_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" title="Instagram">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
             </a>
             
             <a href="https://wa.me/5515981793811" target="_blank" title="WhatsApp">
@@ -717,6 +769,125 @@
             this.reset();
         });
 
+        // LÓGICA DO QUIZ (TESTE DE NÍVEL)
+        const quizQuestions = [
+            { q: "Complete: I _____ from Brazil.", options: ["is", "am", "are", "be"], answer: 1 },
+            { q: "Qual o passado de 'Go'?", options: ["Goes", "Gone", "Went", "Goded"], answer: 2 },
+            { q: "She _____ TV every night.", options: ["watch", "watches", "watching", "watched"], answer: 1 },
+            { q: "Complete: They _____ to the party tomorrow.", options: ["will go", "did go", "gone", "went"], answer: 0 },
+            { q: "Where is the book? It is _____ the table.", options: ["in", "at", "on", "to"], answer: 2 },
+            { q: "I have _____ money than you.", options: ["many", "more", "much", "plenty"], answer: 1 },
+            { q: "He hasn't finished his homework _____.", options: ["already", "just", "yet", "since"], answer: 2 },
+            { q: "If I _____ rich, I would travel the world.", options: ["was", "were", "am", "be"], answer: 1 },
+            { q: "I look forward _____ from you.", options: ["to hear", "hearing", "to hearing", "hear"], answer: 2 },
+            { q: "Qual frase está correta?", options: ["She don't like pizza.", "She doesn't likes pizza.", "She doesn't like pizza.", "She not like pizza."], answer: 2 }
+        ];
+
+        let currentQIndex = 0;
+        let score = 0;
+        let userName = "";
+        let userPhone = "";
+
+        function startQuiz() {
+            const nameInput = document.getElementById('quiz-nome');
+            const phoneInput = document.getElementById('quiz-phone');
+
+            if (nameInput.value.trim() === "" || phoneInput.value.trim() === "") {
+                alert("Por favor, preencha seu nome e WhatsApp para iniciar! 😉");
+                return;
+            }
+
+            userName = nameInput.value;
+            userPhone = phoneInput.value;
+
+            document.getElementById('step-register').style.display = 'none';
+            document.getElementById('step-questions').style.display = 'block';
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const q = quizQuestions[currentQIndex];
+            document.getElementById('question-count').innerText = `Pergunta ${currentQIndex + 1} de ${quizQuestions.length}`;
+            document.getElementById('question-text').innerText = q.q;
+
+            const optsContainer = document.getElementById('options-container');
+            optsContainer.innerHTML = ""; 
+
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.innerText = opt;
+                btn.style.padding = "12px";
+                btn.style.border = "1px solid #ddd";
+                btn.style.borderRadius = "8px";
+                btn.style.background = "#f9f9f9";
+                btn.style.cursor = "pointer";
+                btn.style.textAlign = "left";
+                btn.style.fontSize = "1rem";
+                btn.style.transition = "background 0.2s";
+
+                btn.onmouseover = () => btn.style.background = "#e0e0e0";
+                btn.onmouseout = () => btn.style.background = "#f9f9f9";
+
+                btn.onclick = () => selectAnswer(index);
+                optsContainer.appendChild(btn);
+            });
+        }
+
+        function selectAnswer(selectedIndex) {
+            const correctIndex = quizQuestions[currentQIndex].answer;
+            if (selectedIndex === correctIndex) {
+                score++;
+            }
+
+            currentQIndex++;
+
+            if (currentQIndex < quizQuestions.length) {
+                showQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById('step-questions').style.display = 'none';
+            document.getElementById('step-result').style.display = 'block';
+
+            const percentage = (score / quizQuestions.length) * 100;
+            document.getElementById('final-score').innerText = `${percentage}%`;
+
+            let feedback = "";
+            let nivelEstimado = "";
+
+            if (percentage <= 30) {
+                feedback = "Ótimo começo! Você tem uma base para construir.";
+                nivelEstimado = "Iniciante (A1)";
+            } else if (percentage <= 60) {
+                feedback = "Muito bom! Você já entende as estruturas.";
+                nivelEstimado = "Básico/Intermediário (A2/B1)";
+            } else if (percentage <= 90) {
+                feedback = "Excelente! Você tem um ótimo domínio.";
+                nivelEstimado = "Intermediário (B1/B2)";
+            } else {
+                feedback = "Incrível! Você gabaritou quase tudo!";
+                nivelEstimado = "Avançado (B2/C1)";
+            }
+
+            document.getElementById('feedback-text').innerText = feedback;
+
+            const btnSend = document.getElementById('btn-send-result');
+            btnSend.onclick = () => {
+                const msg = `*Novo Teste de Nível Realizado!* 🎯\n\n` +
+                            `*Nome:* ${userName}\n` +
+                            `*Telefone:* ${userPhone}\n` +
+                            `*Pontuação:* ${score}/10 (${percentage}%)\n` +
+                            `*Nível Estimado:* ${nivelEstimado}\n\n` +
+                            `Olá Teacher! Acabei de fazer o teste no site e gostaria de saber mais sobre as aulas.`;
+                
+                const whatsappUrl = `https://wa.me/5515981793811?text=${encodeURIComponent(msg)}`;
+                window.open(whatsappUrl, '_blank');
+            };
+        }
+
         // Animação Scroll
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -736,5 +907,3 @@
     </script>
 </body>
 </html>
-
-
