@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SOS English | Teacher Lourival Sampaio</title>
     <link rel="icon" type="image/jpeg" href="./logo.jpeg">
+
+    <meta name="description" content="Aulas de Inglês com Teacher Lourival Sampaio. Método focado em conversação, Business English e preparação para TOEFL. Teste seu nível agora!">
+    <meta name="keywords" content="inglês, curso de inglês, teacher lourival, capivari, votorantim, toefl, conversação, business english">
+    <meta name="author" content="GTI Tecnologia">
+    
+    <meta property="og:title" content="SOS English - Teacher Lourival">
+    <meta property="og:description" content="Destrave seu inglês com quem tem experiência internacional. Agende sua aula experimental!">
+    <meta property="og:image" content="./logo.jpeg">
+    <meta property="og:url" content="https://sosenglish.com.br">
+    <meta property="og:type" content="website">
     
     <style>
         * {
@@ -177,7 +187,7 @@
             font-size: 1.5rem;
         }
 
-        /* --- ESTILOS DA SEÇÃO HISTÓRIA --- */
+        /* About & History */
         .about-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -196,7 +206,6 @@
             background: #f0f4f8;
         }
 
-        /* Efeito das Fotos Sobrepostas (Desktop) */
         .about-image-container {
             position: relative;
             min-height: 400px;
@@ -219,7 +228,7 @@
             box-shadow: 0 15px 40px rgba(0,0,0,0.2);
         }
 
-        /* --- ESTILOS DOS DEPOIMENTOS --- */
+        /* Testimonials */
         .testimonial-card {
             background: white;
             padding: 2rem;
@@ -259,6 +268,48 @@
             color: #888;
         }
 
+        /* News Section (Novidade) */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .news-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .news-card:hover { transform: translateY(-5px); }
+
+        .news-image {
+            width: 100%; height: 200px; object-fit: cover; background-color: #ddd;
+        }
+
+        .news-content {
+            padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1;
+        }
+
+        .news-date {
+            font-size: 0.8rem; color: #cc0000; font-weight: bold; margin-bottom: 0.5rem;
+        }
+
+        .news-title {
+            font-size: 1.1rem; color: #003366; margin-bottom: 1rem; line-height: 1.4; font-weight: 700;
+        }
+
+        .news-link {
+            margin-top: auto; text-decoration: none; color: #003366; font-weight: 600; border: 2px solid #003366; padding: 8px 15px; text-align: center; border-radius: 5px; transition: background 0.3s, color 0.3s;
+        }
+
+        .news-link:hover { background: #003366; color: white; }
+
         /* Contact Section */
         .contact-content {
             display: grid;
@@ -280,17 +331,14 @@
 
         .info-item {
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             gap: 1rem;
             margin-bottom: 1.5rem;
             font-size: 1.1rem;
         }
         
         .info-icon svg {
-            width: 24px;
-            height: 24px;
-            fill: white;
-            margin-top: 3px;
+            width: 24px; height: 24px; fill: white;
         }
 
         .info-item a, .info-item span {
@@ -302,14 +350,6 @@
         .info-item a:hover {
             opacity: 0.8;
             text-decoration: underline;
-        }
-
-        /* Mapa do Google */
-        .map-container {
-            margin-top: 20px;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
         .contact-form {
@@ -333,9 +373,7 @@
             font-weight: 600;
         }
 
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
+        .form-group input, .form-group textarea, .form-group select {
             padding: 12px;
             border: 2px solid #e0e0e0;
             border-radius: 8px;
@@ -343,11 +381,8 @@
             transition: border-color 0.3s;
         }
 
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: #003366;
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none; border-color: #003366;
         }
 
         /* Footer */
@@ -367,60 +402,37 @@
         }
 
         .social-links a {
-            color: white;
-            font-size: 1.5rem;
-            transition: color 0.3s;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
+            color: white; font-size: 1.5rem; transition: color 0.3s; text-decoration: none;
         }
 
         .social-links svg {
-            width: 28px;
-            height: 28px;
-            fill: white;
-            transition: fill 0.3s;
+            width: 28px; height: 28px; fill: white; transition: fill 0.3s;
         }
 
-        .social-links a:hover svg {
-            fill: #cc0000;
+        .social-links a:hover svg { fill: #cc0000; }
+
+        /* Float Button */
+        .whatsapp-float {
+            position: fixed; width: 60px; height: 60px; bottom: 30px; right: 30px; background-color: #25d366; color: #FFF; border-radius: 50px; text-align: center; box-shadow: 2px 2px 10px rgba(0,0,0,0.3); z-index: 10000; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; animation: pulse-green 2s infinite;
+        }
+        .whatsapp-float svg { width: 35px; height: 35px; fill: white; }
+        .whatsapp-float:hover { transform: scale(1.1); background-color: #128c7e; }
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
         }
 
-        /* --- RESPONSIVE --- */
+        /* Responsive */
         @media (max-width: 768px) {
             .nav-links { display: none; }
             .hero h1 { font-size: 2.2rem; }
-            .about-content, .contact-content { grid-template-columns: 1fr; }
-            
-            /* Ajuste mobile das fotos - SEM SOBREPOSIÇÃO */
-            .about-image-container {
-                min-height: auto;
-                margin-bottom: 3rem;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            .photo-card { 
-                width: 100%; 
-                z-index: 2; 
-            }
-            .photo-card-2 {
-                position: relative;
-                bottom: 0;
-                right: 0;
-                width: 95%;
-                margin: 20px auto 0 auto; 
-                display: block;
-                z-index: 1;
-                border: 4px solid white; 
-            }
-            
-            .photo-card div {
-                bottom: 15px;
-                left: -5px;
-                padding: 8px 15px;
-                font-size: 0.8rem;
-            }
+            .about-content, .contact-content, .news-grid { grid-template-columns: 1fr; }
+            .about-image-container { min-height: auto; margin-bottom: 3rem; display: flex; flex-direction: column; align-items: center; }
+            .photo-card { width: 100%; z-index: 2; }
+            .photo-card-2 { position: relative; bottom: 0; right: 0; width: 95%; margin: 20px auto 0 auto; display: block; z-index: 1; border: 4px solid white; }
+            .whatsapp-float { width: 50px; height: 50px; bottom: 20px; right: 20px; }
+            .whatsapp-float svg { width: 28px; height: 28px; }
         }
 
         @keyframes fadeInUp {
@@ -441,6 +453,7 @@
                 <li><a href="#sobre">Minha História</a></li>
                 <li><a href="#depoimentos">Depoimentos</a></li>
                 <li><a href="#teste-nivel">Teste de Nível</a></li>
+                <li><a href="#noticias">Notícias</a></li>
                 <li><a href="#contato">Agendar Aula</a></li>
             </ul>
         </nav>
@@ -519,10 +532,6 @@
                     </p>
                 </div>
 
-                <p style="font-weight: 600; color: #333; font-size: 1.1rem; margin-top: 1rem;">
-                    Hoje, me vejo nos meus alunos. Minha missão é ajudar você a acreditar em si mesmo e abrir as portas do mundo.
-                </p>
-
                 <a href="#contato" class="btn btn-primary" style="margin-top: 1.5rem;">Quero Treinar com um Campeão 🚀</a>
             </div>
         </div>
@@ -530,41 +539,35 @@
 
     <section id="depoimentos" style="background-color: #f0f4f8;">
         <h2>Histórias de Sucesso 💬</h2>
-        <p style="text-align: center; max-width: 700px; margin: -20px auto 40px auto; color: #666;">
-            Não acredite apenas na minha palavra. Veja o que meus alunos conquistaram com o método.
-        </p>
-
         <div class="services-grid">
             <div class="testimonial-card">
                 <div class="quote-icon">❝</div>
                 <p class="testimonial-text">
-                    "Eu travava sempre que precisava falar inglês no trabalho. Com 3 meses de aula com o Teacher Lourival, consegui conduzir minha primeira reunião com a diretoria global. A didática dele é direta e sem enrolação."
+                    "Eu travava sempre que precisava falar inglês no trabalho. Com 3 meses de aula com o Teacher Lourival, consegui conduzir minha primeira reunião com a diretoria global."
                 </p>
                 <div class="student-info">
                     <strong>Ricardo Mendes</strong>
-                    <span>Gerente de Projetos (Business English)</span>
+                    <span>Gerente de Projetos</span>
                 </div>
             </div>
-
             <div class="testimonial-card">
                 <div class="quote-icon">❝</div>
                 <p class="testimonial-text">
-                    "Sempre achei que nunca aprenderia depois de velha. O Lourival tem uma paciência incrível e o método da maratona faz todo sentido: disciplina e constância. Hoje viajo sozinha sem medo!"
+                    "Sempre achei que nunca aprenderia depois de velha. O Lourival tem uma paciência incrível e o método da maratona faz todo sentido. Hoje viajo sozinha sem medo!"
                 </p>
                 <div class="student-info">
                     <strong>Sônia Andrade</strong>
-                    <span>Aposentada (Inglês para Viagens)</span>
+                    <span>Aposentada</span>
                 </div>
             </div>
-
             <div class="testimonial-card">
                 <div class="quote-icon">❝</div>
                 <p class="testimonial-text">
-                    "Precisava de nota 90 no TOEFL para meu mestrado no Canadá. As aulas foram focadas exatamente nas minhas dificuldades. Passei de primeira! O melhor investimento que fiz."
+                    "Precisava de nota 90 no TOEFL para meu mestrado no Canadá. As aulas foram focadas exatamente nas minhas dificuldades. Passei de primeira!"
                 </p>
                 <div class="student-info">
                     <strong>Lucas Ferreira</strong>
-                    <span>Aprovado no TOEFL/Mestrado</span>
+                    <span>Aprovado no TOEFL</span>
                 </div>
             </div>
         </div>
@@ -576,11 +579,9 @@
             <p style="margin-bottom: 2rem; opacity: 0.9;">Faça um teste rápido de 10 perguntas e receba sua avaliação na hora.</p>
 
             <div id="quiz-container" style="background: white; color: #333; border-radius: 15px; padding: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; overflow: hidden;">
-                
                 <div id="step-register">
                     <h3 style="color: #003366;">Antes de começar...</h3>
                     <p style="font-size: 0.9rem; margin-bottom: 1.5rem; color: #666;">Precisamos saber quem é o futuro aluno bilíngue! 😉</p>
-                    
                     <div class="form-group" style="text-align: left; margin-bottom: 1rem;">
                         <label>Seu Nome</label>
                         <input type="text" id="quiz-nome" placeholder="Digite seu nome" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px;">
@@ -597,11 +598,8 @@
                         <span id="question-count">Pergunta 1 de 10</span>
                         <span style="color: #cc0000; font-weight: bold;">SOS English Quiz</span>
                     </div>
-                    
                     <h3 id="question-text" style="color: #003366; margin-bottom: 1.5rem; font-size: 1.2rem;">Texto da Pergunta aqui?</h3>
-                    
-                    <div id="options-container" style="display: flex; flex-direction: column; gap: 10px;">
-                        </div>
+                    <div id="options-container" style="display: flex; flex-direction: column; gap: 10px;"></div>
                 </div>
 
                 <div id="step-result" style="display: none;">
@@ -610,13 +608,22 @@
                     <p>Sua pontuação foi:</p>
                     <h2 id="final-score" style="color: #cc0000; font-size: 3rem; margin: 10px 0;">80%</h2>
                     <p id="feedback-text" style="margin-bottom: 2rem; font-weight: 500;">Muito bom!</p>
-                    
-                    <button id="btn-send-result" class="btn btn-primary" style="width: 100%;">
-                        Enviar Resultado para o Teacher 📲
-                    </button>
-                    <p style="font-size: 0.8rem; color: #888; margin-top: 10px;">Ao clicar, você enviará seu resultado via WhatsApp para avaliação.</p>
+                    <button id="btn-send-result" class="btn btn-primary" style="width: 100%;">Enviar Resultado para o Teacher 📲</button>
                 </div>
+            </div>
+        </div>
+    </section>
 
+    <section id="noticias" style="background-color: #e9ecef; padding: 4rem 2rem;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <h2 style="text-align: center; color: #003366; margin-bottom: 2rem;">
+                News from the World 🌎
+            </h2>
+            <p style="text-align: center; color: #666; margin-top: -1.5rem; margin-bottom: 3rem;">
+                Mantenha-se informado sobre educação e atualidades.
+            </p>
+            <div id="news-container" class="news-grid">
+                <p style="text-align: center; width: 100%; color: #888;">Carregando notícias...</p>
             </div>
         </div>
     </section>
@@ -626,223 +633,183 @@
         <div class="contact-content">
             <div class="contact-info">
                 <h3>Entre em Contato</h3>
-                <p style="margin-bottom: 20px; color: #eee;">Venha nos fazer uma visita ou agende online.</p>
                 
                 <div class="info-item">
-                    <span class="info-icon">📍</span>
-                    <span>
-                        Rua Benedito dos Santos, 730<br>
-                        Jd. Santa Rita de Cássia, Capivari - SP<br>
-                        CEP: 13368-530
-                    </span>
+                    <span class="info-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></span>
+                    <span>Rua Benedito dos Santos, 730<br>Jd. Santa Rita de Cássia, Capivari - SP</span>
                 </div>
                 
-                <div class="map-container">
-                    <iframe src="https://maps.google.com/maps?width=100%25&height=200&hl=pt-BR&q=Rua%20Benedito%20dos%20Santos%20730%20Capivari%20SP+(SOS%20English)&t=&z=14&ie=UTF8&iwloc=B&output=embed" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <div class="info-item">
+                    <span class="info-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg></span>
+                    <a href="https://wa.me/5515981793811" target="_blank" style="color: white; font-weight: bold;">(15) 98179-3811</a>
                 </div>
-                <br>
 
                 <div class="info-item">
-                    <span class="info-icon">📱</span>
-                    <span>(15) 98179-3811</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-icon">📧</span>
+                    <span class="info-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></span>
                     <span>sosenglish.educational@gmail.com</span>
                 </div>
-                
-                <div class="info-item">
-                    <span class="info-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
-                    </span>
-                    <a href="https://www.youtube.com/@lourivalsampaio" target="_blank"> @lourivalsampaio </a>
-                </div>
 
-                <div class="info-item">
-                    <span class="info-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                    </span>
-                    <a href="https://www.instagram.com/lourivalsampaio_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank"> @lourivalsampaio_ </a>
+                <div style="margin-top: 25px; border-radius: 10px; overflow: hidden; height: 200px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+                    <iframe src="https://www.google.com/maps?q=Rua+Benedito+dos+Santos,+730,+Capivari+-+SP&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                 </div>
             </div>
-            
+
             <form class="contact-form">
-                <h3 style="color: #003366; margin-bottom: 1rem;">Solicitar Informações</h3>
-                
+                <h3 style="color: #003366;">Solicite Informações</h3>
                 <div class="form-group">
                     <label>Seu Nome</label>
-                    <input type="text" id="nome" placeholder="Como você se chama?" required>
+                    <input type="text" placeholder="Digite seu nome" required>
                 </div>
-                
                 <div class="form-group">
                     <label>Seu WhatsApp</label>
-                    <input type="tel" id="telefone" placeholder="(DDD) 99999-9999" required>
+                    <input type="tel" placeholder="(DDD) 99999-9999" required>
                 </div>
-
                 <div class="form-group">
-                    <label>Qual seu principal objetivo?</label>
-                    <input type="text" id="objetivo" placeholder="Ex: Trabalho, Viagem, Hobbies..." required>
-                </div>
-
-                <div class="form-group">
-                    <label>Seu nível atual de Inglês</label>
-                    <select id="nivel" required>
-                        <option value="">Selecione uma opção</option>
-                        <option>Básico (Nunca estudei)</option>
-                        <option>Básico (Já estudei um pouco)</option>
-                        <option>Intermediário</option>
-                        <option>Avançado</option>
+                    <label>Objetivo com Inglês</label>
+                    <select>
+                        <option>Melhorar Conversação</option>
+                        <option>Inglês para Trabalho</option>
+                        <option>Viagem</option>
+                        <option>Preparação TOEFL/IELTS</option>
+                        <option>Reforço Escolar</option>
                     </select>
                 </div>
-                
                 <div class="form-group">
                     <label>Mensagem (Opcional)</label>
-                    <textarea id="mensagem" rows="3" placeholder="Tem alguma dúvida específica?"></textarea>
+                    <textarea rows="4" placeholder="Alguma dúvida específica?"></textarea>
                 </div>
-                
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Enviar no WhatsApp 🚀</button>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Falar com o Teacher</button>
+                <p style="font-size: 0.8rem; color: #666; margin-top: 10px; text-align: center;">🔒 Seus dados estão seguros e não enviaremos spam.</p>
             </form>
         </div>
     </section>
 
     <footer>
         <div class="social-links">
-            <a href="https://www.youtube.com/@lourivalsampaio" target="_blank" title="Canal do YouTube">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+            <a href="https://www.facebook.com/SosInglesUsa/" target="_blank" title="Facebook">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 5.0 3.66 9.13 8.44 9.88v-6.99h-2.54V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 2.89h-2.33v6.99C18.34 21.13 22 17.0 22 12c0-5.52-4.48-10-10-10z"/></svg>
             </a>
-
-           <a href="https://www.instagram.com/lourivalsampaio_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" title="Instagram">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z"/></svg>
-            </a>
-            
             <a href="https://wa.me/5515981793811" target="_blank" title="WhatsApp">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
             </a>
         </div>
         <p>© 2026 SOS English - Teacher Lourival. Todos os direitos reservados.</p>
-        <p style="font-size: 0.8rem; margin-top: 10px; color: #666;">Desenvolvido por GTI Tecnologia</p>
+        <p style="font-size: 0.8rem; color: #666; margin-top: 5px;">Desenvolvido por GTI Tecnologia</p>
     </footer>
 
+    <a href="https://wa.me/5515981793811?text=Hi%20Teacher!%20Vim%20pelo%20site%20e%20gostaria%20de%20saber%20mais%20sobre%20as%20aulas." class="whatsapp-float" target="_blank" title="Falar no WhatsApp">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+    </a>
+
     <script>
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
+        // SCRIPT DAS NOTÍCIAS (G1 EDUCAÇÃO)
+        document.addEventListener("DOMContentLoaded", function() {
+            const rssUrl = 'https://api.rss2json.com/v1/api.json?rss_url=https://g1.globo.com/dynamo/educacao/rss2.xml';
+
+            fetch(rssUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById('news-container');
+                    
+                    if(data.status === 'ok' && data.items.length > 0) {
+                        container.innerHTML = '';
+                        // Pega 3 notícias
+                        const latestNews = data.items.slice(0, 3);
+
+                        latestNews.forEach(item => {
+                            // Imagem padrão de "Educação/Inglês" caso não venha no feed
+                            const image = item.enclosure.link ? item.enclosure.link : 'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=600&q=80';
+                            const date = new Date(item.pubDate).toLocaleDateString('pt-BR');
+
+                            const cardHTML = `
+                                <article class="news-card">
+                                    <img src="${image}" alt="${item.title}" class="news-image" onerror="this.src='https://via.placeholder.com/400x200?text=News'">
+                                    <div class="news-content">
+                                        <span class="news-date">${date}</span>
+                                        <h3 class="news-title">${item.title}</h3>
+                                        <a href="${item.link}" target="_blank" class="news-link">Ler Matéria</a>
+                                    </div>
+                                </article>
+                            `;
+                            container.innerHTML += cardHTML;
+                        });
+                    } else {
+                        container.innerHTML = '<p>Atualizando notícias...</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar notícias:', error);
+                    document.getElementById('news-container').innerHTML = '<p style="text-align:center;">Notícias indisponíveis no momento.</p>';
+                });
         });
 
-        // ENVIO WHATSAPP COM NÚMERO REAL
-        document.querySelector('.contact-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const nome = document.getElementById('nome').value;
-            const telefone = document.getElementById('telefone').value;
-            const objetivo = document.getElementById('objetivo').value;
-            const nivel = document.getElementById('nivel').value;
-            const mensagem = document.getElementById('mensagem').value;
-            
-            const parte1 = "*Olá Teacher Lourival! Vim pelo site SOS English e gostaria de saber sobre as aulas* ";
-            
-            let parte2 = "\n\n----------------------------------\n";
-            parte2 += "*Nome:* " + nome + "\n";
-            parte2 += "*Telefone:* " + telefone + "\n";
-            parte2 += "*Objetivo:* " + objetivo + "\n";
-            parte2 += "*Nível:* " + nivel + "\n";
-            
-            if(mensagem) {
-                parte2 += "*Mensagem:* " + mensagem + "\n";
-            }
-            parte2 += "----------------------------------";
-
-            const texto1Codificado = encodeURIComponent(parte1);
-            const texto2Codificado = encodeURIComponent(parte2);
-            const emojisBlindados = "%F0%9F%93%9A%20%F0%9F%87%BA%F0%9F%87%B8"; 
-
-            // NÚMERO (15 981793811)
-            const whatsappLink = `https://wa.me/5515981793811?text=${texto1Codificado}${emojisBlindados}${texto2Codificado}`;
-            
-            window.open(whatsappLink, '_blank');
-            this.reset();
-        });
-
-        // LÓGICA DO QUIZ (TESTE DE NÍVEL)
-        const quizQuestions = [
-            { q: "Complete: I _____ from Brazil.", options: ["is", "am", "are", "be"], answer: 1 },
-            { q: "Qual o passado de 'Go'?", options: ["Goes", "Gone", "Went", "Goded"], answer: 2 },
-            { q: "She _____ TV every night.", options: ["watch", "watches", "watching", "watched"], answer: 1 },
-            { q: "Complete: They _____ to the party tomorrow.", options: ["will go", "did go", "gone", "went"], answer: 0 },
-            { q: "Where is the book? It is _____ the table.", options: ["in", "at", "on", "to"], answer: 2 },
-            { q: "I have _____ money than you.", options: ["many", "more", "much", "plenty"], answer: 1 },
-            { q: "He hasn't finished his homework _____.", options: ["already", "just", "yet", "since"], answer: 2 },
-            { q: "If I _____ rich, I would travel the world.", options: ["was", "were", "am", "be"], answer: 1 },
-            { q: "I look forward _____ from you.", options: ["to hear", "hearing", "to hearing", "hear"], answer: 2 },
-            { q: "Qual frase está correta?", options: ["She don't like pizza.", "She doesn't likes pizza.", "She doesn't like pizza.", "She not like pizza."], answer: 2 }
+        // SCRIPT DO QUIZ (Lógica de Perguntas)
+        const questions = [
+            { q: "Qual o passado de 'Go'?", options: ["Goed", "Went", "Gone"], answer: 1 },
+            { q: "Complete: She _____ tennis every Sunday.", options: ["Play", "Plays", "Playing"], answer: 1 },
+            { q: "Qual frase está correta?", options: ["I have 20 years old.", "I am 20 years old.", "I has 20 years."], answer: 1 },
+            { q: "Traduza: 'I'm looking forward to it'.", options: ["Estou olhando para frente.", "Estou ansioso por isso.", "Estou procurando por isso."], answer: 1 },
+            { q: "Qual o plural de 'Child'?", options: ["Childs", "Children", "Childrens"], answer: 1 },
+            { q: "Complete: I have been here _____ 2010.", options: ["For", "Since", "In"], answer: 1 },
+            { q: "O que significa 'Book a flight'?", options: ["Ler um livro no voo", "Reservar um voo", "Comprar um livro"], answer: 1 },
+            { q: "Qual é o oposto de 'Cheap'?", options: ["Expensive", "Hard", "Light"], answer: 0 },
+            { q: "Complete: If I _____ you, I would study more.", options: ["Was", "Were", "Am"], answer: 1 },
+            { q: "O que é 'Breakfast'?", options: ["Pausa rápida", "Café da manhã", "Jantar"], answer: 1 }
         ];
 
-        let currentQIndex = 0;
+        let currentQuestion = 0;
         let score = 0;
         let userName = "";
         let userPhone = "";
 
         function startQuiz() {
-            const nameInput = document.getElementById('quiz-nome');
-            const phoneInput = document.getElementById('quiz-phone');
+            userName = document.getElementById('quiz-nome').value;
+            userPhone = document.getElementById('quiz-phone').value;
 
-            if (nameInput.value.trim() === "" || phoneInput.value.trim() === "") {
-                alert("Por favor, preencha seu nome e WhatsApp para iniciar! 😉");
+            if(userName === "" || userPhone === "") {
+                alert("Por favor, preencha seu nome e WhatsApp para iniciar! 📝");
                 return;
             }
 
-            userName = nameInput.value;
-            userPhone = phoneInput.value;
-
             document.getElementById('step-register').style.display = 'none';
             document.getElementById('step-questions').style.display = 'block';
-            showQuestion();
+            loadQuestion();
         }
 
-        function showQuestion() {
-            const q = quizQuestions[currentQIndex];
-            document.getElementById('question-count').innerText = `Pergunta ${currentQIndex + 1} de ${quizQuestions.length}`;
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('question-count').innerText = `Pergunta ${currentQuestion + 1} de ${questions.length}`;
             document.getElementById('question-text').innerText = q.q;
-
-            const optsContainer = document.getElementById('options-container');
-            optsContainer.innerHTML = ""; 
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
 
             q.options.forEach((opt, index) => {
                 const btn = document.createElement('button');
                 btn.innerText = opt;
-                btn.style.padding = "12px";
+                btn.style.padding = "15px";
                 btn.style.border = "1px solid #ddd";
                 btn.style.borderRadius = "8px";
-                btn.style.background = "#f9f9f9";
+                btn.style.background = "white";
                 btn.style.cursor = "pointer";
                 btn.style.textAlign = "left";
                 btn.style.fontSize = "1rem";
-                btn.style.transition = "background 0.2s";
-
-                btn.onmouseover = () => btn.style.background = "#e0e0e0";
-                btn.onmouseout = () => btn.style.background = "#f9f9f9";
+                
+                btn.onmouseover = function() { this.style.background = "#f0f4f8"; };
+                btn.onmouseout = function() { this.style.background = "white"; };
 
                 btn.onclick = () => selectAnswer(index);
-                optsContainer.appendChild(btn);
+                optionsContainer.appendChild(btn);
             });
         }
 
-        function selectAnswer(selectedIndex) {
-            const correctIndex = quizQuestions[currentQIndex].answer;
-            if (selectedIndex === correctIndex) {
+        function selectAnswer(index) {
+            if(index === questions[currentQuestion].answer) {
                 score++;
             }
-
-            currentQIndex++;
-
-            if (currentQIndex < quizQuestions.length) {
-                showQuestion();
+            currentQuestion++;
+            if(currentQuestion < questions.length) {
+                loadQuestion();
             } else {
                 showResult();
             }
@@ -851,60 +818,38 @@
         function showResult() {
             document.getElementById('step-questions').style.display = 'none';
             document.getElementById('step-result').style.display = 'block';
-
-            const percentage = (score / quizQuestions.length) * 100;
-            document.getElementById('final-score').innerText = `${percentage}%`;
-
+            
+            const percentage = (score / questions.length) * 100;
+            document.getElementById('final-score').innerText = percentage + "%";
+            
             let feedback = "";
-            let nivelEstimado = "";
-
-            if (percentage <= 30) {
-                feedback = "Ótimo começo! Você tem uma base para construir.";
-                nivelEstimado = "Iniciante (A1)";
-            } else if (percentage <= 60) {
-                feedback = "Muito bom! Você já entende as estruturas.";
-                nivelEstimado = "Básico/Intermediário (A2/B1)";
-            } else if (percentage <= 90) {
-                feedback = "Excelente! Você tem um ótimo domínio.";
-                nivelEstimado = "Intermediário (B1/B2)";
-            } else {
-                feedback = "Incrível! Você gabaritou quase tudo!";
-                nivelEstimado = "Avançado (B2/C1)";
-            }
-
+            if(percentage <= 40) feedback = "Você é Nível Básico (A1/A2). Vamos começar do zero?";
+            else if(percentage <= 70) feedback = "Você é Nível Intermediário (B1). Falta pouco para destravar!";
+            else feedback = "Você é Nível Avançado (B2/C1). Hora de refinar a conversação!";
+            
             document.getElementById('feedback-text').innerText = feedback;
 
-            const btnSend = document.getElementById('btn-send-result');
-            btnSend.onclick = () => {
-                const msg = `*Novo Teste de Nível Realizado!* 🎯\n\n` +
-                            `*Nome:* ${userName}\n` +
-                            `*Telefone:* ${userPhone}\n` +
-                            `*Pontuação:* ${score}/10 (${percentage}%)\n` +
-                            `*Nível Estimado:* ${nivelEstimado}\n\n` +
-                            `Olá Teacher! Acabei de fazer o teste no site e gostaria de saber mais sobre as aulas.`;
-                
-                const whatsappUrl = `https://wa.me/5515981793811?text=${encodeURIComponent(msg)}`;
-                window.open(whatsappUrl, '_blank');
+            // Configurar botão de envio
+            document.getElementById('btn-send-result').onclick = function() {
+                const text = `*Resultado do Teste de Nível - SOS English* 🇺🇸\n\nAluno: ${userName}\nAcertos: ${score}/10 (${percentage}%)\nNível Estimado: ${feedback}\n\nGostaria de agendar uma avaliação presencial!`;
+                const link = `https://wa.me/5515981793811?text=${encodeURIComponent(text)}`;
+                window.open(link, '_blank');
             };
         }
 
-        // Animação Scroll
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.service-card, .photo-card, .testimonial-card').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(20px)';
-            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(el);
+        // Script do Formulário de Contato Principal
+        document.querySelector('.contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const inputs = this.querySelectorAll('input, select, textarea');
+            let msg = `*Novo Contato via Site SOS English* 🇺🇸\n\n`;
+            msg += `Nome: ${inputs[0].value}\n`;
+            msg += `Zap: ${inputs[1].value}\n`;
+            msg += `Interesse: ${inputs[2].value}\n`;
+            if(inputs[3].value) msg += `Msg: ${inputs[3].value}`;
+            
+            window.open(`https://wa.me/5515981793811?text=${encodeURIComponent(msg)}`, '_blank');
+            this.reset();
         });
     </script>
 </body>
 </html>
-
