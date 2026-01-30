@@ -17,56 +17,6 @@
     <meta property="og:type" content="website">
     
     <style>
-        /* ESTILO DA SESSÃO SOBRE */
-.sobre-container {
-  padding: 60px 20px;
-  background-color: #f4f4f4; /* Fundo cinza clarinho para destacar */
-  text-align: center;
-}
-
-.sobre-container h2 {
-  color: #0066b3; /* Azul da marca */
-  font-size: 2rem;
-  margin-bottom: 10px;
-}
-
-.subtitulo {
-  color: #666;
-  margin-bottom: 40px;
-  font-size: 1.1rem;
-}
-
-.grid-diferenciais {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.card-sobre {
-  background: white;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease;
-}
-
-.card-sobre:hover {
-  transform: translateY(-5px); /* Efeito de subir quando passa o mouse */
-}
-
-.card-sobre h3 {
-  color: #0066b3;
-  margin-bottom: 15px;
-  font-size: 1.3rem;
-}
-
-.card-sobre p {
-  font-size: 0.95rem;
-  line-height: 1.5;
-  color: #444;
-}
         * {
             margin: 0;
             padding: 0;
@@ -235,6 +185,58 @@
             color: #003366;
             margin-bottom: 1rem;
             font-size: 1.5rem;
+        }
+
+        /* --- ESTILO DA NOVA SESSÃO: DIFERENCIAIS DA ESCOLA --- */
+        .diferenciais-container {
+            padding: 60px 20px;
+            background-color: #f4f4f4; /* Fundo levemente cinza para destacar */
+            text-align: center;
+            border-radius: 20px;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .subtitulo {
+            color: #555;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .grid-diferenciais {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .card-diferencial {
+            background: white;
+            padding: 35px 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+            border-bottom: 4px solid transparent;
+        }
+
+        .card-diferencial:hover {
+            transform: translateY(-5px);
+            border-bottom: 4px solid #0066b3; /* Detalhe azul ao passar o mouse */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .card-diferencial h3 {
+            color: #0066b3;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .card-diferencial p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #444;
         }
 
         /* About */
@@ -508,34 +510,7 @@
             </ul>
         </nav>
     </header>
-<section id="sobre" class="sobre-container">
-    <div class="conteudo-sobre">
-      <h2>Por que escolher a SOS English?</h2>
-      <p class="subtitulo">A missão é clara: democratizar o inglês com o Teacher Sam.</p>
 
-      <div class="grid-diferenciais">
-        <div class="card-sobre">
-          <h3>🚀 Método Ágil</h3>
-          <p>Focado em aprendizado rápido e prático. Conversação desde as primeiras aulas, sem travas com gramática excessiva.</p>
-        </div>
-
-        <div class="card-sobre">
-          <h3>👨‍🏫 Teacher Sam</h3>
-          <p>Dirigido por Lourival Sampaio. Experiência internacional e atendimento personalizado para destravar seu inglês.</p>
-        </div>
-
-        <div class="card-sobre">
-          <h3>💻 100% Online</h3>
-          <p>Estude de onde estiver. Horários flexíveis e atendimento individual ou em pequenos grupos.</p>
-        </div>
-
-        <div class="card-sobre">
-          <h3>🌎 Para Você</h3>
-          <p>Ideal para adultos iniciantes, profissionais que buscam promoção e quem deseja viajar para o exterior.</p>
-        </div>
-      </div>
-    </div>
-  </section>
     <section class="hero" id="inicio">
         <h1>Da Maratona à Fluência 🏃‍♂️🇺🇸</h1>
         <p>Aprenda inglês com a mesma disciplina de um campeão. Aulas particulares focadas em destravar sua fala e sua carreira.</p>
@@ -571,6 +546,32 @@
         </div>
     </section>
 
+    <section id="diferenciais" class="diferenciais-container">
+        <h2>Por que escolher a SOS English?</h2>
+        <p class="subtitulo">Nossa missão é democratizar o inglês de qualidade com o Teacher Sam, focado na sua evolução real.</p>
+
+        <div class="grid-diferenciais">
+            <div class="card-diferencial">
+                <h3>🚀 Método Ágil</h3>
+                <p>Esqueça a gramática chata. Aqui o foco é conversação e prática desde as primeiras aulas para você destravar rápido.</p>
+            </div>
+
+            <div class="card-diferencial">
+                <h3>👨‍🏫 Teacher Sam</h3>
+                <p>Aulas conduzidas por Lourival Sampaio. Experiência internacional e atendimento personalizado para o seu perfil.</p>
+            </div>
+
+            <div class="card-diferencial">
+                <h3>💻 100% Online</h3>
+                <p>Liberdade para estudar de onde estiver. Horários flexíveis e aulas individuais ou em pequenos grupos.</p>
+            </div>
+
+            <div class="card-diferencial">
+                <h3>🌎 Objetivos Reais</h3>
+                <p>Ideal para adultos iniciantes, profissionais buscando promoção ou quem vai viajar para o exterior.</p>
+            </div>
+        </div>
+    </section>
     <section id="sobre" style="background: white;">
         <div class="about-content">
             
@@ -947,6 +948,3 @@
     </script>
 </body>
 </html>
-
-
-
