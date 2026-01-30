@@ -206,10 +206,10 @@
             margin-right: auto;
         }
 
-        /* Estilo da Imagem de Comparação (ADICIONADO AQUI) */
+        /* Estilo da Imagem de Comparação */
         .img-comparativo-container {
             max-width: 800px;
-            margin: 0 auto 50px auto; /* Margem inferior maior para separar dos cards */
+            margin: 0 auto 50px auto;
             padding: 0 20px;
         }
 
@@ -243,7 +243,7 @@
 
         .card-diferencial:hover {
             transform: translateY(-5px);
-            border-bottom: 4px solid #0066b3; /* Detalhe azul ao passar o mouse */
+            border-bottom: 4px solid #0066b3;
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
 
@@ -495,6 +495,66 @@
             100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
         }
 
+        /* --- NOVOS ESTILOS ADICIONADOS (Stats, Passos, Videos) --- */
+        
+        /* SESSÃO DE NÚMEROS */
+        .stats-container {
+            background-color: #003366; /* Azul da marca */
+            padding: 40px 20px;
+            color: white;
+        }
+        .stats-grid {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            max-width: 1000px;
+            margin: 0 auto;
+            gap: 20px;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-number {
+            display: block;
+            font-size: 3rem;
+            font-weight: 800;
+            color: #fff;
+        }
+        .stat-text {
+            font-size: 1.1rem;
+            color: #ccc;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ESTILO DOS PASSOS (COMO FUNCIONA) */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .step-card {
+            background: #f9f9f9;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 4px solid #cc0000;
+            position: relative;
+        }
+        .step-num {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #e0e0e0;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            z-index: 0;
+        }
+        .step-card h3, .step-card p {
+            position: relative;
+            z-index: 1;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .nav-links { display: none; }
@@ -541,6 +601,23 @@
         </div>
     </section>
 
+    <section class="stats-container">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-number">+15</span>
+                <span class="stat-text">Anos de Experiência</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">+1.000</span>
+                <span class="stat-text">Alunos Treinados</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">98%</span>
+                <span class="stat-text">Aprovação no TOEFL</span>
+            </div>
+        </div>
+    </section>
+
     <section id="metodologia">
         <h2>Como posso te ajudar?</h2>
         <div class="services-grid">
@@ -563,6 +640,33 @@
                 <div class="service-icon">📚</div>
                 <h3>Mentoria Personalizada</h3>
                 <p>Não é só aula. É um acompanhamento focado no seu objetivo, seja passar no TOEFL ou morar fora.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="detalhes-aula" style="background: #fff;">
+        <h2 style="margin-bottom: 10px;">Como funcionam as aulas?</h2>
+        <p style="text-align: center; color: #666; margin-bottom: 30px;">Tudo pensado para você aprender rápido e sem burocracia.</p>
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-num">01</div>
+                <h3>💻 Onde?</h3>
+                <p>Aulas 100% ao vivo via <strong>Google Meet ou Zoom</strong>. Nada de aulas gravadas chatas.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">02</div>
+                <h3>⏱️ Duração</h3>
+                <p><strong>50 a 60 minutos</strong> de imersão total. Foco 80% em conversação e 20% em correção.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">03</div>
+                <h3>📚 Material</h3>
+                <p>Material digital incluso (PDF e áudio). Exercícios práticos baseados no <strong>seu dia a dia</strong>.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">04</div>
+                <h3>🤝 Suporte</h3>
+                <p>Acompanhamento direto pelo WhatsApp para tirar dúvidas fora do horário da aula.</p>
             </div>
         </div>
     </section>
@@ -675,6 +779,23 @@
                 </div>
             </div>
         </div>
+
+        <div class="video-gallery" style="margin-top: 60px; text-align: center;">
+            <h3 style="color: #003366; margin-bottom: 30px;">Veja o que os alunos dizem em vídeo 🎥</h3>
+            
+            <div class="video-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                <div class="video-card" style="background: #333; border-radius: 10px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; position: relative;">
+                    <p style="color: white; z-index: 2;">Vídeo do Aluno 1<br>(Aguardando arquivo)</p>
+                    <div style="position: absolute; width: 100%; height: 100%; background: rgba(0,0,0,0.5);"></div>
+                </div>
+
+                <div class="video-card" style="background: #333; border-radius: 10px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; position: relative;">
+                    <p style="color: white; z-index: 2;">Vídeo do Aluno 2<br>(Aguardando arquivo)</p>
+                    <div style="position: absolute; width: 100%; height: 100%; background: rgba(0,0,0,0.5);"></div>
+                </div>
+            </div>
+            <p style="font-size: 0.9rem; color: #666; margin-top: 15px;">*Vídeos reais enviados por alunos satisfeitos.</p>
+        </div>
     </section>
 
     <section id="teste-nivel" style="background: linear-gradient(135deg, #003366 0%, #004080 100%); color: white; padding: 4rem 2rem;">
@@ -744,74 +865,7 @@
                 </div>
                 
                 <div class="info-item">
-                    <span class="info-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg></span>
-                    <a href="https://wa.me/5515981793811" target="_blank" style="color: white; font-weight: bold;">(15) 98179-3811</a>
-                </div>
-
-                <div class="info-item">
-                    <span class="info-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z"/></svg>
-                    </span>
-                    <a href="https://www.instagram.com/lourivalsampaio_" target="_blank">@lourivalsampaio_</a>
-                </div>
-
-                <div class="info-item">
-                    <span class="info-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 5.0 3.66 9.13 8.44 9.88v-6.99h-2.54V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 2.89h-2.33v6.99C18.34 21.13 22 17.0 22 12c0-5.52-4.48-10-10-10z"/></svg>
-                    </span>
-                    <a href="https://www.facebook.com/SosInglesUsa/" target="_blank">/SosInglesUsa</a>
-                </div>
-
-                <div class="info-item">
-                    <span class="info-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></span>
-                    <span>sosenglish.educational@gmail.com</span>
-                </div>
-
-                <div style="margin-top: 25px; border-radius: 10px; overflow: hidden; height: 200px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
-                    <iframe src="https://www.google.com/maps?q=Rua+Benedito+dos+Santos,+730,+Capivari+-+SP&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                </div>
-            </div>
-
-            <form class="contact-form">
-                <h3 style="color: #003366;">Solicite Informações</h3>
-                <div class="form-group">
-                    <label>Seu Nome</label>
-                    <input type="text" placeholder="Digite seu nome" required>
-                </div>
-                <div class="form-group">
-                    <label>Seu WhatsApp</label>
-                    <input type="tel" placeholder="(DDD) 99999-9999" required>
-                </div>
-                <div class="form-group">
-                    <label>Objetivo com Inglês</label>
-                    <select>
-                        <option>Melhorar Conversação</option>
-                        <option>Inglês para Trabalho</option>
-                        <option>Viagem</option>
-                        <option>Preparação TOEFL/IELTS</option>
-                        <option>Reforço Escolar</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Mensagem (Opcional)</label>
-                    <textarea rows="4" placeholder="Alguma dúvida específica?"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Falar com o Teacher</button>
-                <p style="font-size: 0.8rem; color: #666; margin-top: 10px; text-align: center;">🔒 Seus dados estão seguros e não enviaremos spam.</p>
-            </form>
-        </div>
-    </section>
-
-    <footer>
-        <div class="social-links">
-            <a href="https://www.instagram.com/lourivalsampaio_" target="_blank" title="Instagram">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z"/></svg>
-            </a>
-            <a href="https://www.facebook.com/SosInglesUsa/" target="_blank" title="Facebook">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 5.0 3.66 9.13 8.44 9.88v-6.99h-2.54V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 2.89h-2.33v6.99C18.34 21.13 22 17.0 22 12c0-5.52-4.48-10-10-10z"/></svg>
-            </a>
-            <a href="https://wa.me/5515981793811" target="_blank" title="WhatsApp">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                    <span class="info-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
     </a>
 
     <script>
@@ -944,7 +998,7 @@
 
             // Configurar botão de envio
             document.getElementById('btn-send-result').onclick = function() {
-                const text = `*Resultado do Teste de Nível - SOS English* 🇺🇸\n\nAluno: ${userName}\nAcertos: ${score}/10 (${percentage}%)\nNível Estimado: ${feedback}\n\nGostaria de agendar uma avaliação online com o Teacher Sam!`;
+                const text = `*Resultado do Teste de Nível - SOS English* 🇺🇸\n\nAluno: ${userName}\nAcertos: ${score}/10 (${percentage}%)\nNível Estimado: ${feedback}\n\nGostaria de agendar uma avaliação presencial!`;
                 const link = `https://wa.me/5515981793811?text=${encodeURIComponent(text)}`;
                 window.open(link, '_blank');
             };
@@ -966,4 +1020,3 @@
     </script>
 </body>
 </html>
-
