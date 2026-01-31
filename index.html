@@ -279,12 +279,15 @@
             position: relative;
             transition: transform 0.3s;
             border-bottom: 4px solid #003366;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .testimonial-card:hover { transform: translateY(-5px); }
 
         .quote-icon { color: #cc0000; font-size: 3rem; line-height: 1; margin-bottom: 1rem; font-family: serif; }
-        .testimonial-text { font-style: italic; color: #555; margin-bottom: 1.5rem; }
+        .testimonial-text { font-style: italic; color: #555; margin-bottom: 1.5rem; font-size: 0.95rem; }
         .student-info strong { display: block; color: #003366; font-size: 1.1rem; }
         .student-info span { font-size: 0.9rem; color: #888; }
 
@@ -548,21 +551,34 @@
     <section id="depoimentos" style="background-color: #f0f4f8;">
         <h2>Histórias de Sucesso 💬</h2>
         <div class="services-grid">
+            
             <div class="testimonial-card">
                 <div class="quote-icon">❝</div>
-                <p class="testimonial-text">"Eu travava sempre que precisava falar inglês no trabalho. Com 3 meses de aula, consegui conduzir minha primeira reunião global."</p>
-                <div class="student-info"><strong>Ricardo Mendes</strong><span>Gerente de Projetos</span></div>
+                <p class="testimonial-text">"Mais do que um professor, o Lourival é um mentor e amigo. Com o suporte dele, o que parecia impossível virou realidade. Ele é um guerreiro que nos inspira a conquistar a América."</p>
+                <div class="student-info">
+                    <strong>Alunos SOS English</strong>
+                    <span>Depoimento Geral</span>
+                </div>
             </div>
+
             <div class="testimonial-card">
                 <div class="quote-icon">❝</div>
-                <p class="testimonial-text">"Sempre achei que nunca aprenderia depois de velha. O método da maratona faz todo sentido. Hoje viajo sozinha sem medo!"</p>
-                <div class="student-info"><strong>Sônia Andrade</strong><span>Aposentada</span></div>
+                <p class="testimonial-text">"Eu travei ao falar com um americano e procurei a SOS. Em pouco mais de 1 ano, o inglês me trouxe autonomia no trabalho e valorização. Hoje me comunico sem precisar de ninguém."</p>
+                <div class="student-info">
+                    <strong>Felipe</strong>
+                    <span>Ex-aluno</span>
+                </div>
             </div>
+
             <div class="testimonial-card">
                 <div class="quote-icon">❝</div>
-                <p class="testimonial-text">"Precisava de nota 90 no TOEFL para meu mestrado. As aulas foram focadas exatamente nas minhas dificuldades. Passei de primeira!"</p>
-                <div class="student-info"><strong>Lucas Ferreira</strong><span>Aprovado no TOEFL</span></div>
+                <p class="testimonial-text">"Moro em Massachusetts há 13 anos. Antes eu dependia do meu marido pra traduzir tudo. A SOS foi minha salvadora. O método é fácil e hoje converso com americanos sem medo."</p>
+                <div class="student-info">
+                    <strong>Virgínia</strong>
+                    <span>House Cleaning</span>
+                </div>
             </div>
+
         </div>
 
         <div class="video-gallery" style="margin-top: 60px; text-align: center;">
