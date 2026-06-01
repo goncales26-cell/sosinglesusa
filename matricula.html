@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contrato de Matrícula | SOS English</title>
-    <link rel="icon" type="image/jpeg" href="./logo.jpeg">
-
+    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; background-color: #f4f7f6; }
@@ -35,12 +34,11 @@
         
         .assinatura-box { background: #eef2f5; padding: 20px; border-radius: 6px; border-left: 4px solid #003366; margin-bottom: 20px; }
         .assinatura-box label.checkbox-label { display: flex; align-items: flex-start; gap: 10px; font-weight: normal; font-size: 0.9rem; margin-bottom: 15px; cursor: pointer; }
-        .assinatura-box input[type="checkbox"] { width: 18px; height: 18px; margin-top: 2px; cursor: pointer; }
+        .assinatura-box input[type="checkbox"] { width: 18px; height: 18px; margin-top: 2px; }
         
         .btn-submit { background-color: #cc0000; color: white; border: none; padding: 15px; font-size: 1.1rem; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 15px; text-transform: uppercase; width: 100%; transition: transform 0.3s, background 0.3s; }
         .btn-submit:hover { transform: translateY(-3px); background: #b30000; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-        
-        #mensagem-sucesso { display: none; background-color: #d4edda; color: #155724; padding: 25px; border-radius: 8px; margin-top: 20px; text-align: center; font-size: 1.1rem; line-height: 1.5; border-left: 5px solid #28a745; }
+        .btn-submit:disabled { background-color: #999; cursor: not-allowed; transform: none; box-shadow: none; }
         
         footer { background: #111; color: white; text-align: center; padding: 3rem 2rem; margin-top: auto; }
         
@@ -209,12 +207,8 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn-submit">Assinar Contrato e Enviar Matrícula</button>
-                </form>
-
-            <div id="mensagem-sucesso">
-                <strong>Contrato gerado e enviado com sucesso!</strong><br><br>Sua matrícula foi pré-aprovada. A secretaria da SOS English entrará em contato pelo WhatsApp para a liberação dos seus acessos.
-            </div>
+                <button type="submit" id="btn-enviar" class="btn-submit">Assinar Contrato e Enviar Matrícula</button>
+            </form>
         </div>
     </div>
 
@@ -226,6 +220,11 @@
     <script>
         function processarInscricao(event) {
             event.preventDefault(); 
+            
+            // Desativa o botão para evitar cliques duplos
+            const btn = document.getElementById('btn-enviar');
+            btn.innerText = "Processando envio...";
+            btn.disabled = true;
             
             // Coleta de dados
             const nome = document.getElementById('ins-nome').value;
@@ -248,50 +247,59 @@
             const horario = document.getElementById('ins-horario').value;
             const assinatura = document.getElementById('ins-assinatura').value;
             
-            // Oculta form e mostra sucesso
-            document.getElementById('formMatricula').style.display = 'none';
-            document.getElementById('mensagem-sucesso').style.display = 'block';
+            // Montagem do Dossiê em formato Texto Limpo para evitar quebras no Gmail
+            const dossieTexto = `
+=============================================
+CONTRATO DE MATRÍCULA - SOS ENGLISH
+=============================================
+
+1. DADOS DO CONTRATANTE
+Nome: ${nome}
+CPF: ${cpf} | RG: ${rg}
+Data Nasc: ${nascimento} | Estado Civil: ${estadocivil}
+E-mail: ${email} | WhatsApp: ${zap}
+Profissão: ${profissao}
+
+2. ENDEREÇO COMPLETO
+${rua}, ${numero} - ${bairro}
+${cidade} - CEP: ${cep}
+
+3. INFORMAÇÕES ACADÊMICAS
+Nível Atual: ${nivel}
+Objetivo: ${objetivo}
+Turno de Estudo: ${horario}
+
+4. VALIDAÇÃO JURÍDICA E ACEITE DIGITAL
+O aluno marcou a caixa de seleção concordando integralmente com os termos e cláusulas contratuais da SOS English (incluindo responsabilidades, rescisão e inadimplência).
+
+Assinatura Eletrônica Registrada: ${assinatura}
+Data e Hora do Aceite: ${new Date().toLocaleString('pt-BR')}
+=============================================
+`;
             
-            // Montagem do Dossiê para disparo
-            const dossieHTML = `
-                <h2>Contrato de Matrícula - SOS English</h2>
-                <hr>
-                <h3>1. Dados do Contratante</h3>
-                <p><b>Nome:</b> ${nome}</p>
-                <p><b>CPF:</b> ${cpf} | <b>RG:</b> ${rg}</p>
-                <p><b>Data Nasc:</b> ${nascimento} | <b>Estado Civil:</b> ${estadocivil}</p>
-                <p><b>E-mail:</b> ${email} | <b>WhatsApp:</b> ${zap}</p>
-                <p><b>Profissão:</b> ${profissao}</p>
-                <hr>
-                <h3>2. Endereço</h3>
-                <p>${rua}, ${numero} - ${bairro}. ${cidade} - CEP: ${cep}</p>
-                <hr>
-                <h3>3. Acadêmico</h3>
-                <p><b>Nível:</b> ${nivel}</p>
-                <p><b>Objetivo:</b> ${objetivo}</p>
-                <p><b>Turno:</b> ${horario}</p>
-                <hr>
-                <h3>4. Validação Jurídica e Aceite</h3>
-                <p>O aluno aceitou os termos e cláusulas contratuais referentes a inadimplência, rescisão e deveres acadêmicos expostos no site oficial da SOS English.</p>
-                <p><b>Assinatura Eletrônica Registrada:</b> ${assinatura}</p>
-                <p><b>Data do Aceite:</b> ${new Date().toLocaleString('pt-BR')}</p>
-            `;
+            // Criação do formulário dinâmico para submissão POST direta (Força o redirecionamento)
+            const formPOST = document.createElement('form');
+            formPOST.method = 'POST';
+            formPOST.action = 'https://formsubmit.co/sosenglish.educational@gmail.com';
             
-            fetch("https://formsubmit.co/ajax/sosenglish.educational@gmail.com", {
-                method: "POST",
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    _subject: "CONTRATO ASSINADO - " + nome,
-                    _template: "box",
-                    Mensagem: "Os dados detalhados do aluno estão contidos abaixo.",
-                    Contrato_HTML: dossieHTML
-                })
-            })
-            .then(response => console.log("Contrato encaminhado para a escola."))
-            .catch(error => console.error("Erro", error));
+            // Parâmetros de configuração e conteúdo
+            const params = {
+                '_subject': 'CONTRATO ASSINADO - ' + nome,
+                '_template': 'box',
+                'Contrato_do_Aluno': dossieTexto
+            };
+            
+            for (const key in params) {
+                const inputHidden = document.createElement('input');
+                inputHidden.type = 'hidden';
+                inputHidden.name = key;
+                inputHidden.value = params[key];
+                formPOST.appendChild(inputHidden);
+            }
+            
+            // Anexa ao body e dispara o envio
+            document.body.appendChild(formPOST);
+            formPOST.submit();
         }
     </script>
 </body>
