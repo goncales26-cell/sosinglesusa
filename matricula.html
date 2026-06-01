@@ -24,274 +24,78 @@
         .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 15px; }
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 15px; }
         
-        .form-group { display: flex; flex-direction: column; }
+        .form-group { display: flex; flex-direction: column; margin-bottom: 15px; }
         .form-group label { font-weight: bold; margin-bottom: 5px; color: #333; font-size: 0.9rem; }
-        .form-group input, .form-group select { padding: 10px; border: 2px solid #e0e0e0; border-radius: 6px; font-family: inherit; font-size: 1rem; transition: border-color 0.3s; background: white; }
-        .form-group input:focus, .form-group select:focus { outline: none; border-color: #003366; }
+        .form-group input, .form-group select { padding: 10px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 1rem; background: white; }
         
-        .contrato-box { height: 250px; overflow-y: scroll; border: 1px solid #ccc; padding: 20px; background: #f9f9f9; border-radius: 6px; font-size: 0.85rem; color: #555; margin-bottom: 20px; }
-        .contrato-box h4 { color: #003366; margin-top: 15px; margin-bottom: 5px; font-size: 0.9rem; }
-        .contrato-box p { text-align: justify; margin-bottom: 10px; }
+        .contrato-box { height: 200px; overflow-y: scroll; border: 1px solid #ccc; padding: 15px; background: #f9f9f9; border-radius: 6px; font-size: 0.85rem; color: #555; margin-bottom: 20px; }
         
         .assinatura-box { background: #eef2f5; padding: 20px; border-radius: 6px; border-left: 4px solid #003366; margin-bottom: 20px; }
-        .assinatura-box label.checkbox-label { display: flex; align-items: flex-start; gap: 10px; font-weight: normal; font-size: 0.9rem; margin-bottom: 15px; cursor: pointer; }
-        .assinatura-box input[type="checkbox"] { width: 18px; height: 18px; margin-top: 2px; cursor: pointer; }
+        .checkbox-label { display: flex; align-items: flex-start; gap: 10px; font-size: 0.9rem; cursor: pointer; margin-bottom: 15px; }
         
-        .btn-submit { background-color: #cc0000; color: white; border: none; padding: 15px; font-size: 1.1rem; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 15px; text-transform: uppercase; width: 100%; transition: transform 0.3s, background 0.3s; }
-        .btn-submit:hover { transform: translateY(-3px); background: #b30000; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .btn-submit { background-color: #cc0000; color: white; border: none; padding: 15px; font-size: 1.1rem; font-weight: bold; border-radius: 8px; cursor: pointer; text-transform: uppercase; width: 100%; transition: 0.3s; }
+        .btn-submit:hover { background: #b30000; }
         
-        #mensagem-sucesso { display: none; background-color: #d4edda; color: #155724; padding: 25px; border-radius: 8px; margin-top: 20px; text-align: center; font-size: 1.1rem; line-height: 1.5; border-left: 5px solid #28a745; }
-        
-        footer { background: #111; color: white; text-align: center; padding: 3rem 2rem; margin-top: auto; }
-        
-        @media (max-width: 768px) { .form-box { padding: 25px; } .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+        #mensagem-sucesso { display: none; background: #d4edda; color: #155724; padding: 25px; border-radius: 8px; text-align: center; }
     </style>
 </head>
 <body>
-
-    <header>
-        <nav>
-            <div class="logo">
-                <img src="./logo.jpeg" alt="SOS English Logo" style="height: 60px; width: auto; border-radius: 5px;">
-            </div>
-            <a href="index.html" class="voltar-link">← Voltar ao site</a>
-        </nav>
-    </header>
+    <header><nav><div class="logo"><img src="./logo.jpeg" style="height: 60px;"></div><a href="index.html" class="voltar-link">← Voltar</a></nav></header>
 
     <div class="matricula-container">
         <div class="form-box">
             <h2>Contrato de Matrícula</h2>
-            <p>Preencha seus dados oficiais para efetivar sua inscrição na SOS English.</p>
-            
             <form id="formMatricula" onsubmit="processarInscricao(event)">
+                <h3 class="section-title">Dados Pessoais</h3>
+                <div class="grid-2"><div class="form-group"><label>Nome Completo *</label><input type="text" id="ins-nome" required></div><div class="form-group"><label>E-mail *</label><input type="email" id="ins-email" required></div></div>
                 
-                <h3 class="section-title">1. Dados Pessoais (Contratante)</h3>
-                
-                <div class="grid-2">
-                    <div class="form-group">
-                        <label>Nome Completo *</label>
-                        <input type="text" id="ins-nome" required>
-                    </div>
-                    <div class="form-group">
-                        <label>E-mail *</label>
-                        <input type="email" id="ins-email" required>
-                    </div>
-                </div>
-
-                <div class="grid-3">
-                    <div class="form-group">
-                        <label>CPF *</label>
-                        <input type="text" id="ins-cpf" required placeholder="000.000.000-00">
-                    </div>
-                    <div class="form-group">
-                        <label>RG *</label>
-                        <input type="text" id="ins-rg" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Data de Nascimento *</label>
-                        <input type="date" id="ins-nascimento" required>
-                    </div>
-                </div>
-
-                <div class="grid-3">
-                    <div class="form-group">
-                        <label>WhatsApp *</label>
-                        <input type="tel" id="ins-whatsapp" required placeholder="(15) 99999-9999">
-                    </div>
-                    <div class="form-group">
-                        <label>Estado Civil *</label>
-                        <select id="ins-estadocivil" required>
-                            <option value="">Selecione</option>
-                            <option value="Solteiro(a)">Solteiro(a)</option>
-                            <option value="Casado(a)">Casado(a)</option>
-                            <option value="Divorciado(a)">Divorciado(a)</option>
-                            <option value="Viúvo(a)">Viúvo(a)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Profissão *</label>
-                        <input type="text" id="ins-profissao" required>
-                    </div>
-                </div>
-
-                <h3 class="section-title">2. Endereço Completo</h3>
-                
-                <div class="grid-2">
-                    <div class="form-group" style="flex: 2;">
-                        <label>Rua / Avenida *</label>
-                        <input type="text" id="ins-rua" required>
-                    </div>
-                    <div class="form-group" style="flex: 1;">
-                        <label>Número *</label>
-                        <input type="text" id="ins-numero" required>
-                    </div>
-                </div>
-
-                <div class="grid-3">
-                    <div class="form-group">
-                        <label>Bairro *</label>
-                        <input type="text" id="ins-bairro" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Cidade *</label>
-                        <input type="text" id="ins-cidade" required>
-                    </div>
-                    <div class="form-group">
-                        <label>CEP *</label>
-                        <input type="text" id="ins-cep" required>
-                    </div>
-                </div>
-
-                <h3 class="section-title">3. Informações Acadêmicas</h3>
-
-                <div class="grid-3">
-                    <div class="form-group">
-                        <label>Nível Atual *</label>
-                        <select id="ins-nivel" required>
-                            <option value="">Selecione</option>
-                            <option value="Iniciante">Iniciante</option>
-                            <option value="Básico">Básico</option>
-                            <option value="Intermediário">Intermediário</option>
-                            <option value="Avançado">Avançado</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Objetivo *</label>
-                        <select id="ins-objetivo" required>
-                            <option value="">Selecione</option>
-                            <option value="Viagens">Viagens</option>
-                            <option value="Trabalho">Trabalho</option>
-                            <option value="Entrevistas">Entrevistas</option>
-                            <option value="Conversação">Conversação</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Turno de Estudo *</label>
-                        <select id="ins-horario" required>
-                            <option value="">Selecione</option>
-                            <option value="Manhã">Manhã</option>
-                            <option value="Tarde">Tarde</option>
-                            <option value="Noite">Noite</option>
-                        </select>
-                    </div>
-                </div>
-
-                <h3 class="section-title">4. Termos do Contrato</h3>
-                
+                <h3 class="section-title">Termos do Contrato</h3>
                 <div class="contrato-box">
-                    <strong>CONTRATO DE PRESTAÇÃO DE SERVIÇOS DE ENSINO DE LÍNGUA ESTRANGEIRA</strong>
-                    <p>CONTRATADA: LOURIVAL ANTÔNIO SAMPAIO e nome fantasia SOS ENGLISH, inscrito no CNPJ/MF: 21.536.075/0001-61.</p>
-                    
-                    <h4>CLÁUSULA 01 - OBJETO</h4>
-                    <p>O objeto deste contrato consiste na prestação de serviços de ensino de língua estrangeira pela CONTRATADA ao CONTRATANTE, sendo este individual e intransferível.</p>
-                    
-                    <h4>CLÁUSULA 02 e 03 - RESPONSABILIDADES</h4>
-                    <p>É responsabilidade da SOS ENGLISH ministrar o curso na modalidade de ensino remoto, através de plataformas disponíveis. É responsabilidade do(a) ALUNO(A) se comprometer a seguir as orientações, ter foco e realizar as tarefas aplicadas. O não comparecimento não o exime do pagamento. O número de faltas não poderá exceder 10% da carga horária.</p>
-                    
-                    <h4>CLÁUSULA 04 e 05 - VALORES E INADIMPLÊNCIA</h4>
-                    <p>Em contrapartida aos serviços, o CONTRATANTE pagará o valor estipulado no ato da efetivação via atendimento, com descontos aplicáveis para pagamentos antecipados. Em caso de atraso, será cobrada multa de 2% e juros de 1% ao mês. No caso de inadimplência, a SOS ENGLISH poderá registrar o nome do inadimplente nos cadastros de proteção ao crédito.</p>
-                    
-                    <h4>CLÁUSULA 10 - RESCISÃO</h4>
-                    <p>Pelo(a) ALUNO(A): mediante aviso prévio de 30 dias, pagando o saldo remanescente relativo aos módulos já ministrados além de multa correspondente a 10% do saldo devedor do curso. Os valores já efetuados não serão restituídos.</p>
-                    
-                    <h4>CLÁUSULA 13 - FORO</h4>
-                    <p>Fica eleito o Foro da Comarca do consumidor como competente para dirimir questões oriundas do presente Contrato. As partes expressam livremente seu consentimento dando ao presente plena eficácia e força executiva.</p>
+                    <strong>CLÁUSULAS GERAIS:</strong>
+                    <p>1. O objeto consiste na prestação de serviços de ensino remoto pela CONTRATADA ao CONTRATANTE.</p>
+                    <p>2. O número de faltas não poderá exceder 10% da carga horária.</p>
+                    <p>3. Em caso de inadimplência, serão aplicados multa de 2% e juros de 1% ao mês.</p>
+                    <p>4. Rescisão mediante aviso prévio de 30 dias e multa de 10% do saldo devedor.</p>
                 </div>
 
                 <div class="assinatura-box">
                     <label class="checkbox-label">
                         <input type="checkbox" required id="ins-aceite">
-                        <span>Declaro que as informações fornecidas são verdadeiras. Li, compreendi e concordo integralmente com os termos do contrato de prestação de serviços acima estipulado.</span>
+                        <span>Li e concordo com os termos do contrato acima.</span>
                     </label>
                     <div class="form-group">
-                        <label>Assinatura Digital *</label>
-                        <input type="text" id="ins-assinatura" required placeholder="Digite seu nome completo para assinar o contrato digitalmente" style="font-family: 'Courier New', Courier, monospace; font-size: 1.1rem; background: #fff; border-color: #003366;">
+                        <label>Assinatura Digital (Nome Completo) *</label>
+                        <input type="text" id="ins-assinatura" required>
                     </div>
                 </div>
 
                 <button type="submit" class="btn-submit">Assinar Contrato e Enviar Matrícula</button>
-                </form>
-
-            <div id="mensagem-sucesso">
-                <strong>Contrato gerado e enviado com sucesso!</strong><br><br>Sua matrícula foi pré-aprovada. A secretaria da SOS English entrará em contato pelo WhatsApp para a liberação dos seus acessos.
-            </div>
+            </form>
+            <div id="mensagem-sucesso"><strong>Contrato enviado com sucesso!</strong><br>Nossa secretaria entrará em contato.</div>
         </div>
     </div>
-
-    <footer>
-        <p>© 2026 SOS English - Teacher Lourival. Todos os direitos reservados.</p>
-        <p style="font-size: 0.8rem; margin-top: 10px; color: #666;">Desenvolvido por GTI Tecnologia</p>
-    </footer>
 
     <script>
         function processarInscricao(event) {
             event.preventDefault(); 
-            
-            // Coleta de dados
-            const nome = document.getElementById('ins-nome').value;
-            const email = document.getElementById('ins-email').value;
-            const cpf = document.getElementById('ins-cpf').value;
-            const rg = document.getElementById('ins-rg').value;
-            const nascimento = document.getElementById('ins-nascimento').value;
-            const zap = document.getElementById('ins-whatsapp').value;
-            const estadocivil = document.getElementById('ins-estadocivil').value;
-            const profissao = document.getElementById('ins-profissao').value;
-            
-            const rua = document.getElementById('ins-rua').value;
-            const numero = document.getElementById('ins-numero').value;
-            const bairro = document.getElementById('ins-bairro').value;
-            const cidade = document.getElementById('ins-cidade').value;
-            const cep = document.getElementById('ins-cep').value;
-            
-            const nivel = document.getElementById('ins-nivel').value;
-            const objetivo = document.getElementById('ins-objetivo').value;
-            const horario = document.getElementById('ins-horario').value;
-            const assinatura = document.getElementById('ins-assinatura').value;
-            
-            // Oculta form e mostra sucesso
             document.getElementById('formMatricula').style.display = 'none';
             document.getElementById('mensagem-sucesso').style.display = 'block';
             
-            // Montagem do Dossiê para disparo
-            const dossieHTML = `
-                <h2>Contrato de Matrícula - SOS English</h2>
-                <hr>
-                <h3>1. Dados do Contratante</h3>
-                <p><b>Nome:</b> ${nome}</p>
-                <p><b>CPF:</b> ${cpf} | <b>RG:</b> ${rg}</p>
-                <p><b>Data Nasc:</b> ${nascimento} | <b>Estado Civil:</b> ${estadocivil}</p>
-                <p><b>E-mail:</b> ${email} | <b>WhatsApp:</b> ${zap}</p>
-                <p><b>Profissão:</b> ${profissao}</p>
-                <hr>
-                <h3>2. Endereço</h3>
-                <p>${rua}, ${numero} - ${bairro}. ${cidade} - CEP: ${cep}</p>
-                <hr>
-                <h3>3. Acadêmico</h3>
-                <p><b>Nível:</b> ${nivel}</p>
-                <p><b>Objetivo:</b> ${objetivo}</p>
-                <p><b>Turno:</b> ${horario}</p>
-                <hr>
-                <h3>4. Validação Jurídica e Aceite</h3>
-                <p>O aluno aceitou os termos e cláusulas contratuais referentes a inadimplência, rescisão e deveres acadêmicos expostos no site oficial da SOS English.</p>
-                <p><b>Assinatura Eletrônica Registrada:</b> ${assinatura}</p>
-                <p><b>Data do Aceite:</b> ${new Date().toLocaleString('pt-BR')}</p>
-            `;
-            
+            const dados = {
+                Nome: document.getElementById('ins-nome').value,
+                Assinatura: document.getElementById('ins-assinatura').value,
+                Data: new Date().toLocaleString()
+            };
+
             fetch("https://formsubmit.co/ajax/sosenglish.educational@gmail.com", {
                 method: "POST",
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    _subject: "CONTRATO ASSINADO - " + nome,
+                    _subject: "CONTRATO ASSINADO - " + dados.Nome,
                     _template: "box",
-                    Mensagem: "Os dados detalhados do aluno estão contidos abaixo.",
-                    Contrato_HTML: dossieHTML
+                    ...dados
                 })
-            })
-            .then(response => console.log("Contrato encaminhado para a escola."))
-            .catch(error => console.error("Erro", error));
+            });
         }
     </script>
 </body>
