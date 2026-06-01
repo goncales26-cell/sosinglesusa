@@ -1,35 +1,37 @@
 <script>
-        function processarInscricao(event) {
-            event.preventDefault(); 
-            
-            // Desativa o botão para evitar cliques duplos
-            const btn = document.getElementById('btn-enviar');
+    function processarInscricao(event) {
+        event.preventDefault(); 
+        
+        // 1. Correção N3: Busca o botão dinamicamente sem depender do ID "btn-enviar"
+        const btn = document.querySelector('button[type="submit"]');
+        if (btn) {
             btn.innerText = "Processando envio...";
             btn.disabled = true;
-            
-            // Coleta de dados
-            const nome = document.getElementById('ins-nome').value;
-            const email = document.getElementById('ins-email').value;
-            const cpf = document.getElementById('ins-cpf').value;
-            const rg = document.getElementById('ins-rg').value;
-            const nascimento = document.getElementById('ins-nascimento').value;
-            const zap = document.getElementById('ins-whatsapp').value;
-            const estadocivil = document.getElementById('ins-estadocivil').value;
-            const profissao = document.getElementById('ins-profissao').value;
-            
-            const rua = document.getElementById('ins-rua').value;
-            const numero = document.getElementById('ins-numero').value;
-            const bairro = document.getElementById('ins-bairro').value;
-            const cidade = document.getElementById('ins-cidade').value;
-            const cep = document.getElementById('ins-cep').value;
-            
-            const nivel = document.getElementById('ins-nivel').value;
-            const objetivo = document.getElementById('ins-objetivo').value;
-            const horario = document.getElementById('ins-horario').value;
-            const assinatura = document.getElementById('ins-assinatura').value;
-            
-            // Montagem do Dossiê em formato Texto Limpo para evitar quebras no Gmail
-            const dossieTexto = `
+        }
+        
+        // Coleta de dados
+        const nome = document.getElementById('ins-nome').value;
+        const email = document.getElementById('ins-email').value;
+        const cpf = document.getElementById('ins-cpf').value;
+        const rg = document.getElementById('ins-rg').value;
+        const nascimento = document.getElementById('ins-nascimento').value;
+        const zap = document.getElementById('ins-whatsapp').value;
+        const estadocivil = document.getElementById('ins-estadocivil').value;
+        const profissao = document.getElementById('ins-profissao').value;
+        
+        const rua = document.getElementById('ins-rua').value;
+        const numero = document.getElementById('ins-numero').value;
+        const bairro = document.getElementById('ins-bairro').value;
+        const cidade = document.getElementById('ins-cidade').value;
+        const cep = document.getElementById('ins-cep').value;
+        
+        const nivel = document.getElementById('ins-nivel').value;
+        const objetivo = document.getElementById('ins-objetivo').value;
+        const horario = document.getElementById('ins-horario').value;
+        const assinatura = document.getElementById('ins-assinatura').value;
+        
+        // Montagem do Dossiê
+        const dossieTexto = `
 =============================================
 CONTRATO DE MATRÍCULA - SOS ENGLISH
 =============================================
@@ -51,43 +53,50 @@ Objetivo: ${objetivo}
 Turno de Estudo: ${horario}
 
 4. VALIDAÇÃO JURÍDICA E ACEITE DIGITAL
-O aluno marcou a caixa de seleção concordando integralmente com os termos e cláusulas contratuais da SOS English (incluindo responsabilidades, rescisão e inadimplência).
+O aluno marcou a caixa de seleção concordando integralmente com os termos e cláusulas contratuais da SOS English.
 
 Assinatura Eletrônica Registrada: ${assinatura}
 Data e Hora do Aceite: ${new Date().toLocaleString('pt-BR')}
 =============================================
 `;
-            
-            // Disparo via API do Web3Forms (A prova de falhas)
-            fetch('https://api.web3forms.com/submit', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    access_key: "COLE_SUA_CHAVE_AQUI_ENTRE_AS_ASPAS",
-                    subject: "CONTRATO ASSINADO - " + nome,
-                    from_name: "Matrícula SOS English",
-                    Contrato_do_Aluno: dossieTexto
-                })
+        
+        // Disparo via API do Web3Forms
+        fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                access_key: "4f661909-e646-42fc-82e2-9db19886d6fe",
+                subject: "CONTRATO ASSINADO - " + nome,
+                from_name: "Matrícula SOS English",
+                Contrato_do_Aluno: dossieTexto
             })
-            .then(async (response) => {
-                if (response.status === 200) {
-                    // Sucesso: Esconde o formulário e mostra a tela verde na mesma página
-                    document.getElementById('formMatricula').style.display = 'none';
-                    document.getElementById('mensagem-sucesso').style.display = 'block';
-                } else {
-                    alert("Ocorreu um erro no servidor. Tente novamente.");
+        })
+        .then(async (response) => {
+            if (response.status === 200) {
+                // 2. Correção N3: Validação de segurança para ocultar o formulário
+                const form = document.getElementById('formMatricula');
+                if (form) form.style.display = 'none';
+                
+                const msg = document.getElementById('mensagem-sucesso');
+                if (msg) msg.style.display = 'block';
+            } else {
+                alert("Ocorreu um erro no servidor. Tente novamente.");
+                if (btn) {
                     btn.innerText = "Assinar Contrato e Enviar Matrícula";
                     btn.disabled = false;
                 }
-            })
-            .catch(error => {
-                console.error("Erro de conexão", error);
-                alert("Erro de conexão. Verifique sua internet.");
+            }
+        })
+        .catch(error => {
+            console.error("Erro de conexão", error);
+            alert("Erro de conexão. Verifique sua internet.");
+            if (btn) {
                 btn.innerText = "Assinar Contrato e Enviar Matrícula";
                 btn.disabled = false;
-            });
-        }
-    </script>
+            }
+        });
+    }
+</script>
