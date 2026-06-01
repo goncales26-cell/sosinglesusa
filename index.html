@@ -433,7 +433,78 @@
             <a href="#teste-nivel" class="btn btn-secondary">Teste Seu Nível Agora</a>
         </div>
     </section>
+<section id="inscricao" style="padding: 80px 20px; background-color: #f4f7f6;">
+        <div style="max-width: 800px; margin: 0 auto; background: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+            <h2 style="text-align: center; color: #0033a0; font-size: 2.2rem; margin-bottom: 10px;">Garanta Sua Vaga</h2>
+            <p style="text-align: center; color: #666; margin-bottom: 30px; font-size: 1.1rem;">Preencha os dados abaixo para dar o primeiro passo com a SOS English.</p>
+            
+            <form id="formMatricula" onsubmit="processarInscricao(event)" style="display: flex; flex-direction: column; gap: 15px;">
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                    <div style="display: flex; flex-direction: column;">
+                        <label style="font-weight: bold; margin-bottom: 5px; color: #333;">Nome Completo *</label>
+                        <input type="text" id="ins-nome" required style="padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-family: inherit; font-size: 1rem;">
+                    </div>
+                    <div style="display: flex; flex-direction: column;">
+                        <label style="font-weight: bold; margin-bottom: 5px; color: #333;">WhatsApp *</label>
+                        <input type="tel" id="ins-whatsapp" required placeholder="(15) 99999-9999" style="padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-family: inherit; font-size: 1rem;">
+                    </div>
+                </div>
 
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                    <div style="display: flex; flex-direction: column;">
+                        <label style="font-weight: bold; margin-bottom: 5px; color: #333;">E-mail *</label>
+                        <input type="email" id="ins-email" required style="padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-family: inherit; font-size: 1rem;">
+                    </div>
+                    <div style="display: flex; flex-direction: column;">
+                        <label style="font-weight: bold; margin-bottom: 5px; color: #333;">Cidade *</label>
+                        <input type="text" id="ins-cidade" required style="padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-family: inherit; font-size: 1rem;">
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column;">
+                    <label style="font-weight: bold; margin-bottom: 5px; color: #333;">Nível de Inglês *</label>
+                    <select id="ins-nivel" required style="padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-family: inherit; font-size: 1rem; background: white;">
+                        <option value="" disabled selected>Selecione seu nível</option>
+                        <option value="Iniciante">Iniciante</option>
+                        <option value="Básico">Básico</option>
+                        <option value="Intermediário">Intermediário</option>
+                        <option value="Avançado">Avançado</option>
+                    </select>
+                </div>
+
+                <div style="display: flex; flex-direction: column;">
+                    <label style="font-weight: bold; margin-bottom: 5px; color: #333;">Objetivo com o Inglês *</label>
+                    <select id="ins-objetivo" required style="padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-family: inherit; font-size: 1rem; background: white;">
+                        <option value="" disabled selected>Qual seu objetivo principal?</option>
+                        <option value="Viagens">Viagens</option>
+                        <option value="Trabalho">Trabalho</option>
+                        <option value="Entrevistas de Emprego">Entrevistas de Emprego</option>
+                        <option value="Faculdade/Escola">Faculdade/Escola</option>
+                        <option value="Conversação">Conversação</option>
+                        <option value="Outros">Outros</option>
+                    </select>
+                </div>
+
+                <div style="display: flex; flex-direction: column;">
+                    <label style="font-weight: bold; margin-bottom: 5px; color: #333;">Disponibilidade de Horário *</label>
+                    <select id="ins-horario" required style="padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-family: inherit; font-size: 1rem; background: white;">
+                        <option value="" disabled selected>Qual o seu melhor turno?</option>
+                        <option value="Manhã">Manhã</option>
+                        <option value="Tarde">Tarde</option>
+                        <option value="Noite">Noite</option>
+                    </select>
+                </div>
+
+                <button type="submit" style="background-color: #e31837; color: white; border: none; padding: 15px; font-size: 1.1rem; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 15px; text-transform: uppercase;">Enviar Inscrição</button>
+            </form>
+
+            <div id="mensagem-sucesso" style="display: none; background-color: #d4edda; color: #155724; padding: 25px; border-radius: 6px; margin-top: 20px; text-align: center; font-size: 1.1rem; line-height: 1.5;">
+                <strong>Obrigado por se inscrever na SOS English!</strong><br><br>Nossa equipe entrará em contato em breve para agendar sua avaliação gratuita e apresentar o método Aprenda Inglês em 50 Horas.
+            </div>
+        </div>
+    </section>
+    
     <section class="stats-container">
         <div class="stats-grid">
             <div class="stat-item">
@@ -669,6 +740,39 @@
             </div>
         </div>
     </section>
+
+    // Este é o final da função do teste que já existe no seu arquivo:
+            document.getElementById('btn-send-result').onclick = function() {
+                const text = `*Resultado do Teste de Nível - SOS English* 🇺🇸\n\nAluno: ${userName}\nAcertos: ${score}/10 (${percentage}%)\nNível Estimado: ${feedback}\n\nGostaria de agendar uma avaliação presencial!`;
+                const link = `https://wa.me/5515981793811?text=${encodeURIComponent(text)}`;
+                window.open(link, '_blank');
+            };
+        } // <--- Certifique-se de colar LOGO APÓS este fechamento
+
+        // FUNÇÃO ADICIONADA: Processar a Inscrição do Formulário Novo
+        function processarInscricao(event) {
+            event.preventDefault(); 
+            
+            const nome = document.getElementById('ins-nome').value;
+            const zap = document.getElementById('ins-whatsapp').value;
+            const email = document.getElementById('ins-email').value;
+            const cidade = document.getElementById('ins-cidade').value;
+            const nivel = document.getElementById('ins-nivel').value;
+            const objetivo = document.getElementById('ins-objetivo').value;
+            const horario = document.getElementById('ins-horario').value;
+            
+            document.getElementById('formMatricula').style.display = 'none';
+            document.getElementById('mensagem-sucesso').style.display = 'block';
+            
+            const textoMsg = `*NOVA INSCRIÇÃO - SOS ENGLISH* \n\n*Nome:* ${nome}\n*WhatsApp:* ${zap}\n*E-mail:* ${email}\n*Cidade:* ${cidade}\n*Nível:* ${nivel}\n*Objetivo:* ${objetivo}\n*Disponibilidade:* ${horario}\n\n_Vim pelo site e aguardo contato para avaliação gratuita!_`;
+            
+            const numeroTeacher = "5515981793811"; 
+            const linkInscricao = `https://wa.me/${numeroTeacher}?text=${encodeURIComponent(textoMsg)}`;
+            
+            setTimeout(() => {
+                window.open(linkInscricao, '_blank');
+            }, 2500); 
+        }
 
     <section id="noticias" style="background-color: #e9ecef; padding: 4rem 2rem;">
         <div style="max-width: 1200px; margin: 0 auto;">
