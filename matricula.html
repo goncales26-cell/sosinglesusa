@@ -51,14 +51,14 @@ Objetivo: ${objetivo}
 Turno de Estudo: ${horario}
 
 4. VALIDAÇÃO JURÍDICA E ACEITE DIGITAL
-O aluno marcou a caixa de seleção concordando integralmente com os termos e cláusulas contratuais da SOS English (incluindo responsabilidades, rescisão e inadimplência).
+O aluno marcou a caixa de seleção concordando integralmente com os termos e cláusulas contratuais da SOS English.
 
 Assinatura Eletrônica Registrada: ${assinatura}
 Data e Hora do Aceite: ${new Date().toLocaleString('pt-BR')}
 =============================================
 `;
             
-            // Disparo via API do Web3Forms (A prova de falhas)
+            // Disparo via API do Web3Forms
             fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
                 headers: {
@@ -74,7 +74,7 @@ Data e Hora do Aceite: ${new Date().toLocaleString('pt-BR')}
             })
             .then(async (response) => {
                 if (response.status === 200) {
-                    // Sucesso: Esconde o formulário e mostra a tela verde na mesma página
+                    // Sucesso: Esconde o formulário e mostra a tela de sucesso
                     document.getElementById('formMatricula').style.display = 'none';
                     document.getElementById('mensagem-sucesso').style.display = 'block';
                 } else {
