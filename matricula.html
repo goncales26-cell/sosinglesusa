@@ -255,11 +255,11 @@
         <p>© 2026 SOS English - Teacher Lourival. Todos os direitos reservados.</p>
         <p style="font-size: 0.8rem; margin-top: 10px; color: #666;">Desenvolvido por GTI Tecnologia</p>
     </footer>
-
-    <script>
+<script>
         function processarInscricao(event) {
             event.preventDefault(); 
             
+            // Coleta de dados
             const nome = document.getElementById('ins-nome').value;
             const zap = document.getElementById('ins-whatsapp').value;
             const email = document.getElementById('ins-email').value;
@@ -268,18 +268,34 @@
             const objetivo = document.getElementById('ins-objetivo').value;
             const horario = document.getElementById('ins-horario').value;
             
+            // Oculta o formulário e mostra a tela verde de sucesso (Exigência do Teacher)
             document.getElementById('formMatricula').style.display = 'none';
             document.getElementById('mensagem-sucesso').style.display = 'block';
             
-            const textoMsg = `*NOVA INSCRIÇÃO - SOS ENGLISH* \n\n*Nome:* ${nome}\n*WhatsApp:* ${zap}\n*E-mail:* ${email}\n*Cidade:* ${cidade}\n*Nível:* ${nivel}\n*Objetivo:* ${objetivo}\n*Disponibilidade:* ${horario}\n\n_Vim pelo site e aguardo contato para avaliação gratuita!_`;
-            
-            const numeroTeacher = "5515981793811"; 
-            const linkInscricao = `https://wa.me/${numeroTeacher}?text=${encodeURIComponent(textoMsg)}`;
-            
-            setTimeout(() => {
-                window.open(linkInscricao, '_blank');
-            }, 2500); 
+            // Disparo assíncrono (AJAX) do Contrato para o e-mail da escola
+            fetch("https://formsubmit.co/ajax/sosenglish.educational@gmail.com", {
+                method: "POST",
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    _subject: "NOVA MATRÍCULA - " + nome,
+                    Documento: "CONTRATO DE MATRÍCULA ONLINE",
+                    Aluno: nome,
+                    WhatsApp: zap,
+                    Email: email,
+                    Cidade: cidade,
+                    Nível_Estimado: nivel,
+                    Objetivo_Principal: objetivo,
+                    Disponibilidade: horario,
+                    Aceite_Digital: "O aluno confirmou a veracidade dos dados e aceitou os termos online no site SOS English."
+                })
+            })
+            .then(response => console.log("Contrato enviado ao e-mail da secretaria com sucesso."))
+            .catch(error => console.error("Erro no envio do contrato.", error));
         }
     </script>
+    
 </body>
 </html>
