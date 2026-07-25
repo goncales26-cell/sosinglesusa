@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -93,6 +92,19 @@
         .calendar-day.selecionado .dot { background:white; }
 
         .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px); background:var(--navy); color:white; padding:14px 26px; border-radius:50px; font-size:0.88rem; font-weight:700; transition:transform 0.3s; z-index:999; }
+
+        /* MODAL DE USUÁRIOS */
+        .modal-overlay-users { position:fixed; inset:0; background:rgba(0,35,71,0.6); display:none; align-items:center; justify-content:center; z-index:1100; padding:24px; }
+        .modal-overlay-users.open { display:flex; }
+        .modal-users-box { background:white; border-radius:16px; padding:28px; max-width:480px; width:100%; max-height:85vh; overflow-y:auto; box-shadow:0 24px 60px rgba(0,0,0,0.3); }
+        .user-card { display:flex; justify-content:space-between; align-items:center; padding:12px 16px; border:2px solid var(--line); border-radius:10px; margin-bottom:10px; gap:8px; flex-wrap:wrap; }
+        .user-card strong { color:var(--navy); font-size:0.92rem; display:block; }
+        .user-card span { font-size:0.78rem; color:var(--muted); }
+        .user-card-actions { display:flex; gap:6px; }
+        .btn-icon-sm { background:none; border:none; cursor:pointer; font-size:1rem; padding:6px; border-radius:6px; transition:background 0.2s; }
+        .btn-icon-sm.edit { color:var(--navy); }
+        .btn-icon-sm.remove { color:var(--red); }
+        .btn-icon-sm:hover { background:var(--sand); }
         .toast.show { transform:translateX(-50%) translateY(0); }
 
         @media (max-width:480px) {
@@ -109,10 +121,11 @@
         <div class="login-box">
             <img src="./logo.jpeg" alt="SOS English" class="login-logo">
             <h1>Painel do Teacher</h1>
-            <p>Digite a senha para gerenciar sua agenda</p>
+            <p>Se for um usuário criado pelo Teacher, preencha o campo de usuário. Se for o Teacher, deixe em branco.</p>
+            <input type="text" id="usuario-input" placeholder="Usuário (deixe em branco se for o Teacher)" onkeypress="if(event.key==='Enter') verificarSenha()">
             <input type="password" id="senha-input" placeholder="Senha" onkeypress="if(event.key==='Enter') verificarSenha()">
             <button onclick="verificarSenha()">Entrar</button>
-            <p class="login-error" id="login-error">Senha incorreta. Tente novamente.</p>
+            <p class="login-error" id="login-error">Usuário ou senha incorretos. Tente novamente.</p>
         </div>
     </div>
 
@@ -124,6 +137,7 @@
                     <p>Gerencie sua agenda de aulas</p>
                 </div>
                 <div style="display:flex; gap:8px;">
+                    <button class="btn-guia" id="btn-usuarios" onclick="abrirModalUsuarios()" style="display:none; background:var(--navy); border:none; cursor:pointer;"><i class="bi bi-gear-fill"></i> Usuários</button>
                     <a href="./guia-sos.html" class="btn-guia"><i class="bi bi-question-circle"></i> Como usar</a>
                     <button class="btn-logout" onclick="sair()">Sair</button>
                 </div>
@@ -184,6 +198,28 @@
         </main>
     </div>
 
+    <!-- MODAL DE GERENCIAMENTO DE USUÁRIOS -->
+    <div class="modal-overlay-users" id="modal-users-overlay">
+        <div class="modal-users-box">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <h2 style="font-weight:800; font-size:1.15rem; color:var(--navy); display:flex; align-items:center; gap:8px;"><i class="bi bi-people-fill" style="color:var(--red);"></i> Gerenciar Usuários</h2>
+                <button onclick="fecharModalUsuarios()" style="background:none; border:none; font-size:1.3rem; cursor:pointer; color:var(--muted);">&times;</button>
+            </div>
+
+            <div style="background:var(--sand); border-radius:10px; padding:16px; margin-bottom:20px;">
+                <p style="font-size:0.85rem; color:var(--muted); margin-bottom:14px;">Crie um acesso para que outra pessoa (assistente, secretária) possa gerenciar a agenda sem usar sua senha mestra.</p>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <input type="text" id="novo-usuario-nome" placeholder="Nome de usuário" style="flex:1; min-width:120px; padding:11px 14px; border:2px solid var(--line); border-radius:8px; font-size:0.9rem; outline:none; font-family:inherit;">
+                    <input type="text" id="novo-usuario-senha" placeholder="Senha" style="flex:1; min-width:120px; padding:11px 14px; border:2px solid var(--line); border-radius:8px; font-size:0.9rem; outline:none; font-family:inherit;">
+                    <button onclick="criarUsuario()" style="background:var(--red); color:white; border:none; padding:11px 20px; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.88rem; font-family:inherit;"><i class="bi bi-plus-lg"></i> Criar</button>
+                </div>
+                <p class="feedback-msg error" id="usuario-erro" style="display:none;"></p>
+            </div>
+
+            <div id="lista-usuarios"></div>
+        </div>
+    </div>
+
     <div class="toast" id="toast"></div>
 
     <script>
@@ -203,28 +239,63 @@
         const DIAS_SEMANA = ['D','S','T','Q','Q','S','S'];
         const MESES_NOME = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 
-        function verificarSenha() {
-            const input = document.getElementById('senha-input');
-            const erro  = document.getElementById('login-error');
-            if (input.value === SENHA_PAINEL) {
-                document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('panel').style.display = 'block';
-                sessionStorage.setItem('sos-logado', '1');
-                carregarDados();
-            } else {
+        async function verificarSenha() {
+            const usuarioInput = document.getElementById('usuario-input').value.trim();
+            const senhaInput   = document.getElementById('senha-input').value;
+            const erro = document.getElementById('login-error');
+            erro.style.display = 'none';
+
+            // Login como Teacher (senha mestra, campo de usuário em branco)
+            if (!usuarioInput) {
+                if (senhaInput === SENHA_PAINEL) {
+                    fazerLogin(true);
+                    return;
+                }
                 erro.style.display = 'block';
-                input.value = '';
+                document.getElementById('senha-input').value = '';
+                return;
             }
+
+            // Login como usuário secundário criado pelo Teacher
+            try {
+                const res = await fetch(JSONBIN_URL + '/latest', { headers: { 'X-Master-Key': JSONBIN_KEY } });
+                const json = await res.json();
+                const dados = json.record;
+                const usuarios = dados.usuarios || [];
+                const encontrado = usuarios.find(u => u.usuario.toLowerCase() === usuarioInput.toLowerCase() && u.senha === senhaInput);
+
+                if (encontrado) {
+                    dadosAtuais = dados;
+                    if (!dadosAtuais.slots) dadosAtuais.slots = [];
+                    if (!dadosAtuais.usuarios) dadosAtuais.usuarios = [];
+                    fazerLogin(false);
+                    return;
+                }
+            } catch (e) { /* segue para mostrar erro */ }
+
+            erro.style.display = 'block';
+            document.getElementById('senha-input').value = '';
+        }
+
+        function fazerLogin(isMaster) {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('panel').style.display = 'block';
+            document.getElementById('btn-usuarios').style.display = isMaster ? 'flex' : 'none';
+            sessionStorage.setItem('sos-logado', '1');
+            sessionStorage.setItem('sos-master', isMaster ? '1' : '0');
+            carregarDados();
         }
 
         function sair() {
             sessionStorage.removeItem('sos-logado');
+            sessionStorage.removeItem('sos-master');
             window.location.href = './agendamento.html';
         }
 
         if (sessionStorage.getItem('sos-logado') === '1') {
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('panel').style.display = 'block';
+            document.getElementById('btn-usuarios').style.display = sessionStorage.getItem('sos-master') === '1' ? 'flex' : 'none';
             carregarDados();
         }
 
@@ -234,6 +305,7 @@
                 const json = await res.json();
                 dadosAtuais = json.record;
                 if (!dadosAtuais.slots) dadosAtuais.slots = [];
+                if (!dadosAtuais.usuarios) dadosAtuais.usuarios = [];
                 renderizarTudo();
             } catch (e) {
                 document.getElementById('slots-list').innerHTML = '<div class="empty-msg">Erro ao carregar. Recarregue a página.</div>';
@@ -405,6 +477,90 @@
             if (!calendarioInicializado) { definirEstadoInicialCalendario(); calendarioInicializado = true; }
             renderizarCalendario();
             renderizarAgendamentosDoDia();
+        }
+
+        // ════════════════════════════════════════
+        // GERENCIAMENTO DE USUÁRIOS (só visível para o Teacher)
+        // ════════════════════════════════════════
+        function abrirModalUsuarios() {
+            document.getElementById('modal-users-overlay').classList.add('open');
+            document.getElementById('usuario-erro').style.display = 'none';
+            renderizarListaUsuarios();
+        }
+
+        function fecharModalUsuarios() {
+            document.getElementById('modal-users-overlay').classList.remove('open');
+        }
+
+        async function criarUsuario() {
+            const nomeInput  = document.getElementById('novo-usuario-nome');
+            const senhaInput = document.getElementById('novo-usuario-senha');
+            const nome  = nomeInput.value.trim();
+            const senha = senhaInput.value.trim();
+            const erro  = document.getElementById('usuario-erro');
+            erro.style.display = 'none';
+
+            if (!nome || !senha) {
+                erro.textContent = 'Preencha o nome de usuário e a senha.';
+                erro.style.display = 'block';
+                return;
+            }
+            if (!dadosAtuais.usuarios) dadosAtuais.usuarios = [];
+            if (dadosAtuais.usuarios.some(u => u.usuario.toLowerCase() === nome.toLowerCase())) {
+                erro.textContent = 'Já existe um usuário com esse nome.';
+                erro.style.display = 'block';
+                return;
+            }
+
+            dadosAtuais.usuarios.push({ usuario: nome, senha: senha });
+            await salvarDados();
+            nomeInput.value = '';
+            senhaInput.value = '';
+            renderizarListaUsuarios();
+            mostrarToast('Usuário criado com sucesso!');
+        }
+
+        function renderizarListaUsuarios() {
+            const lista = document.getElementById('lista-usuarios');
+            const usuarios = dadosAtuais.usuarios || [];
+
+            if (usuarios.length === 0) {
+                lista.innerHTML = '<p style="text-align:center; color:var(--muted); font-size:0.88rem; padding:16px;">Nenhum usuário criado ainda.</p>';
+                return;
+            }
+
+            lista.innerHTML = usuarios.map((u, i) => `
+                <div class="user-card">
+                    <div>
+                        <strong>${u.usuario}</strong>
+                        <span>Senha: ${'•'.repeat(u.senha.length)}</span>
+                    </div>
+                    <div class="user-card-actions">
+                        <button class="btn-icon-sm edit" onclick="trocarSenhaUsuario(${i})" title="Trocar senha"><i class="bi bi-key-fill"></i></button>
+                        <button class="btn-icon-sm remove" onclick="removerUsuario(${i})" title="Remover"><i class="bi bi-trash-fill"></i></button>
+                    </div>
+                </div>`).join('');
+        }
+
+        async function trocarSenhaUsuario(index) {
+            const usuario = dadosAtuais.usuarios[index];
+            const novaSenha = prompt(`Digite a nova senha para "${usuario.usuario}":`);
+            if (!novaSenha || !novaSenha.trim()) return;
+
+            dadosAtuais.usuarios[index].senha = novaSenha.trim();
+            await salvarDados();
+            renderizarListaUsuarios();
+            mostrarToast('Senha atualizada!');
+        }
+
+        async function removerUsuario(index) {
+            const usuario = dadosAtuais.usuarios[index];
+            if (!confirm(`Remover o acesso de "${usuario.usuario}"? Essa pessoa não conseguirá mais entrar no painel.`)) return;
+
+            dadosAtuais.usuarios.splice(index, 1);
+            await salvarDados();
+            renderizarListaUsuarios();
+            mostrarToast('Usuário removido.');
         }
     </script>
 </body>
