@@ -206,6 +206,16 @@
                 <button onclick="fecharModalUsuarios()" style="background:none; border:none; font-size:1.3rem; cursor:pointer; color:var(--muted);">&times;</button>
             </div>
 
+            <div style="background:rgba(0,51,102,0.06); border:2px solid rgba(0,51,102,0.15); border-radius:10px; padding:16px; margin-bottom:20px;">
+                <h3 style="font-size:0.92rem; color:var(--navy); font-weight:800; margin-bottom:10px; display:flex; align-items:center; gap:6px;"><i class="bi bi-shield-lock-fill" style="color:var(--red);"></i> Minha senha (Teacher)</h3>
+                <p style="font-size:0.83rem; color:var(--muted); margin-bottom:12px;">Essa é a sua senha mestra de acesso ao painel.</p>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <input type="text" id="nova-senha-admin" placeholder="Nova senha" style="flex:1; min-width:150px; padding:11px 14px; border:2px solid var(--line); border-radius:8px; font-size:0.9rem; outline:none; font-family:inherit;">
+                    <button onclick="trocarSenhaAdmin()" style="background:var(--navy); color:white; border:none; padding:11px 20px; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.88rem; font-family:inherit;"><i class="bi bi-key-fill"></i> Trocar</button>
+                </div>
+                <p class="feedback-msg error" id="senha-admin-erro" style="display:none;"></p>
+            </div>
+
             <div style="background:var(--sand); border-radius:10px; padding:16px; margin-bottom:20px;">
                 <p style="font-size:0.85rem; color:var(--muted); margin-bottom:14px;">Crie um acesso para que outra pessoa (assistente, secretária) possa gerenciar a agenda sem usar sua senha mestra.</p>
                 <div style="display:flex; gap:8px; flex-wrap:wrap;">
@@ -226,9 +236,9 @@
         // ════════════════════════════════════════
         // ⚠️ CONFIGURAÇÃO — PREENCHER ANTES DE PUBLICAR
         // ════════════════════════════════════════
-        const SENHA_PAINEL = 'sos2026';   // ⚠️ Troque essa senha
-        const JSONBIN_ID   = '6a64c864f5f4af5e29bfef7e';
-        const JSONBIN_KEY  = '$2a$10$8In7BF0QhgmBKqCO7BgCYeK7GFk7cn/pO3qbcO2wV5dKDzNpbMoMa';
+        const SENHA_PAINEL_PADRAO = 'sos2026';   // usada só na primeira vez, antes do Teacher trocar
+        const JSONBIN_ID   = 'COLOQUE_O_ID_DO_BIN_AQUI';
+        const JSONBIN_KEY  = 'COLOQUE_A_MASTER_KEY_AQUI';
         const JSONBIN_URL  = `https://api.jsonbin.io/v3/b/${JSONBIN_ID}`;
 
         let dadosAtuais = null;
@@ -245,31 +255,32 @@
             const erro = document.getElementById('login-error');
             erro.style.display = 'none';
 
-            // Login como Teacher (senha mestra, campo de usuário em branco)
-            if (!usuarioInput) {
-                if (senhaInput === SENHA_PAINEL) {
-                    fazerLogin(true);
-                    return;
-                }
-                erro.style.display = 'block';
-                document.getElementById('senha-input').value = '';
-                return;
-            }
-
-            // Login como usuário secundário criado pelo Teacher
             try {
                 const res = await fetch(JSONBIN_URL + '/latest', { headers: { 'X-Master-Key': JSONBIN_KEY } });
                 const json = await res.json();
                 const dados = json.record;
-                const usuarios = dados.usuarios || [];
-                const encontrado = usuarios.find(u => u.usuario.toLowerCase() === usuarioInput.toLowerCase() && u.senha === senhaInput);
 
-                if (encontrado) {
-                    dadosAtuais = dados;
-                    if (!dadosAtuais.slots) dadosAtuais.slots = [];
-                    if (!dadosAtuais.usuarios) dadosAtuais.usuarios = [];
-                    fazerLogin(false);
-                    return;
+                // Login como Teacher (senha mestra, campo de usuário em branco)
+                if (!usuarioInput) {
+                    const senhaAdminAtual = dados.senhaAdmin || SENHA_PAINEL_PADRAO;
+                    if (senhaInput === senhaAdminAtual) {
+                        dadosAtuais = dados;
+                        if (!dadosAtuais.slots) dadosAtuais.slots = [];
+                        if (!dadosAtuais.usuarios) dadosAtuais.usuarios = [];
+                        fazerLogin(true);
+                        return;
+                    }
+                } else {
+                    // Login como usuário secundário criado pelo Teacher
+                    const usuarios = dados.usuarios || [];
+                    const encontrado = usuarios.find(u => u.usuario.toLowerCase() === usuarioInput.toLowerCase() && u.senha === senhaInput);
+                    if (encontrado) {
+                        dadosAtuais = dados;
+                        if (!dadosAtuais.slots) dadosAtuais.slots = [];
+                        if (!dadosAtuais.usuarios) dadosAtuais.usuarios = [];
+                        fazerLogin(false);
+                        return;
+                    }
                 }
             } catch (e) { /* segue para mostrar erro */ }
 
@@ -283,7 +294,7 @@
             document.getElementById('btn-usuarios').style.display = isMaster ? 'flex' : 'none';
             sessionStorage.setItem('sos-logado', '1');
             sessionStorage.setItem('sos-master', isMaster ? '1' : '0');
-            carregarDados();
+            renderizarTudo();
         }
 
         function sair() {
@@ -485,7 +496,27 @@
         function abrirModalUsuarios() {
             document.getElementById('modal-users-overlay').classList.add('open');
             document.getElementById('usuario-erro').style.display = 'none';
+            document.getElementById('senha-admin-erro').style.display = 'none';
+            document.getElementById('nova-senha-admin').value = '';
             renderizarListaUsuarios();
+        }
+
+        async function trocarSenhaAdmin() {
+            const input = document.getElementById('nova-senha-admin');
+            const erro  = document.getElementById('senha-admin-erro');
+            const novaSenha = input.value.trim();
+            erro.style.display = 'none';
+
+            if (!novaSenha || novaSenha.length < 4) {
+                erro.textContent = 'A senha deve ter pelo menos 4 caracteres.';
+                erro.style.display = 'block';
+                return;
+            }
+
+            dadosAtuais.senhaAdmin = novaSenha;
+            await salvarDados();
+            input.value = '';
+            mostrarToast('Sua senha foi atualizada!');
         }
 
         function fecharModalUsuarios() {
