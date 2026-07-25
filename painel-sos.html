@@ -186,8 +186,8 @@
         // ⚠️ CONFIGURAÇÃO — PREENCHER ANTES DE PUBLICAR
         // ════════════════════════════════════════
         const SENHA_PAINEL = 'sos2026';   // ⚠️ Troque essa senha
-        const JSONBIN_ID   = '6a64c864f5f4af5e29bfef7e';
-        const JSONBIN_KEY  = '$2a$10$8In7BF0QhgmBKqCO7BgCYeK7GFk7cn/pO3qbcO2wV5dKDzNpbMoMa';
+        const JSONBIN_ID   = 'COLOQUE_O_ID_DO_BIN_AQUI';
+        const JSONBIN_KEY  = 'COLOQUE_A_MASTER_KEY_AQUI';
         const JSONBIN_URL  = `https://api.jsonbin.io/v3/b/${JSONBIN_ID}`;
 
         let dadosAtuais = null;
@@ -255,6 +255,12 @@
             const hora    = document.getElementById('novo-horario').value;
             const servico = document.getElementById('novo-servico').value;
             if (!data || !hora) { mostrarToast('Preencha data e horário'); return; }
+
+            const jaExiste = dadosAtuais.slots.some(s => s.dataISO === data && s.horario === hora);
+            if (jaExiste) {
+                mostrarToast('Já existe um horário nesse dia e hora!');
+                return;
+            }
 
             dadosAtuais.slots.push({ dataISO: data, horario: hora, servico: servico || null, ocupado: false });
             await salvarDados();
