@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0, user-scalable=yes">
+    <meta name="format-detection" content="telephone=no">
+    <title>Como usar sua Agenda | SOS English</title>
+    <link rel="icon" type="image/jpeg" href="./logo.jpeg">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        :root {
+            --navy:#003366; --navy-dk:#002347; --navy-lt:#004080;
+            --red:#cc0000; --red-dk:#b30000;
+            --bg:#f9f9f9; --white:#fff; --ink:#333;
+            --muted:#6b7c8f; --line:#e0e0e0; --sand:#eef2f5;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { -webkit-text-size-adjust:100%; text-size-adjust:100%; max-width:100%; overflow-x:hidden; }
+        body { background:var(--bg); color:var(--ink); font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; line-height:1.7; -webkit-font-smoothing:antialiased; overflow-x:hidden; max-width:100vw; }
+
+        header { background:linear-gradient(135deg,var(--navy),var(--navy-lt)); color:white; padding:48px 24px 56px; text-align:center; position:relative; }
+        .btn-voltar-painel { position:absolute; top:20px; left:20px; display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.35); color:white; padding:8px 16px; border-radius:50px; font-size:0.82rem; text-decoration:none; transition:background 0.2s; font-weight:600; }
+        .btn-voltar-painel:hover { background:rgba(255,255,255,0.25); }
+        .logo { width:76px; height:76px; border-radius:12px; margin:0 auto 20px; box-shadow:0 6px 20px rgba(0,0,0,0.25); object-fit:cover; }
+        header h1 { font-weight:800; font-size:1.7rem; margin-bottom:6px; }
+        header p { font-size:0.9rem; opacity:0.9; }
+
+        main { max-width:680px; margin:0 auto; padding:40px 24px 80px; }
+
+        .intro { background:white; border:2px solid var(--line); border-radius:14px; padding:24px; margin-bottom:32px; font-size:0.95rem; color:var(--muted); }
+        .intro strong { color:var(--navy); }
+
+        .step { background:white; border:2px solid var(--line); border-radius:14px; margin-bottom:20px; overflow:hidden; }
+        .step-header { display:flex; align-items:center; gap:14px; padding:20px 24px; background:var(--sand); border-bottom:2px solid var(--line); }
+        .step-num { width:38px; height:38px; background:var(--navy); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.05rem; flex-shrink:0; }
+        .step-num.icon { background:var(--red); font-size:1.1rem; }
+        .step-header h2 { font-weight:800; font-size:1.15rem; color:var(--navy); }
+        .step-body { padding:22px 24px; }
+        .step-body p { font-size:0.93rem; color:var(--ink); margin-bottom:10px; }
+        .step-body p:last-child { margin-bottom:0; }
+
+        .highlight-box { background:var(--sand); border-left:4px solid var(--red); border-radius:8px; padding:14px 18px; margin:14px 0; font-size:0.88rem; }
+        .highlight-box strong { color:var(--navy); }
+        .highlight-box.blue { border-left-color:var(--navy); }
+
+        .link-box { display:flex; align-items:center; gap:10px; background:var(--navy); color:white; border-radius:10px; padding:14px 18px; font-size:0.9rem; font-weight:600; margin:14px 0; word-break:break-all; }
+        .link-box i { font-size:1.1rem; flex-shrink:0; }
+
+        .tip-row { display:flex; align-items:flex-start; gap:10px; margin-bottom:12px; }
+        .tip-row i { color:var(--red); font-size:1rem; margin-top:2px; flex-shrink:0; }
+        .tip-row p { margin-bottom:0 !important; font-size:0.93rem; }
+
+        .badge-tag { display:inline-flex; align-items:center; gap:5px; background:rgba(0,51,102,0.08); color:var(--navy); border:1px solid rgba(0,51,102,0.2); border-radius:50px; padding:2px 12px; font-size:0.78rem; font-weight:700; }
+        .badge-tag.master { background:rgba(204,0,0,0.08); color:var(--red); border-color:rgba(204,0,0,0.25); }
+
+        .faq-item { border-bottom:2px solid var(--line); padding:16px 0; }
+        .faq-item:last-child { border-bottom:none; }
+        .faq-q { font-weight:700; font-size:0.94rem; color:var(--navy); margin-bottom:6px; display:flex; gap:8px; align-items:flex-start; }
+        .faq-a { font-size:0.9rem; color:var(--muted); }
+
+        .section-title { font-weight:800; font-size:1.4rem; margin:48px 0 20px; color:var(--navy); }
+
+        footer { text-align:center; padding:32px 24px; color:var(--muted); font-size:0.85rem; border-top:2px solid var(--line); }
+        footer a { color:var(--navy); text-decoration:none; font-weight:700; }
+
+        @media (max-width:480px) {
+            .step-header { padding:16px 20px; }
+            .step-body { padding:18px 20px; }
+            .btn-voltar-painel { position:static; display:inline-flex; margin-bottom:16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="./painel-sos.html" class="btn-voltar-painel"><i class="bi bi-arrow-left"></i> Voltar ao Painel</a>
+        <img src="./logo.jpeg" alt="SOS English" class="logo">
+        <h1>Como usar sua Agenda</h1>
+        <p>Guia completo para o Teacher e para quem ajudar na administração</p>
+    </header>
+
+    <main>
+
+        <div class="intro">
+            Esse é o seu guia rápido para usar o sistema de agendamento do SOS English. Não precisa decorar nada — sempre que tiver dúvida, é só voltar aqui. <strong>Tudo funciona direto pelo celular, sem precisar de computador.</strong>
+        </div>
+
+        <!-- ─── ACESSO ─── -->
+        <h2 class="section-title" style="margin-top:0;">Acessando o painel</h2>
+
+        <div class="step">
+            <div class="step-header">
+                <div class="step-num">1</div>
+                <h2>Entrar no seu painel</h2>
+            </div>
+            <div class="step-body">
+                <p>Acesse este link no celular ou computador:</p>
+                <div class="link-box"><i class="bi bi-link-45deg"></i> sosinglesus.com.br/painel-sos</div>
+                <p>Se você é o <strong>Teacher</strong>, deixe o campo "Usuário" em branco e digite apenas sua senha.</p>
+                <p>Se você é um <strong>usuário criado pelo Teacher</strong> (assistente, secretária), preencha os dois campos: usuário e senha.</p>
+                <div class="highlight-box">Dica: salve o link nos favoritos do navegador ou crie um atalho na tela inicial do celular para não precisar digitar toda vez.</div>
+            </div>
+        </div>
+
+        <!-- ─── HORÁRIOS ─── -->
+        <h2 class="section-title">Abrindo horários na agenda</h2>
+
+        <div class="step">
+            <div class="step-header">
+                <div class="step-num">2</div>
+                <h2>Abrir um novo horário de aula</h2>
+            </div>
+            <div class="step-body">
+                <p>Na caixa <strong>"Abrir novo horário"</strong>, faça assim:</p>
+                <div class="tip-row"><i class="bi bi-1-circle-fill"></i><p>Em <strong>Tipo de aula</strong>, escolha entre Conversação &amp; Fluência, Business English, Inglês para Viagens ou Mentoria Personalizada (ou deixe "Qualquer tipo" para o aluno escolher na hora)</p></div>
+                <div class="tip-row"><i class="bi bi-2-circle-fill"></i><p>Escolha a <strong>data</strong></p></div>
+                <div class="tip-row"><i class="bi bi-3-circle-fill"></i><p>Escolha o <strong>horário</strong></p></div>
+                <div class="tip-row"><i class="bi bi-4-circle-fill"></i><p>Clique em <strong>"Adicionar"</strong></p></div>
+                <p>O horário aparece na página de agendamento na hora e qualquer aluno pode marcar.</p>
+                <div class="highlight-box">
+                    <strong>Importante:</strong> cada aula dura de 50 a 60 minutos. Deixe pelo menos 1 hora de intervalo entre um horário e outro para não sobrepor aulas.
+                </div>
+                <div class="highlight-box blue">
+                    <strong>Não é possível duplicar horários:</strong> se você tentar criar um horário na mesma data e hora de um que já existe, o sistema avisa e não deixa criar — isso evita que dois alunos agendem o mesmo horário por engano.
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── CALENDÁRIO ─── -->
+        <h2 class="section-title">Visualizando as aulas agendadas</h2>
+
+        <div class="step">
+            <div class="step-header">
+                <div class="step-num">3</div>
+                <h2>Calendário e alunos agendados</h2>
+            </div>
+            <div class="step-body">
+                <p>Na seção <strong>"Alunos agendados"</strong> do painel você tem um calendário do mês inteiro. Os dias que têm aula marcada aparecem com uma <strong>linha vermelha</strong> embaixo do número.</p>
+                <div class="tip-row"><i class="bi bi-calendar-check"></i><p>Clique em qualquer dia marcado para ver quem está agendado naquele dia</p></div>
+                <div class="tip-row"><i class="bi bi-chevron-left"></i><p>Use as setas para navegar entre os meses</p></div>
+                <p>Para cada aluno aparece: nome, tipo de aula, nível de inglês e um link direto para o WhatsApp dele.</p>
+            </div>
+        </div>
+
+        <!-- ─── CANCELAMENTOS ─── -->
+        <h2 class="section-title">Cancelamentos</h2>
+
+        <div class="step">
+            <div class="step-header">
+                <div class="step-num">4</div>
+                <h2>Remover um horário livre</h2>
+            </div>
+            <div class="step-body">
+                <p>Se quiser cancelar um horário que ainda está livre (nenhum aluno marcou), clique no ícone de <strong>lixeira</strong> ao lado dele na lista de "Horários da agenda".</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-header">
+                <div class="step-num">5</div>
+                <h2>Cancelar aula de um aluno</h2>
+            </div>
+            <div class="step-body">
+                <p>Se um aluno avisar que não vai poder ir, vá até o dia dele no calendário e clique em <strong>"Cancelar aula"</strong> no card dele.</p>
+                <p>O horário volta a aparecer como disponível na agenda pública imediatamente.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-header">
+                <div class="step-num icon"><i class="bi bi-whatsapp"></i></div>
+                <h2>O próprio aluno pode cancelar</h2>
+            </div>
+            <div class="step-body">
+                <p>Quando um aluno confirma o agendamento, ele recebe um <strong>link de cancelamento</strong> na tela de sucesso, junto com a mensagem de confirmação salva no WhatsApp dele.</p>
+                <div class="tip-row"><i class="bi bi-link-45deg"></i><p>Se ele clicar no link, abre a página com a confirmação do cancelamento — ele só clica em "Sim, cancelar" e o horário é liberado automaticamente</p></div>
+                <div class="tip-row"><i class="bi bi-search"></i><p>Se ele perdeu o link, pode acessar a página de agendamento, clicar em "Cancelar agendamento" no rodapé e buscar pelo número de WhatsApp que usou ao agendar</p></div>
+            </div>
+        </div>
+
+        <!-- ─── WHATSAPP ─── -->
+        <h2 class="section-title">Mensagens no WhatsApp</h2>
+
+        <div class="step">
+            <div class="step-header">
+                <div class="step-num icon"><i class="bi bi-chat-dots-fill"></i></div>
+                <h2>Como funciona o aviso de agendamento</h2>
+            </div>
+            <div class="step-body">
+                <p>Assim que um aluno confirmar uma aula, ele verá dois botões na tela de sucesso:</p>
+                <div class="tip-row"><i class="bi bi-whatsapp" style="color:#25D366;"></i><p><strong>"Avisar o Teacher"</strong> — abre o WhatsApp já com a mensagem preenchida com o nome dele, data, horário, tipo de aula e nível. É só ele clicar em Enviar</p></div>
+                <div class="tip-row"><i class="bi bi-whatsapp" style="color:var(--navy);"></i><p><strong>"Salvar minha confirmação"</strong> — abre o próprio WhatsApp dele com os dados da aula e o link de cancelamento, para guardar como lembrete</p></div>
+                <p>No cancelamento, também chega uma mensagem específica avisando o Teacher.</p>
+            </div>
+        </div>
+
+        <!-- ─── USUÁRIOS ─── -->
+        <h2 class="section-title">Gerenciando usuários (só para o Teacher)</h2>
+
+        <div class="step">
+            <div class="step-header">
+                <div class="step-num icon"><i class="bi bi-people-fill"></i></div>
+                <h2>Criar acesso para outra pessoa administrar</h2>
+            </div>
+            <div class="step-body">
+                <p>Se você quiser que uma secretária ou assistente cuide da agenda no seu lugar, sem precisar dar sua senha mestra, existe um botão <span class="badge-tag master">⚙️ Usuários</span> no canto superior do painel — <strong>só o Teacher vê esse botão</strong>.</p>
+                <div class="tip-row"><i class="bi bi-1-circle-fill"></i><p>Clique em <strong>"Usuários"</strong></p></div>
+                <div class="tip-row"><i class="bi bi-2-circle-fill"></i><p>Digite um <strong>nome de usuário</strong> e uma <strong>senha</strong> para a pessoa</p></div>
+                <div class="tip-row"><i class="bi bi-3-circle-fill"></i><p>Clique em <strong>"Criar"</strong></p></div>
+                <p>Pronto! Essa pessoa já pode entrar no painel usando esse usuário e senha. Ela consegue abrir horários, cancelar aulas e ver o calendário normalmente — mas <strong>não vê o botão de Usuários</strong>, então não consegue criar, remover ou trocar a senha de ninguém.</p>
+                <div class="highlight-box">
+                    <strong>Trocar a senha de um usuário:</strong> dentro do mesmo modal, clique no ícone de chave 🔑 ao lado do nome da pessoa e digite a nova senha.
+                </div>
+                <div class="highlight-box">
+                    <strong>Remover um acesso:</strong> clique no ícone de lixeira 🗑️ ao lado do nome da pessoa. Ela não conseguirá mais entrar no painel depois disso.
+                </div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-header">
+                <div class="step-num icon"><i class="bi bi-shield-lock-fill"></i></div>
+                <h2>Trocar a sua própria senha (Teacher)</h2>
+            </div>
+            <div class="step-body">
+                <p>No topo do mesmo modal de <span class="badge-tag master">⚙️ Usuários</span>, existe uma seção chamada <strong>"Minha senha (Teacher)"</strong>.</p>
+                <div class="tip-row"><i class="bi bi-1-circle-fill"></i><p>Digite a <strong>nova senha</strong> que você quer usar</p></div>
+                <div class="tip-row"><i class="bi bi-2-circle-fill"></i><p>Clique em <strong>"Trocar"</strong></p></div>
+                <div class="highlight-box blue">
+                    A partir desse momento, a senha antiga deixa de funcionar. Anote a nova senha em um lugar seguro — se esquecer, será preciso pedir ajuda técnica para recuperar o acesso.
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── LINK PÚBLICO ─── -->
+        <h2 class="section-title">Link da agenda para os alunos</h2>
+
+        <div class="step">
+            <div class="step-body">
+                <p>Esse é o link que você compartilha com quem quiser agendar uma aula:</p>
+                <div class="link-box"><i class="bi bi-send"></i> sosinglesus.com.br/agendamento</div>
+                <p>O aluno abre o link, passa o dedo (ou o mouse) sobre os tipos de aula para ver o que cada um oferece, escolhe um horário disponível, preenche nome, WhatsApp e nível de inglês, e confirma. Sem precisar trocar mensagem com você antes.</p>
+                <div class="highlight-box">
+                    Esse link também já está disponível no menu e no botão do site principal do SOS English — o aluno pode chegar até ele direto pela página inicial.
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── FAQ ─── -->
+        <h2 class="section-title">Perguntas frequentes</h2>
+
+        <div class="step">
+            <div class="step-body">
+
+                <div class="faq-item">
+                    <div class="faq-q"><i class="bi bi-question-circle"></i> Um aluno agendou mas não me avisou pelo WhatsApp. O que faço?</div>
+                    <div class="faq-a">Sem problema. Você pode ver todos os alunos agendados diretamente no painel, clicando no dia marcado no calendário. O WhatsApp dele aparece lá — é só clicar para abrir a conversa.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-q"><i class="bi bi-question-circle"></i> Um aluno pode agendar o mesmo horário duas vezes?</div>
+                    <div class="faq-a">Não. Assim que alguém agenda, o horário desaparece da lista pública automaticamente — ninguém mais consegue marcar o mesmo horário.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-q"><i class="bi bi-question-circle"></i> Posso abrir vários horários de uma vez?</div>
+                    <div class="faq-a">Sim. Repita o passo de adicionar horário quantas vezes precisar — um para cada dia e horário que quiser deixar disponível. Só lembre de espaçar em pelo menos 1 hora entre eles.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-q"><i class="bi bi-question-circle"></i> Esqueci a senha do Teacher. O que fazer?</div>
+                    <div class="faq-a">Se você trocou a senha e esqueceu, será preciso pedir ajuda técnica para acessar o banco de dados do sistema e redefinir. Por isso, sempre anote a nova senha em um lugar seguro assim que trocar.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-q"><i class="bi bi-question-circle"></i> A pessoa que criei como usuário pode criar outros usuários?</div>
+                    <div class="faq-a">Não. Só quem entra com a senha mestra do Teacher vê o botão de Usuários. Qualquer usuário secundário só consegue gerenciar horários e cancelamentos, nada relacionado a acessos.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-q"><i class="bi bi-question-circle"></i> E se eu não abrir nenhum horário?</div>
+                    <div class="faq-a">A página de agendamento mostra a mensagem "Nenhum horário disponível no momento". Assim que você abrir um horário no painel, ele aparece na hora.</div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>Qualquer dúvida, é só chamar o Flávio</p>
+        <p style="margin-top:4px;"><a href="https://wa.me/5515997571977">Falar no WhatsApp</a></p>
+        <p style="margin-top:14px; font-size:0.74rem; opacity:0.75;">Desenvolvido por <a href="https://www.goncalestech.com.br/" target="_blank">65.611.420 FLAVIO GONCALES</a></p>
+    </footer>
+
+</body>
+</html>
