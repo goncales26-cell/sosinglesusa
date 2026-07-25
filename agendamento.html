@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0, user-scalable=yes">
+    <meta name="format-detection" content="telephone=no">
+    <title>Agende sua Aula | SOS English</title>
+    <meta name="description" content="Agende sua aula de inglês com o Teacher Lourival Sampaio. Escolha o horário disponível e confirme em poucos segundos.">
+
+    <meta property="og:title" content="Agende sua Aula | SOS English">
+    <meta property="og:description" content="Escolha o melhor horário e agende sua aula de inglês online.">
+    <meta property="og:image" content="https://www.sosinglesus.com.br/logo.jpeg">
+    <meta property="og:url" content="https://www.sosinglesus.com.br/agendamento">
+    <meta property="og:type" content="website">
+
+    <link rel="icon" type="image/jpeg" href="./logo.jpeg">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        :root {
+            --navy:     #003366;
+            --navy-dk:  #002347;
+            --navy-lt:  #004080;
+            --red:      #cc0000;
+            --red-dk:   #b30000;
+            --bg:       #f9f9f9;
+            --white:    #ffffff;
+            --ink:      #333333;
+            --muted:    #6b7c8f;
+            --line:     #e0e0e0;
+            --sand:     #eef2f5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; max-width: 100%; overflow-x: hidden; }
+        body {
+            background: var(--bg);
+            color: var(--ink);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+            max-width: 100vw;
+        }
+        img, video { max-width: 100%; height: auto; }
+        h1, h2, h3, h4, p, span, a { overflow-wrap: break-word; word-wrap: break-word; }
+
+        /* ── HERO ── */
+        .hero {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-lt) 100%);
+            color: white;
+            padding: 56px 24px 72px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.4) 1px, transparent 1px);
+            background-size: 24px 24px;
+            opacity: 0.08;
+        }
+        .hero-inner { position: relative; max-width: 600px; margin: 0 auto; }
+        .hero-mark {
+            width: 92px; height: 92px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 0 auto 22px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+            background: white;
+        }
+        .hero-mark img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .hero h1 { font-size: clamp(1.8rem, 5vw, 2.6rem); font-weight: 800; margin-bottom: 10px; letter-spacing: -0.01em; }
+        .hero .hero-sub { color: rgba(255,255,255,0.9); font-size: 1.02rem; max-width: 480px; margin: 0 auto; }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(204,0,0,0.9);
+            color: white;
+            padding: 6px 18px; border-radius: 50px;
+            font-size: 0.82rem; font-weight: 700;
+            letter-spacing: 0.05em; text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        /* ── FAIXA DE SERVIÇOS ── */
+        .services-strip {
+            background: var(--sand);
+            border-bottom: 1px solid var(--line);
+            padding: 20px 24px;
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        .service-pill {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-size: 0.85rem; color: var(--navy); font-weight: 600;
+            cursor: pointer; position: relative;
+            padding: 6px 12px; border-radius: 6px;
+            transition: background 0.2s;
+            user-select: none;
+        }
+        .service-pill:hover { background: rgba(0,51,102,0.07); }
+        .service-pill i { font-size: 1.05rem; color: var(--red); }
+
+        /* Tooltip */
+        .tip-card {
+            position: fixed;
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 18px 20px;
+            width: min(300px, calc(100vw - 32px));
+            max-height: 70vh;
+            overflow-y: auto;
+            box-shadow: 0 12px 40px rgba(0,51,102,0.18);
+            font-size: 0.85rem;
+            color: var(--ink);
+            text-align: left;
+            z-index: 900;
+            display: none;
+            pointer-events: none;
+        }
+        .tip-card.aberto { display: block; pointer-events: auto; }
+        .tip-card h4 { font-weight: 800; font-size: 1rem; color: var(--navy); margin-bottom: 10px; }
+        .tip-section { margin-bottom: 10px; }
+        .tip-section:last-child { margin-bottom: 0; }
+        .tip-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--red); font-weight: 700; margin-bottom: 3px; }
+        .tip-text { color: var(--muted); line-height: 1.55; font-size: 0.85rem; }
+
+        /* ── SEÇÃO AGENDA ── */
+        .section { max-width: 660px; margin: 0 auto; padding: 56px 24px; }
+        .section-eyebrow {
+            font-size: 0.78rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--red);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .section-title { font-size: 1.9rem; font-weight: 800; color: var(--navy); margin-bottom: 12px; }
+        .section-desc { color: var(--muted); font-size: 0.96rem; margin-bottom: 32px; max-width: 500px; }
+
+        /* CARDS DE HORÁRIO */
+        .slots-grid { display: flex; flex-direction: column; gap: 12px; }
+        .slot-card {
+            background: var(--white);
+            border: 2px solid var(--line);
+            border-radius: 12px;
+            padding: 18px 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+        .slot-card:hover { border-color: var(--red); box-shadow: 0 8px 24px rgba(0,51,102,0.1); transform: translateY(-2px); }
+        .slot-info { display: flex; align-items: center; gap: 16px; }
+        .slot-date-badge {
+            background: var(--navy);
+            color: white;
+            border-radius: 10px;
+            padding: 10px 14px;
+            text-align: center;
+            line-height: 1.1;
+            min-width: 60px;
+        }
+        .slot-date-badge .day { font-size: 1.4rem; font-weight: 800; display: block; }
+        .slot-date-badge .month { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.75); }
+        .slot-text strong { display: block; font-size: 1rem; color: var(--ink); font-weight: 700; }
+        .slot-text span { font-size: 0.85rem; color: var(--muted); display: block; }
+        .slot-arrow { color: var(--red); font-size: 1.3rem; transition: transform 0.25s; }
+        .slot-card:hover .slot-arrow { transform: translateX(4px); }
+
+        .empty-state {
+            text-align: center;
+            padding: 48px 24px;
+            border: 2px dashed var(--line);
+            border-radius: 12px;
+            color: var(--muted);
+            background: white;
+        }
+        .empty-state i { font-size: 2.2rem; color: var(--navy); margin-bottom: 12px; display: block; }
+
+        /* ── MODAL ── */
+        .modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,35,71,0.6);
+            display: none;
+            align-items: center; justify-content: center;
+            z-index: 1000; padding: 24px;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal-box {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 36px 32px;
+            max-width: 440px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.3);
+        }
+        .modal-box h3 { font-weight: 800; font-size: 1.4rem; color: var(--navy); margin-bottom: 6px; }
+        .modal-summary { background: var(--sand); border-radius: 10px; padding: 14px 16px; margin-bottom: 22px; font-size: 0.92rem; color: var(--navy); font-weight: 600; border-left: 4px solid var(--red); }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-size: 0.85rem; color: var(--navy); margin-bottom: 6px; font-weight: 700; }
+        .form-group select, .form-group input {
+            width: 100%; padding: 12px 14px;
+            border: 2px solid var(--line); border-radius: 8px;
+            font-size: 0.95rem; font-family: inherit;
+            background: white; color: var(--ink);
+            outline: none; transition: border-color 0.2s;
+        }
+        .form-group select:focus, .form-group input:focus { border-color: var(--navy); }
+        .modal-actions { display: flex; gap: 10px; margin-top: 24px; }
+        .btn-cancel, .btn-confirm {
+            flex: 1; padding: 14px; border-radius: 50px;
+            font-size: 0.95rem; font-weight: 700;
+            cursor: pointer; border: none; transition: all 0.2s;
+            font-family: inherit;
+        }
+        .btn-cancel { background: transparent; border: 2px solid var(--line); color: var(--muted); }
+        .btn-cancel:hover { background: var(--sand); }
+        .btn-confirm { background: var(--red); color: white; }
+        .btn-confirm:hover { background: var(--red-dk); transform: translateY(-2px); }
+        .btn-confirm:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+        .feedback-msg { font-size: 0.85rem; margin-top: 10px; display: none; }
+        .feedback-msg.error { color: var(--red); display: block; }
+
+        .success-icon { width: 60px; height: 60px; background: var(--red); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.8rem; margin: 0 auto 18px; }
+
+        /* ── RODAPÉ ── */
+        footer { text-align: center; padding: 40px 24px; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--line); background: white; }
+        footer a { color: var(--navy); text-decoration: none; font-weight: 700; }
+
+        .loading-state { text-align: center; padding: 40px; color: var(--muted); }
+        .loading-state i { font-size: 1.8rem; color: var(--navy); animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ── WA FLOAT ── */
+        .wa-float { position: fixed; bottom: 28px; right: 28px; width: 58px; height: 58px; background: #25d366; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; text-decoration: none; box-shadow: 0 6px 20px rgba(37,211,102,0.4); z-index: 999; transition: 0.3s; }
+        .wa-float:hover { transform: scale(1.1) translateY(-3px); }
+
+        @media (max-width: 480px) {
+            .services-strip { gap: 12px; }
+            .modal-box { padding: 28px 22px; }
+            .hero { padding: 44px 20px 60px; }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-mark"><img src="./logo.jpeg" alt="SOS English"></div>
+            <div class="hero-badge"><i class="bi bi-calendar-check"></i> Agenda Aberta</div>
+            <h1>Agende sua Aula</h1>
+            <p class="hero-sub">Escolha o horário que melhor combina com você e confirme sua aula em poucos segundos — sem precisar trocar mensagens.</p>
+        </div>
+    </section>
+
+    <div class="services-strip" id="services-strip">
+        <span class="service-pill">
+            <i class="bi bi-chat-dots-fill"></i> Conversação &amp; Fluência
+            <div class="tip-card" id="tip-conversacao">
+                <h4>🗣️ Conversação &amp; Fluência</h4>
+                <div class="tip-section">
+                    <div class="tip-label">O que é</div>
+                    <div class="tip-text">Aulas dinâmicas focadas em destravar sua fala desde o primeiro dia, com 80% do tempo dedicado à prática oral.</div>
+                </div>
+                <div class="tip-section">
+                    <div class="tip-label">Para quem</div>
+                    <div class="tip-text">Quem já estudou inglês mas trava na hora de falar, ou quem quer ganhar confiança em conversas do dia a dia.</div>
+                </div>
+                <div class="tip-section">
+                    <div class="tip-label">Como funciona</div>
+                    <div class="tip-text">Aula ao vivo de 50 a 60 minutos via Google Meet ou Zoom, com material digital incluso.</div>
+                </div>
+            </div>
+        </span>
+        <span class="service-pill">
+            <i class="bi bi-briefcase-fill"></i> Business English
+            <div class="tip-card" id="tip-business">
+                <h4>💼 Business English</h4>
+                <div class="tip-section">
+                    <div class="tip-label">O que é</div>
+                    <div class="tip-text">Inglês voltado ao mercado de trabalho: vocabulário corporativo, reuniões, apresentações e entrevistas.</div>
+                </div>
+                <div class="tip-section">
+                    <div class="tip-label">Para quem</div>
+                    <div class="tip-text">Profissionais que buscam promoção, atuação em empresas multinacionais ou preparação para entrevistas em inglês.</div>
+                </div>
+                <div class="tip-section">
+                    <div class="tip-label">Como funciona</div>
+                    <div class="tip-text">Aula ao vivo de 50 a 60 minutos com exercícios práticos baseados na sua realidade profissional.</div>
+                </div>
+            </div>
+        </span>
+        <span class="service-pill">
+            <i class="bi bi-airplane-fill"></i> Inglês para Viagens
+            <div class="tip-card" id="tip-viagens">
+                <h4>✈️ Inglês para Viagens</h4>
+                <div class="tip-section">
+                    <div class="tip-label">O que é</div>
+                    <div class="tip-text">O essencial para se virar no exterior: imigração, hotel, restaurantes, transporte e situações do dia a dia.</div>
+                </div>
+                <div class="tip-section">
+                    <div class="tip-label">Para quem</div>
+                    <div class="tip-text">Quem vai viajar e quer passar por qualquer situação sem sufoco, mesmo partindo do nível básico.</div>
+                </div>
+                <div class="tip-section">
+                    <div class="tip-label">Como funciona</div>
+                    <div class="tip-text">Aula ao vivo de 50 a 60 minutos com simulações práticas de situações reais de viagem.</div>
+                </div>
+            </div>
+        </span>
+        <span class="service-pill">
+            <i class="bi bi-mortarboard-fill"></i> Mentoria Personalizada
+            <div class="tip-card" id="tip-mentoria">
+                <h4>📚 Mentoria Personalizada</h4>
+                <div class="tip-section">
+                    <div class="tip-label">O que é</div>
+                    <div class="tip-text">Mais que aula: um acompanhamento estruturado focado no seu objetivo específico, com plano de evolução.</div>
+                </div>
+                <div class="tip-section">
+                    <div class="tip-label">Para quem</div>
+                    <div class="tip-text">Quem tem uma meta clara — passar no TOEFL, morar fora, ou atingir fluência em prazo definido.</div>
+                </div>
+                <div class="tip-section">
+                    <div class="tip-label">Como funciona</div>
+                    <div class="tip-text">Aula ao vivo de 50 a 60 minutos com acompanhamento contínuo pelo WhatsApp entre as aulas.</div>
+                </div>
+            </div>
+        </span>
+    </div>
+
+    <section class="section">
+        <div class="section-eyebrow">Horários disponíveis</div>
+        <h2 class="section-title">Escolha o melhor dia e horário</h2>
+        <p class="section-desc">Todas as aulas são 100% online, ao vivo, via Google Meet ou Zoom. Duração de 50 a 60 minutos.</p>
+
+        <div id="slots-container" class="slots-grid">
+            <div class="loading-state"><i class="bi bi-arrow-repeat"></i><p style="margin-top:10px;">Carregando horários...</p></div>
+        </div>
+    </section>
+
+    <footer>
+        <p style="font-weight:700; color:var(--navy); font-size:1rem;">SOS English</p>
+        <p style="margin-top:4px;">Teacher Lourival Sampaio</p>
+        <p style="margin-top:10px;">Dúvidas? <a href="https://wa.me/5515981793811" target="_blank">Fale no WhatsApp</a></p>
+        <div style="margin-top:18px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+            <a href="javascript:void(0)" onclick="abrirModalCancelamento()"
+               style="display:inline-flex; align-items:center; gap:6px; background:var(--sand); color:var(--muted); border:1px solid var(--line); padding:8px 18px; border-radius:50px; font-size:12px; text-decoration:none; transition:all 0.3s; font-weight:600;"
+               onmouseover="this.style.color='var(--navy)'; this.style.borderColor='var(--navy)';"
+               onmouseout="this.style.color='var(--muted)'; this.style.borderColor='var(--line)';">
+                <i class="bi bi-x-circle"></i> Cancelar agendamento
+            </a>
+            <a href="./index.html"
+               style="display:inline-flex; align-items:center; gap:6px; background:var(--sand); color:var(--muted); border:1px solid var(--line); padding:8px 18px; border-radius:50px; font-size:12px; text-decoration:none; transition:all 0.3s; font-weight:600;"
+               onmouseover="this.style.color='var(--navy)'; this.style.borderColor='var(--navy)';"
+               onmouseout="this.style.color='var(--muted)'; this.style.borderColor='var(--line)';">
+                <i class="bi bi-house-fill"></i> Voltar ao site
+            </a>
+            <a href="./painel-sos.html"
+               style="display:inline-flex; align-items:center; gap:6px; background:var(--sand); color:var(--muted); border:1px solid var(--line); padding:8px 18px; border-radius:50px; font-size:12px; text-decoration:none; transition:all 0.3s; font-weight:600;"
+               onmouseover="this.style.color='var(--navy)'; this.style.borderColor='var(--navy)';"
+               onmouseout="this.style.color='var(--muted)'; this.style.borderColor='var(--line)';">
+                <i class="bi bi-gear-fill"></i> Painel do Teacher
+            </a>
+        </div>
+        <p style="margin-top:16px; font-size:0.76rem; opacity:0.75;">Desenvolvido por <a href="https://www.goncalestech.com.br/" target="_blank">65.611.420 FLAVIO GONCALES</a></p>
+    </footer>
+
+    <a href="https://wa.me/5515981793811?text=Hi%20Teacher!%20Vim%20pela%20p%C3%A1gina%20de%20agendamento%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida." class="wa-float" target="_blank">
+        <i class="bi bi-whatsapp"></i>
+    </a>
+
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-box" id="modal-box"></div>
+    </div>
+
+    <script>
+        // ════════════════════════════════════════
+        // ⚠️ CONFIGURAÇÃO — PREENCHER ANTES DE PUBLICAR
+        // ════════════════════════════════════════
+        // Crie um NOVO bin em jsonbin.io (não use o da Flora!)
+        // e cole o ID e a Master Key abaixo:
+        const JSONBIN_ID  = 'COLOQUE_O_ID_DO_BIN_AQUI';
+        const JSONBIN_KEY = 'COLOQUE_A_MASTER_KEY_AQUI';
+        const JSONBIN_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_ID}`;
+
+        const WHATSAPP_TEACHER = '5515981793811';
+        const MESES = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+        const SERVICOS = ['Conversação & Fluência', 'Business English', 'Inglês para Viagens', 'Mentoria Personalizada'];
+
+        let dadosAtuais = null;
+        let slotEscolhido = null;
+        let tokenGerado = null;
+        let ultimoAgendamento = null;
+
+        function gerarToken() {
+            return Math.random().toString(36).substring(2, 10) + Date.now().toString(36).substring(4);
+        }
+
+        // ── TOOLTIPS ──
+        function posicionarTip(card, pill) {
+            const pillRect = pill.getBoundingClientRect();
+            const cardW = Math.min(300, window.innerWidth - 32);
+            const margem = 16;
+            let left = pillRect.left + pillRect.width / 2 - cardW / 2;
+            left = Math.max(margem, Math.min(left, window.innerWidth - cardW - margem));
+            card.style.left  = left + 'px';
+            card.style.width = cardW + 'px';
+            card.style.visibility = 'hidden';
+            card.style.top = '0px';
+            const cardH = card.offsetHeight || 300;
+            card.style.visibility = '';
+            card.style.top = Math.max(8, pillRect.top - cardH - 12) + 'px';
+        }
+
+        const temHover = window.matchMedia('(hover: hover)').matches;
+        document.querySelectorAll('.service-pill').forEach(pill => {
+            const card = pill.querySelector('.tip-card');
+            if (!card) return;
+            if (temHover) {
+                pill.addEventListener('mouseenter', () => {
+                    document.querySelectorAll('.tip-card').forEach(c => c.classList.remove('aberto'));
+                    card.classList.add('aberto');
+                    posicionarTip(card, pill);
+                });
+                pill.addEventListener('mouseleave', (e) => {
+                    if (!card.contains(e.relatedTarget)) card.classList.remove('aberto');
+                });
+                card.addEventListener('mouseleave', (e) => {
+                    if (!pill.contains(e.relatedTarget)) card.classList.remove('aberto');
+                });
+            } else {
+                pill.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const jaAberto = card.classList.contains('aberto');
+                    document.querySelectorAll('.tip-card').forEach(c => c.classList.remove('aberto'));
+                    if (!jaAberto) { card.classList.add('aberto'); posicionarTip(card, pill); }
+                });
+            }
+        });
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.service-pill') && !e.target.closest('.tip-card')) {
+                document.querySelectorAll('.tip-card').forEach(c => c.classList.remove('aberto'));
+            }
+        });
+
+        // ── CARREGA HORÁRIOS ──
+        async function carregarHorarios() {
+            const container = document.getElementById('slots-container');
+            try {
+                const res = await fetch(JSONBIN_URL + '/latest', { headers: { 'X-Master-Key': JSONBIN_KEY } });
+                const json = await res.json();
+                dadosAtuais = json.record;
+                if (!dadosAtuais.slots) dadosAtuais.slots = [];
+                renderizarSlots();
+            } catch (e) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        <p>Não foi possível carregar a agenda agora.<br>Tente novamente em alguns instantes.</p>
+                    </div>`;
+            }
+        }
+
+        function renderizarSlots() {
+            const container = document.getElementById('slots-container');
+            const slots = (dadosAtuais.slots || []).filter(s => !s.ocupado);
+
+            if (slots.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="bi bi-calendar-x"></i>
+                        <p>Nenhum horário disponível no momento.<br>Volte em breve ou fale direto no WhatsApp.</p>
+                    </div>`;
+                return;
+            }
+
+            slots.sort((a,b) => new Date(a.dataISO+'T'+a.horario) - new Date(b.dataISO+'T'+b.horario));
+
+            container.innerHTML = slots.map(slot => {
+                const data = new Date(slot.dataISO + 'T00:00:00');
+                const dia  = data.getDate();
+                const mes  = MESES[data.getMonth()];
+                const diaSemana = data.toLocaleDateString('pt-BR', { weekday: 'long' });
+                const labelServico = slot.servico ? `<span style="color:var(--red); font-weight:600;">${slot.servico}</span>` : '';
+
+                return `
+                    <div class="slot-card" onclick='abrirModal(${JSON.stringify(slot)})'>
+                        <div class="slot-info">
+                            <div class="slot-date-badge">
+                                <span class="day">${dia}</span>
+                                <span class="month">${mes}</span>
+                            </div>
+                            <div class="slot-text">
+                                <strong>${diaSemana.charAt(0).toUpperCase() + diaSemana.slice(1)}</strong>
+                                <span>${slot.horario} · 50 a 60 min</span>
+                                ${labelServico}
+                            </div>
+                        </div>
+                        <i class="bi bi-arrow-right slot-arrow"></i>
+                    </div>`;
+            }).join('');
+        }
+
+        // ── MODAL ──
+        function abrirModal(slot) {
+            slotEscolhido = slot;
+            const data = new Date(slot.dataISO + 'T00:00:00');
+            const dataFormatada = data.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', weekday: 'long' });
+
+            const box = document.getElementById('modal-box');
+            box.innerHTML = `
+                <h3>Confirmar agendamento</h3>
+                <div class="modal-summary">
+                    <i class="bi bi-calendar-event"></i> ${dataFormatada} às ${slot.horario}
+                </div>
+                <div class="form-group">
+                    <label>Tipo de aula</label>
+                    <select id="f-servico">
+                        ${SERVICOS.map(s => `<option value="${s}"${slot.servico === s ? ' selected' : ''}>${s}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Seu nome</label>
+                    <input type="text" id="f-nome" placeholder="Nome completo">
+                </div>
+                <div class="form-group">
+                    <label>Seu WhatsApp</label>
+                    <input type="text" id="f-tel" placeholder="(15) 99999-9999" maxlength="15">
+                </div>
+                <div class="form-group">
+                    <label>Seu nível de inglês</label>
+                    <select id="f-nivel">
+                        <option value="Básico (nunca estudei)">Básico (nunca estudei)</option>
+                        <option value="Básico (já estudei um pouco)">Básico (já estudei um pouco)</option>
+                        <option value="Intermediário">Intermediário</option>
+                        <option value="Avançado">Avançado</option>
+                    </select>
+                </div>
+                <p class="feedback-msg error" id="f-erro"></p>
+                <div class="modal-actions">
+                    <button class="btn-cancel" onclick="fecharModal()">Cancelar</button>
+                    <button class="btn-confirm" id="btn-confirmar" onclick="confirmarAgendamento()">Confirmar</button>
+                </div>
+            `;
+            document.getElementById('modal-overlay').classList.add('open');
+
+            document.getElementById('f-tel').addEventListener('input', function(e) {
+                let v = e.target.value.replace(/\D/g,'').substring(0,11);
+                if (!v) { e.target.value=''; return; }
+                if (v.length<=2) e.target.value='('+v;
+                else if (v.length<=6) e.target.value='('+v.substring(0,2)+') '+v.substring(2);
+                else if (v.length<=10) e.target.value='('+v.substring(0,2)+') '+v.substring(2,6)+'-'+v.substring(6);
+                else e.target.value='('+v.substring(0,2)+') '+v.substring(2,7)+'-'+v.substring(7);
+            });
+        }
+
+        function fecharModal() {
+            document.getElementById('modal-overlay').classList.remove('open');
+            slotEscolhido = null;
+        }
+
+        // ── CONFIRMA AGENDAMENTO ──
+        async function confirmarAgendamento() {
+            const servico = document.getElementById('f-servico').value;
+            const nome    = document.getElementById('f-nome').value.trim();
+            const tel     = document.getElementById('f-tel').value.trim();
+            const nivel   = document.getElementById('f-nivel').value;
+            const erro    = document.getElementById('f-erro');
+            const btn     = document.getElementById('btn-confirmar');
+
+            if (!nome || !tel) {
+                erro.textContent = 'Preencha seu nome e WhatsApp para confirmar.';
+                erro.style.display = 'block';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Confirmando...';
+            tokenGerado = gerarToken();
+
+            try {
+                const slots = dadosAtuais.slots.map(s => {
+                    if (s.dataISO === slotEscolhido.dataISO && s.horario === slotEscolhido.horario) {
+                        return { ...s, ocupado: true, aluno: nome, telefone: tel, servico, nivel, token: tokenGerado };
+                    }
+                    return s;
+                });
+                const novoEstado = { ...dadosAtuais, slots };
+
+                await fetch(JSONBIN_URL, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_KEY },
+                    body: JSON.stringify(novoEstado)
+                });
+
+                dadosAtuais = novoEstado;
+                ultimoAgendamento = { nome, tel, servico, nivel };
+                mostrarSucesso();
+                renderizarSlots();
+
+            } catch (e) {
+                erro.textContent = 'Erro ao confirmar. Tente novamente ou chame no WhatsApp.';
+                erro.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'Confirmar';
+            }
+        }
+
+        function mostrarSucesso() {
+            const data = new Date(slotEscolhido.dataISO + 'T00:00:00');
+            const dataFormatada = data.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long' });
+            const diaSemana = data.toLocaleDateString('pt-BR', { weekday: 'long' });
+            const linkCancelamento = `${window.location.origin}${window.location.pathname}?cancelar=${tokenGerado}`;
+            const { nome, tel, servico, nivel } = ultimoAgendamento;
+            const telLimpo = tel.replace(/\D/g,'');
+
+            const textoTeacher = `📚 *Nova aula agendada — SOS English*\n\n👤 *Aluno:* ${nome}\n📱 *WhatsApp:* ${tel}\n📅 *Data:* ${diaSemana.charAt(0).toUpperCase()+diaSemana.slice(1)}, ${dataFormatada} às ${slotEscolhido.horario}\n🎯 *Tipo de aula:* ${servico}\n📊 *Nível:* ${nivel}`;
+            const textoAluno = `📚 *Minha aula agendada — SOS English*\n\n📅 *Data:* ${diaSemana.charAt(0).toUpperCase()+diaSemana.slice(1)}, ${dataFormatada} às ${slotEscolhido.horario}\n🎯 *Tipo de aula:* ${servico}\n💻 *Formato:* Online via Google Meet ou Zoom\n\n🔗 *Link para cancelar se precisar:*\n${linkCancelamento}`;
+
+            const box = document.getElementById('modal-box');
+            box.innerHTML = `
+                <div style="text-align:center;">
+                    <div class="success-icon"><i class="bi bi-check-lg"></i></div>
+                    <h3 style="margin-bottom:10px;">Aula agendada!</h3>
+                    <p style="color:var(--muted); font-size:0.94rem; margin-bottom:20px;">Sua aula está marcada para <strong>${dataFormatada} às ${slotEscolhido.horario}</strong>. Use os botões abaixo para avisar o Teacher e guardar sua confirmação.</p>
+                    <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:18px;">
+                        <a href="https://wa.me/${WHATSAPP_TEACHER}?text=${encodeURIComponent(textoTeacher)}" target="_blank"
+                           style="display:flex; align-items:center; justify-content:center; gap:8px; background:#25D366; color:white; padding:14px; border-radius:50px; font-size:0.92rem; font-weight:700; text-decoration:none;">
+                            <i class="bi bi-whatsapp"></i> Avisar o Teacher
+                        </a>
+                        <a href="https://wa.me/${telLimpo}?text=${encodeURIComponent(textoAluno)}" target="_blank"
+                           style="display:flex; align-items:center; justify-content:center; gap:8px; background:var(--sand); color:var(--navy); padding:14px; border-radius:50px; font-size:0.92rem; font-weight:700; text-decoration:none; border:2px solid var(--line);">
+                            <i class="bi bi-whatsapp"></i> Salvar minha confirmação
+                        </a>
+                    </div>
+                    <button class="btn-cancel" style="width:100%;" onclick="fecharModal()">Fechar</button>
+                </div>
+            `;
+        }
+
+        // ════════════════════════════════════════
+        // CANCELAMENTO PELO ALUNO
+        // ════════════════════════════════════════
+        function abrirModalCancelamento() {
+            const box = document.getElementById('modal-box');
+            box.innerHTML = `
+                <h3>Cancelar agendamento</h3>
+                <p style="color:var(--muted); font-size:0.9rem; margin-bottom:18px;">Digite o WhatsApp que você usou para agendar.</p>
+                <div class="form-group">
+                    <label>Seu WhatsApp</label>
+                    <input type="text" id="cancel-tel" placeholder="(15) 99999-9999" maxlength="15">
+                </div>
+                <p class="feedback-msg error" id="cancel-erro"></p>
+                <div id="cancel-resultados"></div>
+                <div class="modal-actions">
+                    <button class="btn-cancel" onclick="fecharModal()">Fechar</button>
+                    <button class="btn-confirm" onclick="buscarAgendamentosPorTelefone()">Buscar</button>
+                </div>
+            `;
+            document.getElementById('modal-overlay').classList.add('open');
+
+            document.getElementById('cancel-tel').addEventListener('input', function(e) {
+                let v = e.target.value.replace(/\D/g,'').substring(0,11);
+                if (!v) { e.target.value=''; return; }
+                if (v.length<=2) e.target.value='('+v;
+                else if (v.length<=6) e.target.value='('+v.substring(0,2)+') '+v.substring(2);
+                else if (v.length<=10) e.target.value='('+v.substring(0,2)+') '+v.substring(2,6)+'-'+v.substring(6);
+                else e.target.value='('+v.substring(0,2)+') '+v.substring(2,7)+'-'+v.substring(7);
+            });
+        }
+
+        function buscarAgendamentosPorTelefone() {
+            const telDigitado = document.getElementById('cancel-tel').value.replace(/\D/g,'');
+            const erro = document.getElementById('cancel-erro');
+            const resultados = document.getElementById('cancel-resultados');
+            erro.style.display = 'none';
+            resultados.innerHTML = '';
+
+            if (!telDigitado) {
+                erro.textContent = 'Digite seu número de WhatsApp.';
+                erro.style.display = 'block';
+                return;
+            }
+
+            const encontrados = (dadosAtuais.slots || []).filter(s =>
+                s.ocupado && (s.telefone || '').replace(/\D/g,'') === telDigitado
+            );
+
+            if (encontrados.length === 0) {
+                resultados.innerHTML = `<p style="color:var(--muted); font-size:0.88rem; margin-top:14px;">Nenhuma aula encontrada com esse número.</p>`;
+                return;
+            }
+
+            resultados.innerHTML = encontrados.map(s => {
+                const data = new Date(s.dataISO + 'T00:00:00');
+                const dataFormatada = data.toLocaleDateString('pt-BR', { day:'2-digit', month:'long' });
+                return `
+                    <div style="background:var(--sand); border-radius:10px; padding:14px 16px; margin-top:12px; font-size:0.9rem;">
+                        <strong style="color:var(--navy);">${s.servico || 'Aula'}</strong><br>
+                        <span style="color:var(--muted);">${dataFormatada} às ${s.horario}</span>
+                        <button class="btn-cancel" style="width:100%; margin-top:12px; border-color:var(--red); color:var(--red);"
+                            onclick='mostrarConfirmacaoCancelamento(${JSON.stringify(s)})'>
+                            <i class="bi bi-x-circle"></i> Cancelar esta aula
+                        </button>
+                    </div>`;
+            }).join('');
+        }
+
+        function mostrarConfirmacaoCancelamento(slot) {
+            const data = new Date(slot.dataISO + 'T00:00:00');
+            const dataFormatada = data.toLocaleDateString('pt-BR', { day:'2-digit', month:'long' });
+
+            const box = document.getElementById('modal-box');
+            box.innerHTML = `
+                <h3>Confirmar cancelamento</h3>
+                <div class="modal-summary">
+                    <i class="bi bi-calendar-event"></i> ${slot.servico || 'Aula'} — ${dataFormatada} às ${slot.horario}
+                </div>
+                <p style="color:var(--muted); font-size:0.9rem; margin-bottom:20px;">Tem certeza que deseja cancelar? O horário ficará disponível novamente para outros alunos.</p>
+                <div class="modal-actions">
+                    <button class="btn-cancel" onclick="fecharModal()">Voltar</button>
+                    <button class="btn-confirm" onclick="executarCancelamento('${slot.dataISO}','${slot.horario}')">Sim, cancelar</button>
+                </div>
+            `;
+            document.getElementById('modal-overlay').classList.add('open');
+        }
+
+        async function executarCancelamento(dataISO, horario) {
+            try {
+                const slotAtual = dadosAtuais.slots.find(s => s.dataISO === dataISO && s.horario === horario);
+                const nomeAluno = slotAtual?.aluno || '';
+                const telAluno  = slotAtual?.telefone || '';
+                const servico   = slotAtual?.servico || '';
+
+                const slots = dadosAtuais.slots.map(s => {
+                    if (s.dataISO === dataISO && s.horario === horario) {
+                        return { dataISO: s.dataISO, horario: s.horario, servico: s.servico, ocupado: false };
+                    }
+                    return s;
+                });
+                const novoEstado = { ...dadosAtuais, slots };
+
+                await fetch(JSONBIN_URL, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_KEY },
+                    body: JSON.stringify(novoEstado)
+                });
+
+                dadosAtuais = novoEstado;
+                renderizarSlots();
+
+                const data = new Date(dataISO + 'T00:00:00');
+                const dataFmt = data.toLocaleDateString('pt-BR', { day:'2-digit', month:'long' });
+                const textoTeacher = `📚 *Cancelamento de aula — SOS English*\n\n👤 *Aluno:* ${nomeAluno}\n📱 *WhatsApp:* ${telAluno}\n📅 *Data cancelada:* ${dataFmt} às ${horario}\n🎯 *Tipo de aula:* ${servico}`;
+                const telLimpo = telAluno.replace(/\D/g,'');
+
+                const box = document.getElementById('modal-box');
+                box.innerHTML = `
+                    <div style="text-align:center;">
+                        <div class="success-icon"><i class="bi bi-check-lg"></i></div>
+                        <h3 style="margin-bottom:10px;">Aula cancelada</h3>
+                        <p style="color:var(--muted); font-size:0.94rem; margin-bottom:20px;">Seu horário foi liberado. Use o botão abaixo para avisar o Teacher.</p>
+                        <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:14px;">
+                            <a href="https://wa.me/${WHATSAPP_TEACHER}?text=${encodeURIComponent(textoTeacher)}" target="_blank"
+                               style="display:flex; align-items:center; justify-content:center; gap:8px; background:#25D366; color:white; padding:14px; border-radius:50px; font-size:0.92rem; font-weight:700; text-decoration:none;">
+                                <i class="bi bi-whatsapp"></i> Avisar o Teacher
+                            </a>
+                        </div>
+                        <button class="btn-cancel" style="width:100%;" onclick="fecharModal()">Fechar</button>
+                    </div>
+                `;
+            } catch (e) {
+                alert('Erro ao cancelar. Tente novamente ou chame no WhatsApp.');
+            }
+        }
+
+        function verificarLinkCancelamento() {
+            const params = new URLSearchParams(window.location.search);
+            const token = params.get('cancelar');
+            if (!token || !dadosAtuais) return;
+            const slot = (dadosAtuais.slots || []).find(s => s.token === token && s.ocupado);
+            if (!slot) {
+                alert('Este link de cancelamento não é mais válido — talvez a aula já tenha sido cancelada.');
+                return;
+            }
+            mostrarConfirmacaoCancelamento(slot);
+        }
+
+        carregarHorarios().then(verificarLinkCancelamento);
+    </script>
+</body>
+</html>

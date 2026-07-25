@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0, user-scalable=yes">
+    <meta name="format-detection" content="telephone=no">
+    <title>Painel do Teacher | SOS English</title>
+    <link rel="icon" type="image/jpeg" href="./logo.jpeg">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        :root {
+            --navy:#003366; --navy-dk:#002347; --navy-lt:#004080;
+            --red:#cc0000; --red-dk:#b30000;
+            --bg:#f9f9f9; --white:#fff; --ink:#333;
+            --muted:#6b7c8f; --line:#e0e0e0; --sand:#eef2f5;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { -webkit-text-size-adjust:100%; text-size-adjust:100%; max-width:100%; overflow-x:hidden; }
+        body { background:var(--bg); color:var(--ink); font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; min-height:100vh; -webkit-font-smoothing:antialiased; overflow-x:hidden; max-width:100vw; }
+
+        /* LOGIN */
+        .login-screen { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px; }
+        .login-box { background:white; border-radius:16px; padding:40px 36px; max-width:400px; width:100%; box-shadow:0 12px 40px rgba(0,51,102,0.12); text-align:center; }
+        .login-box .login-logo { width:72px; height:72px; border-radius:12px; margin:0 auto 16px; object-fit:cover; box-shadow:0 6px 18px rgba(0,0,0,0.12); }
+        .login-box h1 { font-weight:800; font-size:1.5rem; color:var(--navy); margin-bottom:6px; }
+        .login-box p { color:var(--muted); font-size:0.9rem; margin-bottom:24px; }
+        .login-box input { width:100%; padding:14px 16px; border:2px solid var(--line); border-radius:8px; font-size:0.95rem; margin-bottom:14px; outline:none; font-family:inherit; }
+        .login-box input:focus { border-color:var(--navy); }
+        .login-box button { width:100%; padding:14px; background:var(--red); color:white; border:none; border-radius:50px; font-weight:700; cursor:pointer; font-size:0.95rem; transition:0.2s; }
+        .login-box button:hover { background:var(--red-dk); }
+        .login-error { color:var(--red); font-size:0.85rem; margin-top:10px; display:none; }
+
+        /* PAINEL */
+        #panel { display:none; }
+        header { background:linear-gradient(135deg,var(--navy),var(--navy-lt)); color:white; padding:24px; }
+        .header-inner { max-width:800px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
+        header h1 { font-weight:800; font-size:1.3rem; }
+        header p { font-size:0.82rem; opacity:0.85; }
+        .btn-logout { background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3); color:white; padding:9px 18px; border-radius:50px; font-size:0.82rem; cursor:pointer; font-family:inherit; font-weight:600; }
+        .btn-logout:hover { background:rgba(255,255,255,0.25); }
+        .btn-guia { display:flex; align-items:center; gap:6px; background:var(--red); border:none; color:white; padding:9px 18px; border-radius:50px; font-size:0.82rem; cursor:pointer; text-decoration:none; transition:0.2s; font-weight:600; }
+        .btn-guia:hover { background:var(--red-dk); }
+
+        main { max-width:800px; margin:0 auto; padding:32px 24px 80px; }
+
+        .panel-section { background:white; border-radius:14px; padding:28px; margin-bottom:24px; box-shadow:0 2px 12px rgba(0,51,102,0.06); }
+        .panel-section h2 { font-weight:800; font-size:1.15rem; color:var(--navy); margin-bottom:18px; display:flex; align-items:center; gap:10px; }
+        .panel-section h2 i { color:var(--red); }
+
+        .new-slot-form { display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; }
+        .form-group { flex:1; min-width:150px; }
+        .form-group label { display:block; font-size:0.8rem; color:var(--navy); margin-bottom:6px; font-weight:700; }
+        .form-group input, .form-group select { width:100%; padding:12px 14px; border:2px solid var(--line); border-radius:8px; font-size:0.9rem; outline:none; background:white; color:var(--ink); font-family:inherit; appearance:none; -webkit-appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7c8f' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 12px center; padding-right:32px; }
+        .form-group input { background-image:none; padding-right:14px; }
+        .form-group input:focus, .form-group select:focus { border-color:var(--navy); }
+        .btn-add { background:var(--red); color:white; border:none; padding:12px 24px; border-radius:50px; font-weight:700; cursor:pointer; font-size:0.88rem; white-space:nowrap; font-family:inherit; transition:0.2s; }
+        .btn-add:hover { background:var(--red-dk); }
+
+        .slot-row { display:flex; justify-content:space-between; align-items:center; padding:14px 16px; border:2px solid var(--line); border-radius:10px; margin-bottom:10px; gap:10px; flex-wrap:wrap; }
+        .slot-row.ocupado { background:var(--sand); border-color:var(--navy); }
+        .slot-row-info strong { display:block; font-size:0.92rem; color:var(--navy); }
+        .slot-badge { font-size:0.7rem; font-weight:700; padding:4px 12px; border-radius:50px; text-transform:uppercase; letter-spacing:0.04em; display:inline-block; margin-top:4px; }
+        .slot-badge.livre { background:rgba(0,51,102,0.08); color:var(--navy); }
+        .slot-badge.ocupado { background:rgba(204,0,0,0.1); color:var(--red); }
+        .btn-remove { background:none; border:none; color:var(--red); cursor:pointer; font-size:1.15rem; padding:6px; }
+        .empty-msg { text-align:center; color:var(--muted); padding:28px; font-size:0.9rem; }
+
+        .booking-card { padding:18px; border:2px solid var(--line); border-radius:10px; margin-bottom:12px; }
+        .booking-card-top { display:flex; justify-content:space-between; margin-bottom:8px; gap:8px; flex-wrap:wrap; }
+        .booking-card-top strong { font-size:1rem; color:var(--navy); }
+        .booking-date { font-size:0.85rem; color:var(--red); font-weight:700; }
+        .booking-card-bottom { display:flex; gap:16px; font-size:0.86rem; color:var(--muted); flex-wrap:wrap; }
+        .booking-card-bottom a { color:#25d366; text-decoration:none; font-weight:700; }
+        .btn-cancel-booking { display:flex; align-items:center; gap:6px; background:none; border:2px solid var(--red); color:var(--red); padding:8px 16px; border-radius:50px; font-size:0.8rem; font-weight:700; cursor:pointer; margin-top:14px; transition:all 0.2s; font-family:inherit; }
+        .btn-cancel-booking:hover { background:var(--red); color:white; }
+
+        /* CALENDÁRIO */
+        .calendar-card { margin-bottom:20px; }
+        .calendar-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
+        .calendar-header h3 { font-weight:800; font-size:1rem; text-transform:capitalize; color:var(--navy); }
+        .calendar-nav-btn { background:var(--sand); border:none; color:var(--navy); width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:0.95rem; display:flex; align-items:center; justify-content:center; transition:background 0.2s; }
+        .calendar-nav-btn:hover { background:var(--line); }
+        .calendar-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
+        .calendar-weekday { text-align:center; font-size:0.68rem; color:var(--muted); font-weight:700; padding-bottom:6px; text-transform:uppercase; }
+        .calendar-day { position:relative; aspect-ratio:1; display:flex; flex-direction:column; align-items:center; justify-content:center; border-radius:8px; cursor:pointer; font-size:0.85rem; color:var(--ink); transition:background 0.15s; min-width:0; }
+        .calendar-day.empty { cursor:default; }
+        .calendar-day:not(.empty):hover { background:var(--sand); }
+        .calendar-day.hoje { border:2px solid var(--navy); font-weight:800; }
+        .calendar-day.selecionado { background:var(--navy); color:white; }
+        .calendar-day.selecionado:hover { background:var(--navy-dk); }
+        .calendar-day .dot { width:60%; height:3px; border-radius:2px; background:var(--red); margin-top:4px; }
+        .calendar-day.selecionado .dot { background:white; }
+
+        .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px); background:var(--navy); color:white; padding:14px 26px; border-radius:50px; font-size:0.88rem; font-weight:700; transition:transform 0.3s; z-index:999; }
+        .toast.show { transform:translateX(-50%) translateY(0); }
+
+        @media (max-width:480px) {
+            .new-slot-form { flex-direction:column; align-items:stretch; }
+            .form-group { min-width:100%; }
+            .calendar-day { font-size:0.78rem; }
+            .header-inner { flex-direction:column; align-items:flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-screen" id="login-screen">
+        <div class="login-box">
+            <img src="./logo.jpeg" alt="SOS English" class="login-logo">
+            <h1>Painel do Teacher</h1>
+            <p>Digite a senha para gerenciar sua agenda</p>
+            <input type="password" id="senha-input" placeholder="Senha" onkeypress="if(event.key==='Enter') verificarSenha()">
+            <button onclick="verificarSenha()">Entrar</button>
+            <p class="login-error" id="login-error">Senha incorreta. Tente novamente.</p>
+        </div>
+    </div>
+
+    <div id="panel">
+        <header>
+            <div class="header-inner">
+                <div>
+                    <h1>Hello, Teacher! 🇺🇸</h1>
+                    <p>Gerencie sua agenda de aulas</p>
+                </div>
+                <div style="display:flex; gap:8px;">
+                    <a href="./guia-sos.html" class="btn-guia"><i class="bi bi-question-circle"></i> Como usar</a>
+                    <button class="btn-logout" onclick="sair()">Sair</button>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="panel-section">
+                <h2><i class="bi bi-calendar-plus"></i> Abrir novo horário</h2>
+                <div class="new-slot-form">
+                    <div class="form-group">
+                        <label>Tipo de aula</label>
+                        <select id="novo-servico">
+                            <option value="">Qualquer tipo</option>
+                            <option value="Conversação &amp; Fluência">Conversação &amp; Fluência</option>
+                            <option value="Business English">Business English</option>
+                            <option value="Inglês para Viagens">Inglês para Viagens</option>
+                            <option value="Mentoria Personalizada">Mentoria Personalizada</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Data</label>
+                        <input type="date" id="novo-data">
+                    </div>
+                    <div class="form-group">
+                        <label>Horário</label>
+                        <input type="time" id="novo-horario">
+                    </div>
+                    <button class="btn-add" onclick="adicionarSlot()"><i class="bi bi-plus-lg"></i> Adicionar</button>
+                </div>
+            </div>
+
+            <div class="panel-section">
+                <h2><i class="bi bi-calendar-week"></i> Horários da agenda</h2>
+                <div id="slots-list"><div class="empty-msg">Carregando...</div></div>
+            </div>
+
+            <div class="panel-section">
+                <h2><i class="bi bi-check-circle"></i> Alunos agendados</h2>
+                <div class="calendar-card">
+                    <div class="calendar-header">
+                        <button class="calendar-nav-btn" onclick="mudarMesCalendario(-1)"><i class="bi bi-chevron-left"></i></button>
+                        <h3 id="calendar-mes-label"></h3>
+                        <button class="calendar-nav-btn" onclick="mudarMesCalendario(1)"><i class="bi bi-chevron-right"></i></button>
+                    </div>
+                    <div class="calendar-grid" id="calendar-grid"></div>
+                </div>
+                <div id="bookings-list"><div class="empty-msg">Carregando...</div></div>
+            </div>
+
+            <p style="text-align:center; font-size:0.78rem; color:var(--muted); opacity:0.8; margin-top:8px;">
+                Desenvolvido por <a href="https://www.goncalestech.com.br/" target="_blank" style="color:var(--navy); font-weight:700; text-decoration:none;">65.611.420 FLAVIO GONCALES</a>
+            </p>
+        </main>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ════════════════════════════════════════
+        // ⚠️ CONFIGURAÇÃO — PREENCHER ANTES DE PUBLICAR
+        // ════════════════════════════════════════
+        const SENHA_PAINEL = 'sos2026';   // ⚠️ Troque essa senha
+        const JSONBIN_ID   = 'COLOQUE_O_ID_DO_BIN_AQUI';
+        const JSONBIN_KEY  = 'COLOQUE_A_MASTER_KEY_AQUI';
+        const JSONBIN_URL  = `https://api.jsonbin.io/v3/b/${JSONBIN_ID}`;
+
+        let dadosAtuais = null;
+        let calMes = new Date().getMonth();
+        let calAno = new Date().getFullYear();
+        let diaSelecionado = null;
+        let calendarioInicializado = false;
+        const DIAS_SEMANA = ['D','S','T','Q','Q','S','S'];
+        const MESES_NOME = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+
+        function verificarSenha() {
+            const input = document.getElementById('senha-input');
+            const erro  = document.getElementById('login-error');
+            if (input.value === SENHA_PAINEL) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('panel').style.display = 'block';
+                sessionStorage.setItem('sos-logado', '1');
+                carregarDados();
+            } else {
+                erro.style.display = 'block';
+                input.value = '';
+            }
+        }
+
+        function sair() {
+            sessionStorage.removeItem('sos-logado');
+            window.location.href = './agendamento.html';
+        }
+
+        if (sessionStorage.getItem('sos-logado') === '1') {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('panel').style.display = 'block';
+            carregarDados();
+        }
+
+        async function carregarDados() {
+            try {
+                const res = await fetch(JSONBIN_URL + '/latest', { headers: { 'X-Master-Key': JSONBIN_KEY } });
+                const json = await res.json();
+                dadosAtuais = json.record;
+                if (!dadosAtuais.slots) dadosAtuais.slots = [];
+                renderizarTudo();
+            } catch (e) {
+                document.getElementById('slots-list').innerHTML = '<div class="empty-msg">Erro ao carregar. Recarregue a página.</div>';
+            }
+        }
+
+        async function salvarDados() {
+            await fetch(JSONBIN_URL, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_KEY },
+                body: JSON.stringify(dadosAtuais)
+            });
+        }
+
+        function mostrarToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        async function adicionarSlot() {
+            const data    = document.getElementById('novo-data').value;
+            const hora    = document.getElementById('novo-horario').value;
+            const servico = document.getElementById('novo-servico').value;
+            if (!data || !hora) { mostrarToast('Preencha data e horário'); return; }
+
+            dadosAtuais.slots.push({ dataISO: data, horario: hora, servico: servico || null, ocupado: false });
+            await salvarDados();
+            renderizarTudo();
+            mostrarToast('Horário adicionado!');
+            document.getElementById('novo-data').value = '';
+            document.getElementById('novo-horario').value = '';
+            document.getElementById('novo-servico').value = '';
+        }
+
+        async function removerSlot(dataISO, horario) {
+            if (!confirm('Remover este horário da agenda?')) return;
+            dadosAtuais.slots = dadosAtuais.slots.filter(s => !(s.dataISO === dataISO && s.horario === horario));
+            await salvarDados();
+            renderizarTudo();
+            mostrarToast('Horário removido');
+        }
+
+        async function cancelarAgendamento(dataISO, horario) {
+            if (!confirm('Cancelar esta aula? O horário ficará disponível novamente para outros alunos.')) return;
+            dadosAtuais.slots = dadosAtuais.slots.map(s => {
+                if (s.dataISO === dataISO && s.horario === horario) {
+                    return { dataISO: s.dataISO, horario: s.horario, servico: s.servico, ocupado: false };
+                }
+                return s;
+            });
+            await salvarDados();
+            renderizarTudo();
+            mostrarToast('Aula cancelada — horário liberado');
+        }
+
+        // ── CALENDÁRIO ──
+        function pad(n) { return String(n).padStart(2,'0'); }
+
+        function mudarMesCalendario(delta) {
+            calMes += delta;
+            if (calMes < 0) { calMes = 11; calAno--; }
+            if (calMes > 11) { calMes = 0; calAno++; }
+            renderizarCalendario();
+        }
+
+        function selecionarDiaCalendario(dataISO) {
+            diaSelecionado = dataISO;
+            renderizarCalendario();
+            renderizarAgendamentosDoDia();
+        }
+
+        function definirEstadoInicialCalendario() {
+            const hojeISO = new Date().toISOString().split('T')[0];
+            const dias = [...new Set((dadosAtuais.slots || []).filter(s => s.ocupado).map(s => s.dataISO))].sort();
+            let escolhido = dias.includes(hojeISO) ? hojeISO : (dias.find(d => d >= hojeISO) || dias[0] || null);
+            if (escolhido) {
+                const [ano, mes] = escolhido.split('-').map(Number);
+                calAno = ano; calMes = mes - 1;
+            }
+            diaSelecionado = escolhido;
+        }
+
+        function renderizarCalendario() {
+            document.getElementById('calendar-mes-label').textContent = `${MESES_NOME[calMes]} de ${calAno}`;
+            const diasComAula = new Set((dadosAtuais.slots || []).filter(s => s.ocupado).map(s => s.dataISO));
+            const hojeISO = new Date().toISOString().split('T')[0];
+            const primeiroDiaSemana = new Date(calAno, calMes, 1).getDay();
+            const totalDias = new Date(calAno, calMes + 1, 0).getDate();
+
+            let html = DIAS_SEMANA.map(d => `<div class="calendar-weekday">${d}</div>`).join('');
+            for (let i = 0; i < primeiroDiaSemana; i++) html += `<div class="calendar-day empty"></div>`;
+            for (let dia = 1; dia <= totalDias; dia++) {
+                const dataISO = `${calAno}-${pad(calMes+1)}-${pad(dia)}`;
+                const temAula = diasComAula.has(dataISO);
+                const classes = ['calendar-day'];
+                if (dataISO === hojeISO) classes.push('hoje');
+                if (dataISO === diaSelecionado) classes.push('selecionado');
+                html += `<div class="${classes.join(' ')}" onclick="selecionarDiaCalendario('${dataISO}')">${dia}${temAula ? '<div class="dot"></div>' : ''}</div>`;
+            }
+            document.getElementById('calendar-grid').innerHTML = html;
+        }
+
+        function renderizarAgendamentosDoDia() {
+            const bookingsList = document.getElementById('bookings-list');
+            if (!diaSelecionado) {
+                bookingsList.innerHTML = '<div class="empty-msg">Selecione um dia marcado no calendário para ver as aulas.</div>';
+                return;
+            }
+            const aulasDoDia = (dadosAtuais.slots || [])
+                .filter(s => s.ocupado && s.dataISO === diaSelecionado)
+                .sort((a,b) => a.horario.localeCompare(b.horario));
+
+            if (aulasDoDia.length === 0) {
+                const dataFmt = new Date(diaSelecionado+'T00:00:00').toLocaleDateString('pt-BR', { day:'2-digit', month:'long' });
+                bookingsList.innerHTML = `<div class="empty-msg">Nenhuma aula agendada em ${dataFmt}.</div>`;
+                return;
+            }
+
+            bookingsList.innerHTML = aulasDoDia.map(s => {
+                const telLimpo = (s.telefone || '').replace(/\D/g,'');
+                return `
+                    <div class="booking-card">
+                        <div class="booking-card-top">
+                            <strong>${s.aluno || 'Sem nome'}</strong>
+                            <span class="booking-date">${s.horario}</span>
+                        </div>
+                        <div class="booking-card-bottom">
+                            <span><i class="bi bi-mortarboard-fill"></i> ${s.servico || '—'}</span>
+                            ${s.nivel ? `<span><i class="bi bi-bar-chart-fill"></i> ${s.nivel}</span>` : ''}
+                            ${telLimpo ? `<a href="https://wa.me/55${telLimpo}" target="_blank"><i class="bi bi-whatsapp"></i> ${s.telefone}</a>` : ''}
+                        </div>
+                        <button class="btn-cancel-booking" onclick="cancelarAgendamento('${s.dataISO}','${s.horario}')">
+                            <i class="bi bi-x-circle"></i> Cancelar aula
+                        </button>
+                    </div>`;
+            }).join('');
+        }
+
+        function renderizarTudo() {
+            const slots = [...dadosAtuais.slots].sort((a,b) => new Date(a.dataISO+'T'+a.horario) - new Date(b.dataISO+'T'+b.horario));
+            const slotsList = document.getElementById('slots-list');
+
+            if (slots.length === 0) {
+                slotsList.innerHTML = '<div class="empty-msg">Nenhum horário cadastrado ainda.</div>';
+            } else {
+                slotsList.innerHTML = slots.map(s => {
+                    const dataFmt = new Date(s.dataISO+'T00:00:00').toLocaleDateString('pt-BR', { day:'2-digit', month:'short', weekday:'short' });
+                    const badge = s.ocupado ? 'ocupado' : 'livre';
+                    const label = s.ocupado ? `Ocupado${s.servico ? ' · ' + s.servico : ''}` : `Livre${s.servico ? ' · ' + s.servico : ''}`;
+                    return `
+                        <div class="slot-row ${s.ocupado ? 'ocupado' : ''}">
+                            <div class="slot-row-info">
+                                <strong>${dataFmt} às ${s.horario}</strong>
+                                <span class="slot-badge ${badge}">${label}</span>
+                            </div>
+                            ${!s.ocupado ? `<button class="btn-remove" onclick="removerSlot('${s.dataISO}','${s.horario}')"><i class="bi bi-trash"></i></button>` : ''}
+                        </div>`;
+                }).join('');
+            }
+
+            if (!calendarioInicializado) { definirEstadoInicialCalendario(); calendarioInicializado = true; }
+            renderizarCalendario();
+            renderizarAgendamentosDoDia();
+        }
+    </script>
+</body>
+</html>
