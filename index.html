@@ -98,6 +98,16 @@
             opacity: 0.8;
         }
 
+        .mobile-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 0 4px;
+        }
+
         /* Hero Section */
         .hero {
             background: linear-gradient(rgba(0, 51, 102, 0.9), rgba(0, 51, 102, 0.8)), url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
@@ -464,7 +474,20 @@
 
         /* Responsive Fix */
         @media (max-width: 768px) {
-            .nav-links { display: none; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: #003366;
+                padding: 20px 24px;
+                gap: 18px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            }
+            .nav-links.open { display: flex; }
+            .mobile-btn { display: block; }
             .hero h1 { font-size: 2.2rem; }
             /* Aqui forçamos 1 coluna no celular para não quebrar */
             .about-content, .contact-content, .grid-diferenciais, .steps-grid, .news-grid, .services-grid { grid-template-columns: 1fr; }
@@ -487,7 +510,7 @@
             <div class="logo">
                 <img src="./logo.jpeg" alt="SOS English Logo" style="height: 70px; width: auto; border-radius: 5px;">
             </div>
-            <ul class="nav-links">
+            <ul class="nav-links" id="nav-links">
                 <li><a href="#inicio">Início</a></li>
                 <li><a href="#metodologia">Como Funciona</a></li>
                 <li><a href="#diferenciais">Diferenciais</a></li>
@@ -496,6 +519,7 @@
                 <li><a href="#teste-nivel">Teste de Nível</a></li>
                 <li><a href="./agendamento.html" style="background:#cc0000; padding:8px 18px; border-radius:50px; font-weight:700;">📅 Agendar Aula</a></li>
             </ul>
+            <button class="mobile-btn" id="mobile-btn" aria-label="Abrir menu">☰</button>
         </nav>
     </header>
 
@@ -870,6 +894,12 @@
     </a>
 
     <script>
+        // Menu hambúrguer (mobile)
+        const mobileBtn = document.getElementById('mobile-btn');
+        const navLinksMenu = document.getElementById('nav-links');
+        mobileBtn.addEventListener('click', () => navLinksMenu.classList.toggle('open'));
+        navLinksMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinksMenu.classList.remove('open')));
+
         // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
