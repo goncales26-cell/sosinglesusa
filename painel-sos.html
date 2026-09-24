@@ -56,6 +56,13 @@
         .btn-add { background:var(--red); color:white; border:none; padding:12px 24px; border-radius:50px; font-weight:700; cursor:pointer; font-size:0.88rem; white-space:nowrap; font-family:inherit; transition:0.2s; }
         .btn-add:hover { background:var(--red-dk); }
 
+        .dias-semana-grid { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px; }
+        .dia-chip { position:relative; }
+        .dia-chip input { position:absolute; opacity:0; width:100%; height:100%; margin:0; cursor:pointer; }
+        .dia-chip label { display:flex; align-items:center; justify-content:center; width:54px; height:54px; border:2px solid var(--line); border-radius:12px; font-weight:700; font-size:0.85rem; color:var(--muted); cursor:pointer; transition:all 0.15s; user-select:none; }
+        .dia-chip input:checked + label { background:var(--navy); border-color:var(--navy); color:white; }
+        .dia-chip input:focus-visible + label { outline:2px solid var(--red); outline-offset:2px; }
+
         .slot-row { display:flex; justify-content:space-between; align-items:center; padding:14px 16px; border:2px solid var(--line); border-radius:10px; margin-bottom:10px; gap:10px; flex-wrap:wrap; }
         .slot-row.ocupado { background:var(--sand); border-color:var(--navy); }
         .slot-row-info strong { display:block; font-size:0.92rem; color:var(--navy); }
@@ -112,6 +119,7 @@
             .form-group { min-width:100%; }
             .calendar-day { font-size:0.78rem; }
             .header-inner { flex-direction:column; align-items:flex-start; }
+            .dia-chip label { width:44px; height:44px; font-size:0.78rem; }
         }
     </style>
 </head>
@@ -146,11 +154,36 @@
 
         <main>
             <div class="panel-section">
-                <h2><i class="bi bi-calendar-plus"></i> Abrir novo horário</h2>
+                <h2><i class="bi bi-calendar-week"></i> Abrir horários do mês</h2>
+
+                <div class="form-group" style="max-width:220px; margin-bottom:18px;">
+                    <label>Mês</label>
+                    <input type="month" id="grade-mes">
+                </div>
+
+                <label style="display:block; font-size:0.8rem; color:var(--navy); margin-bottom:8px; font-weight:700;">Dias disponíveis</label>
+                <div class="dias-semana-grid">
+                    <div class="dia-chip"><input type="checkbox" id="dia-chip-1"><label for="dia-chip-1">Seg</label></div>
+                    <div class="dia-chip"><input type="checkbox" id="dia-chip-2"><label for="dia-chip-2">Ter</label></div>
+                    <div class="dia-chip"><input type="checkbox" id="dia-chip-3"><label for="dia-chip-3">Qua</label></div>
+                    <div class="dia-chip"><input type="checkbox" id="dia-chip-4"><label for="dia-chip-4">Qui</label></div>
+                    <div class="dia-chip"><input type="checkbox" id="dia-chip-5"><label for="dia-chip-5">Sex</label></div>
+                    <div class="dia-chip"><input type="checkbox" id="dia-chip-6"><label for="dia-chip-6">Sáb</label></div>
+                    <div class="dia-chip"><input type="checkbox" id="dia-chip-0"><label for="dia-chip-0">Dom</label></div>
+                </div>
+
                 <div class="new-slot-form">
                     <div class="form-group">
+                        <label>Hora inicial</label>
+                        <input type="time" id="grade-hora-inicio" value="08:00">
+                    </div>
+                    <div class="form-group">
+                        <label>Hora final</label>
+                        <input type="time" id="grade-hora-fim" value="19:00">
+                    </div>
+                    <div class="form-group">
                         <label>Tipo de aula</label>
-                        <select id="novo-servico">
+                        <select id="grade-servico">
                             <option value="">Qualquer tipo</option>
                             <option value="Conversação &amp; Fluência">Conversação &amp; Fluência</option>
                             <option value="Business English">Business English</option>
@@ -158,19 +191,12 @@
                             <option value="Mentoria Personalizada">Mentoria Personalizada</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label>Data</label>
-                        <input type="date" id="novo-data">
-                    </div>
-                    <div class="form-group">
-                        <label>Horário</label>
-                        <input type="time" id="novo-horario">
-                    </div>
-                    <button class="btn-add" onclick="adicionarSlot()"><i class="bi bi-plus-lg"></i> Adicionar</button>
+                    <button class="btn-add" onclick="gerarHorariosDoMes()"><i class="bi bi-magic"></i> Gerar horários do mês</button>
                 </div>
+
                 <p style="display:flex; align-items:flex-start; gap:8px; font-size:0.83rem; color:var(--muted); margin-top:14px; padding-top:14px; border-top:1px solid var(--line);">
                     <i class="bi bi-info-circle-fill" style="color:var(--red); flex-shrink:0; margin-top:1px;"></i>
-                    Lembre-se: cada aula dura de 50 a 60 minutos. Ao criar os horários, deixe pelo menos 1 hora de intervalo entre um e outro para não sobrepor aulas.
+                    Cada aula dura 60 minutos — os horários são gerados automaticamente nesse intervalo, dentro do mês escolhido, apenas nos dias da semana marcados. Horários que já existirem não são duplicados, e datas que já passaram no mês atual são ignoradas.
                 </p>
             </div>
 
@@ -237,8 +263,8 @@
         // ⚠️ CONFIGURAÇÃO — PREENCHER ANTES DE PUBLICAR
         // ════════════════════════════════════════
         const SENHA_PAINEL_PADRAO = 'sos2026';   // usada só na primeira vez, antes do Teacher trocar
-        const JSONBIN_ID   = '6a64c864f5f4af5e29bfef7e';
-        const JSONBIN_KEY  = '$2a$10$8In7BF0QhgmBKqCO7BgCYeK7GFk7cn/pO3qbcO2wV5dKDzNpbMoMa';
+        const JSONBIN_ID   = 'COLOQUE_O_ID_DO_BIN_AQUI';
+        const JSONBIN_KEY  = 'COLOQUE_A_MASTER_KEY_AQUI';
         const JSONBIN_URL  = `https://api.jsonbin.io/v3/b/${JSONBIN_ID}`;
 
         let dadosAtuais = null;
@@ -338,25 +364,63 @@
             setTimeout(() => toast.classList.remove('show'), 2500);
         }
 
-        async function adicionarSlot() {
-            const data    = document.getElementById('novo-data').value;
-            const hora    = document.getElementById('novo-horario').value;
-            const servico = document.getElementById('novo-servico').value;
-            if (!data || !hora) { mostrarToast('Preencha data e horário'); return; }
+        async function gerarHorariosDoMes() {
+            const mesValor = document.getElementById('grade-mes').value;
+            if (!mesValor) { mostrarToast('Selecione o mês'); return; }
+            const [anoStr, mesStr] = mesValor.split('-');
+            const ano = parseInt(anoStr, 10);
+            const mes = parseInt(mesStr, 10) - 1;
 
-            const jaExiste = dadosAtuais.slots.some(s => s.dataISO === data && s.horario === hora);
-            if (jaExiste) {
-                mostrarToast('Já existe um horário nesse dia e hora!');
+            const diasSelecionados = [0,1,2,3,4,5,6].filter(d => document.getElementById('dia-chip-'+d).checked);
+            if (diasSelecionados.length === 0) { mostrarToast('Selecione pelo menos um dia da semana'); return; }
+
+            const horaIni = document.getElementById('grade-hora-inicio').value;
+            const horaFim = document.getElementById('grade-hora-fim').value;
+            if (!horaIni || !horaFim) { mostrarToast('Preencha hora inicial e final'); return; }
+            if (horaFim <= horaIni) { mostrarToast('A hora final deve ser depois da hora inicial'); return; }
+
+            const servico = document.getElementById('grade-servico').value;
+
+            const [hIniH, hIniM] = horaIni.split(':').map(Number);
+            const [hFimH, hFimM] = horaFim.split(':').map(Number);
+            const minutosIni = hIniH * 60 + hIniM;
+            const minutosFim = hFimH * 60 + hFimM;
+
+            const horariosDoDia = [];
+            for (let m = minutosIni; m < minutosFim; m += 60) {
+                horariosDoDia.push(`${pad(Math.floor(m/60))}:${pad(m%60)}`);
+            }
+            if (horariosDoDia.length === 0) {
+                mostrarToast('Intervalo muito curto para gerar ao menos 1 horário de 60min');
                 return;
             }
 
-            dadosAtuais.slots.push({ dataISO: data, horario: hora, servico: servico || null, ocupado: false });
+            const totalDiasMes = new Date(ano, mes + 1, 0).getDate();
+            const hojeISO = new Date().toISOString().split('T')[0];
+
+            let criados = 0, duplicados = 0;
+            for (let dia = 1; dia <= totalDiasMes; dia++) {
+                const dataISO = `${ano}-${pad(mes+1)}-${pad(dia)}`;
+                if (dataISO < hojeISO) continue;
+                const diaSemana = new Date(ano, mes, dia).getDay();
+                if (!diasSelecionados.includes(diaSemana)) continue;
+
+                horariosDoDia.forEach(hora => {
+                    const existe = dadosAtuais.slots.some(s => s.dataISO === dataISO && s.horario === hora);
+                    if (existe) { duplicados++; return; }
+                    dadosAtuais.slots.push({ dataISO, horario: hora, servico: servico || null, ocupado: false });
+                    criados++;
+                });
+            }
+
+            if (criados === 0) {
+                mostrarToast(duplicados > 0 ? 'Todos esses horários já existiam na agenda.' : 'Nenhuma data encontrada com esses critérios.');
+                return;
+            }
+
             await salvarDados();
             renderizarTudo();
-            mostrarToast('Horário adicionado!');
-            document.getElementById('novo-data').value = '';
-            document.getElementById('novo-horario').value = '';
-            document.getElementById('novo-servico').value = '';
+            mostrarToast(`${criados} horário(s) criado(s)` + (duplicados > 0 ? ` · ${duplicados} já existia(m)` : ''));
         }
 
         async function removerSlot(dataISO, horario) {
