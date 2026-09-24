@@ -56,12 +56,17 @@
         .btn-add { background:var(--red); color:white; border:none; padding:12px 24px; border-radius:50px; font-weight:700; cursor:pointer; font-size:0.88rem; white-space:nowrap; font-family:inherit; transition:0.2s; }
         .btn-add:hover { background:var(--red-dk); }
 
-        .dias-semana-grid { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px; }
-        .dia-chip { position:relative; }
-        .dia-chip input { position:absolute; opacity:0; width:100%; height:100%; margin:0; cursor:pointer; }
-        .dia-chip label { display:flex; align-items:center; justify-content:center; width:54px; height:54px; border:2px solid var(--line); border-radius:12px; font-weight:700; font-size:0.85rem; color:var(--muted); cursor:pointer; transition:all 0.15s; user-select:none; }
-        .dia-chip input:checked + label { background:var(--navy); border-color:var(--navy); color:white; }
-        .dia-chip input:focus-visible + label { outline:2px solid var(--red); outline-offset:2px; }
+        .dia-row { display:flex; align-items:center; gap:16px; padding:14px 0; border-bottom:1px solid var(--line); flex-wrap:wrap; }
+        .dia-row:last-child { border-bottom:none; }
+        .dia-row-check { display:flex; align-items:center; gap:8px; min-width:110px; font-weight:700; color:var(--navy); font-size:0.92rem; cursor:pointer; user-select:none; }
+        .dia-row-check input { width:18px; height:18px; accent-color:var(--navy); cursor:pointer; }
+        .dia-row-horas { display:flex; align-items:center; gap:6px; transition:opacity 0.2s; flex-wrap:wrap; }
+        .dia-row-horas select { padding:8px 10px; border:2px solid var(--line); border-radius:8px; font-size:0.88rem; font-family:inherit; background:white; color:var(--ink); outline:none; }
+        .dia-row-horas select:focus { border-color:var(--navy); }
+        .dia-row-sep { color:var(--muted); font-weight:700; margin:0 2px; }
+        .hora-min-group { display:flex; align-items:center; gap:6px; }
+        .hora-min-group select { padding:10px 12px; border:2px solid var(--line); border-radius:8px; font-size:0.88rem; font-family:inherit; background:white; outline:none; }
+        .hora-min-group select:focus { border-color:var(--navy); }
 
         .slot-row { display:flex; justify-content:space-between; align-items:center; padding:14px 16px; border:2px solid var(--line); border-radius:10px; margin-bottom:10px; gap:10px; flex-wrap:wrap; }
         .slot-row.ocupado { background:var(--sand); border-color:var(--navy); }
@@ -119,7 +124,7 @@
             .form-group { min-width:100%; }
             .calendar-day { font-size:0.78rem; }
             .header-inner { flex-direction:column; align-items:flex-start; }
-            .dia-chip label { width:44px; height:44px; font-size:0.78rem; }
+            .dia-row { flex-direction:column; align-items:flex-start; gap:10px; }
         }
     </style>
 </head>
@@ -154,55 +159,43 @@
 
         <main>
             <div class="panel-section">
-                <h2><i class="bi bi-calendar-week"></i> Abrir horários do mês</h2>
-
-                <div class="form-group" style="max-width:220px; margin-bottom:18px;">
-                    <label>Mês</label>
-                    <input type="month" id="grade-mes">
-                </div>
-
-                <label style="display:block; font-size:0.8rem; color:var(--navy); margin-bottom:8px; font-weight:700;">Dias disponíveis</label>
-                <div class="dias-semana-grid">
-                    <div class="dia-chip"><input type="checkbox" id="dia-chip-1"><label for="dia-chip-1">Seg</label></div>
-                    <div class="dia-chip"><input type="checkbox" id="dia-chip-2"><label for="dia-chip-2">Ter</label></div>
-                    <div class="dia-chip"><input type="checkbox" id="dia-chip-3"><label for="dia-chip-3">Qua</label></div>
-                    <div class="dia-chip"><input type="checkbox" id="dia-chip-4"><label for="dia-chip-4">Qui</label></div>
-                    <div class="dia-chip"><input type="checkbox" id="dia-chip-5"><label for="dia-chip-5">Sex</label></div>
-                    <div class="dia-chip"><input type="checkbox" id="dia-chip-6"><label for="dia-chip-6">Sáb</label></div>
-                    <div class="dia-chip"><input type="checkbox" id="dia-chip-0"><label for="dia-chip-0">Dom</label></div>
-                </div>
-
-                <div class="new-slot-form">
-                    <div class="form-group">
-                        <label>Hora inicial</label>
-                        <input type="time" id="grade-hora-inicio" value="08:00">
-                    </div>
-                    <div class="form-group">
-                        <label>Hora final</label>
-                        <input type="time" id="grade-hora-fim" value="19:00">
-                    </div>
-                    <div class="form-group">
-                        <label>Tipo de aula</label>
-                        <select id="grade-servico">
-                            <option value="">Qualquer tipo</option>
-                            <option value="Conversação &amp; Fluência">Conversação &amp; Fluência</option>
-                            <option value="Business English">Business English</option>
-                            <option value="Inglês para Viagens">Inglês para Viagens</option>
-                            <option value="Mentoria Personalizada">Mentoria Personalizada</option>
-                        </select>
-                    </div>
-                    <button class="btn-add" onclick="gerarHorariosDoMes()"><i class="bi bi-magic"></i> Gerar horários do mês</button>
-                </div>
-
-                <p style="display:flex; align-items:flex-start; gap:8px; font-size:0.83rem; color:var(--muted); margin-top:14px; padding-top:14px; border-top:1px solid var(--line);">
-                    <i class="bi bi-info-circle-fill" style="color:var(--red); flex-shrink:0; margin-top:1px;"></i>
-                    Cada aula dura 60 minutos — os horários são gerados automaticamente nesse intervalo, dentro do mês escolhido, apenas nos dias da semana marcados. Horários que já existirem não são duplicados, e datas que já passaram no mês atual são ignoradas.
-                </p>
+                <h2><i class="bi bi-calendar-week"></i> Horário semanal</h2>
+                <p style="color:var(--muted); font-size:0.85rem; margin-bottom:14px;">Marque os dias de aula e o horário de cada um. O aluno só vê horários dentro dessa janela — cada aula dura 60 minutos.</p>
+                <div id="horario-semanal-linhas"></div>
+                <button class="btn-add" style="margin-top:18px;" onclick="salvarHorarioSemanal()"><i class="bi bi-check-lg"></i> Salvar horário semanal</button>
             </div>
 
             <div class="panel-section">
-                <h2><i class="bi bi-calendar-week"></i> Horários da agenda</h2>
-                <div id="slots-list"><div class="empty-msg">Carregando...</div></div>
+                <h2><i class="bi bi-calendar-x"></i> Bloquear uma data (folga, viagem...)</h2>
+                <div class="new-slot-form">
+                    <div class="form-group">
+                        <label>Data</label>
+                        <input type="date" id="bloqueio-data">
+                    </div>
+                    <button class="btn-add" onclick="bloquearData()"><i class="bi bi-slash-circle"></i> Bloquear</button>
+                </div>
+                <div id="lista-bloqueios" style="margin-top:16px;"></div>
+            </div>
+
+            <div class="panel-section">
+                <h2><i class="bi bi-calendar-plus"></i> Exceção de horário numa data</h2>
+                <p style="color:var(--muted); font-size:0.85rem; margin-bottom:14px;">Abrir num dia normalmente fechado, ou mudar o horário de um dia específico.</p>
+                <div class="new-slot-form">
+                    <div class="form-group">
+                        <label>Data</label>
+                        <input type="date" id="excecao-data">
+                    </div>
+                    <div class="form-group">
+                        <label>Início</label>
+                        <div class="hora-min-group" id="excecao-inicio-selects"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Fim</label>
+                        <div class="hora-min-group" id="excecao-fim-selects"></div>
+                    </div>
+                    <button class="btn-add" onclick="adicionarExcecao()"><i class="bi bi-plus-lg"></i> Adicionar</button>
+                </div>
+                <div id="lista-excecoes" style="margin-top:16px;"></div>
             </div>
 
             <div class="panel-section">
@@ -274,6 +267,27 @@
         let calendarioInicializado = false;
         const DIAS_SEMANA = ['D','S','T','Q','Q','S','S'];
         const MESES_NOME = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+        const DIAS_SEMANA_NOMES = { 0:'Domingo', 1:'Segunda', 2:'Terça', 3:'Quarta', 4:'Quinta', 5:'Sexta', 6:'Sábado' };
+        const HORAS_OPCOES = Array.from({length:24}, (_,i) => String(i).padStart(2,'0'));
+        const MINUTOS_OPCOES = ['00','15','30','45'];
+
+        function garantirEstruturaDados() {
+            if (!dadosAtuais.usuarios) dadosAtuais.usuarios = [];
+            if (!dadosAtuais.horarioSemanal) {
+                dadosAtuais.horarioSemanal = {};
+                [0,1,2,3,4,5,6].forEach(d => { dadosAtuais.horarioSemanal[d] = { ativo:false, inicio:'09:00', fim:'18:00' }; });
+            }
+            if (!dadosAtuais.datasBloqueadas) dadosAtuais.datasBloqueadas = [];
+            if (!dadosAtuais.excecoes) dadosAtuais.excecoes = [];
+            if (!dadosAtuais.agendamentos) {
+                // Migração automática do formato antigo (slots com ocupado:true)
+                dadosAtuais.agendamentos = (dadosAtuais.slots || []).filter(s => s.ocupado).map(s => ({
+                    dataISO: s.dataISO, horario: s.horario, servico: s.servico || null,
+                    aluno: s.aluno || '', telefone: s.telefone || '', nivel: s.nivel || '', token: s.token || null
+                }));
+                delete dadosAtuais.slots;
+            }
+        }
 
         async function verificarSenha() {
             const usuarioInput = document.getElementById('usuario-input').value.trim();
@@ -291,8 +305,7 @@
                     const senhaAdminAtual = dados.senhaAdmin || SENHA_PAINEL_PADRAO;
                     if (senhaInput === senhaAdminAtual) {
                         dadosAtuais = dados;
-                        if (!dadosAtuais.slots) dadosAtuais.slots = [];
-                        if (!dadosAtuais.usuarios) dadosAtuais.usuarios = [];
+                        garantirEstruturaDados();
                         fazerLogin(true);
                         return;
                     }
@@ -302,8 +315,7 @@
                     const encontrado = usuarios.find(u => u.usuario.toLowerCase() === usuarioInput.toLowerCase() && u.senha === senhaInput);
                     if (encontrado) {
                         dadosAtuais = dados;
-                        if (!dadosAtuais.slots) dadosAtuais.slots = [];
-                        if (!dadosAtuais.usuarios) dadosAtuais.usuarios = [];
+                        garantirEstruturaDados();
                         fazerLogin(false);
                         return;
                     }
@@ -341,11 +353,10 @@
                 const res = await fetch(JSONBIN_URL + '/latest', { headers: { 'X-Master-Key': JSONBIN_KEY } });
                 const json = await res.json();
                 dadosAtuais = json.record;
-                if (!dadosAtuais.slots) dadosAtuais.slots = [];
-                if (!dadosAtuais.usuarios) dadosAtuais.usuarios = [];
+                garantirEstruturaDados();
                 renderizarTudo();
             } catch (e) {
-                document.getElementById('slots-list').innerHTML = '<div class="empty-msg">Erro ao carregar. Recarregue a página.</div>';
+                mostrarToast('Erro ao carregar. Recarregue a página.');
             }
         }
 
@@ -364,81 +375,162 @@
             setTimeout(() => toast.classList.remove('show'), 2500);
         }
 
-        async function gerarHorariosDoMes() {
-            const mesValor = document.getElementById('grade-mes').value;
-            if (!mesValor) { mostrarToast('Selecione o mês'); return; }
-            const [anoStr, mesStr] = mesValor.split('-');
-            const ano = parseInt(anoStr, 10);
-            const mes = parseInt(mesStr, 10) - 1;
-
-            const diasSelecionados = [0,1,2,3,4,5,6].filter(d => document.getElementById('dia-chip-'+d).checked);
-            if (diasSelecionados.length === 0) { mostrarToast('Selecione pelo menos um dia da semana'); return; }
-
-            const horaIni = document.getElementById('grade-hora-inicio').value;
-            const horaFim = document.getElementById('grade-hora-fim').value;
-            if (!horaIni || !horaFim) { mostrarToast('Preencha hora inicial e final'); return; }
-            if (horaFim <= horaIni) { mostrarToast('A hora final deve ser depois da hora inicial'); return; }
-
-            const servico = document.getElementById('grade-servico').value;
-
-            const [hIniH, hIniM] = horaIni.split(':').map(Number);
-            const [hFimH, hFimM] = horaFim.split(':').map(Number);
-            const minutosIni = hIniH * 60 + hIniM;
-            const minutosFim = hFimH * 60 + hFimM;
-
-            const horariosDoDia = [];
-            for (let m = minutosIni; m < minutosFim; m += 60) {
-                horariosDoDia.push(`${pad(Math.floor(m/60))}:${pad(m%60)}`);
-            }
-            if (horariosDoDia.length === 0) {
-                mostrarToast('Intervalo muito curto para gerar ao menos 1 horário de 60min');
-                return;
-            }
-
-            const totalDiasMes = new Date(ano, mes + 1, 0).getDate();
-            const hojeISO = new Date().toISOString().split('T')[0];
-
-            let criados = 0, duplicados = 0;
-            for (let dia = 1; dia <= totalDiasMes; dia++) {
-                const dataISO = `${ano}-${pad(mes+1)}-${pad(dia)}`;
-                if (dataISO < hojeISO) continue;
-                const diaSemana = new Date(ano, mes, dia).getDay();
-                if (!diasSelecionados.includes(diaSemana)) continue;
-
-                horariosDoDia.forEach(hora => {
-                    const existe = dadosAtuais.slots.some(s => s.dataISO === dataISO && s.horario === hora);
-                    if (existe) { duplicados++; return; }
-                    dadosAtuais.slots.push({ dataISO, horario: hora, servico: servico || null, ocupado: false });
-                    criados++;
-                });
-            }
-
-            if (criados === 0) {
-                mostrarToast(duplicados > 0 ? 'Todos esses horários já existiam na agenda.' : 'Nenhuma data encontrada com esses critérios.');
-                return;
-            }
-
-            await salvarDados();
-            renderizarTudo();
-            mostrarToast(`${criados} horário(s) criado(s)` + (duplicados > 0 ? ` · ${duplicados} já existia(m)` : ''));
+        // ════════════════════════════════════════
+        // HORÁRIO SEMANAL (regra recorrente)
+        // ════════════════════════════════════════
+        function renderizarHorarioSemanalForm() {
+            const cfg = dadosAtuais.horarioSemanal || {};
+            const container = document.getElementById('horario-semanal-linhas');
+            container.innerHTML = [0,1,2,3,4,5,6].map(dia => {
+                const c = cfg[dia] || { ativo:false, inicio:'09:00', fim:'18:00' };
+                const [iniH, iniM] = c.inicio.split(':');
+                const [fimH, fimM] = c.fim.split(':');
+                return `
+                    <div class="dia-row">
+                        <label class="dia-row-check">
+                            <input type="checkbox" id="dia-ativo-${dia}" ${c.ativo ? 'checked' : ''} onchange="aplicarEstadoLinhaDia(${dia})">
+                            <span>${DIAS_SEMANA_NOMES[dia]}</span>
+                        </label>
+                        <div class="dia-row-horas" id="dia-horas-${dia}">
+                            <select id="dia-ini-h-${dia}">${optsHoras(iniH)}</select><span>:</span><select id="dia-ini-m-${dia}">${optsMinutos(iniM)}</select>
+                            <span class="dia-row-sep">–</span>
+                            <select id="dia-fim-h-${dia}">${optsHoras(fimH)}</select><span>:</span><select id="dia-fim-m-${dia}">${optsMinutos(fimM)}</select>
+                        </div>
+                    </div>`;
+            }).join('');
+            [0,1,2,3,4,5,6].forEach(dia => aplicarEstadoLinhaDia(dia));
         }
 
-        async function removerSlot(dataISO, horario) {
-            if (!confirm('Remover este horário da agenda?')) return;
-            dadosAtuais.slots = dadosAtuais.slots.filter(s => !(s.dataISO === dataISO && s.horario === horario));
+        function aplicarEstadoLinhaDia(dia) {
+            const ativo = document.getElementById('dia-ativo-'+dia).checked;
+            const bloco = document.getElementById('dia-horas-'+dia);
+            bloco.querySelectorAll('select').forEach(s => s.disabled = !ativo);
+            bloco.style.opacity = ativo ? '1' : '0.45';
+        }
+
+        async function salvarHorarioSemanal() {
+            const novoConfig = {};
+            for (const dia of [0,1,2,3,4,5,6]) {
+                const ativo = document.getElementById('dia-ativo-'+dia).checked;
+                const inicio = `${document.getElementById('dia-ini-h-'+dia).value}:${document.getElementById('dia-ini-m-'+dia).value}`;
+                const fim    = `${document.getElementById('dia-fim-h-'+dia).value}:${document.getElementById('dia-fim-m-'+dia).value}`;
+                if (ativo && fim <= inicio) {
+                    mostrarToast(`${DIAS_SEMANA_NOMES[dia]}: a hora final deve ser depois da inicial`);
+                    return;
+                }
+                novoConfig[dia] = { ativo, inicio, fim };
+            }
+            dadosAtuais.horarioSemanal = novoConfig;
             await salvarDados();
-            renderizarTudo();
-            mostrarToast('Horário removido');
+            mostrarToast('Horário semanal salvo!');
+        }
+
+        // ════════════════════════════════════════
+        // BLOQUEIO DE DATA (folga, viagem...)
+        // ════════════════════════════════════════
+        async function bloquearData() {
+            const data = document.getElementById('bloqueio-data').value;
+            if (!data) { mostrarToast('Selecione uma data'); return; }
+            if (!dadosAtuais.datasBloqueadas) dadosAtuais.datasBloqueadas = [];
+            if (dadosAtuais.datasBloqueadas.includes(data)) { mostrarToast('Essa data já está bloqueada'); return; }
+            dadosAtuais.datasBloqueadas.push(data);
+            dadosAtuais.datasBloqueadas.sort();
+            await salvarDados();
+            document.getElementById('bloqueio-data').value = '';
+            renderizarListaBloqueios();
+            mostrarToast('Data bloqueada!');
+        }
+
+        async function desbloquearData(data) {
+            dadosAtuais.datasBloqueadas = (dadosAtuais.datasBloqueadas || []).filter(d => d !== data);
+            await salvarDados();
+            renderizarListaBloqueios();
+            mostrarToast('Data desbloqueada');
+        }
+
+        function renderizarListaBloqueios() {
+            const lista = document.getElementById('lista-bloqueios');
+            const datas = dadosAtuais.datasBloqueadas || [];
+            if (datas.length === 0) {
+                lista.innerHTML = '<p style="text-align:center; color:var(--muted); font-size:0.88rem; padding:16px;">Nenhuma data bloqueada.</p>';
+                return;
+            }
+            lista.innerHTML = datas.map(d => {
+                const fmt = new Date(d+'T00:00:00').toLocaleDateString('pt-BR', { day:'2-digit', month:'long', year:'numeric' });
+                return `
+                    <div class="user-card">
+                        <strong>${fmt}</strong>
+                        <div class="user-card-actions">
+                            <button class="btn-icon-sm remove" onclick="desbloquearData('${d}')" title="Desbloquear"><i class="bi bi-trash-fill"></i></button>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        // ════════════════════════════════════════
+        // EXCEÇÃO DE HORÁRIO NUMA DATA
+        // ════════════════════════════════════════
+        function optsHoras(selecionado) {
+            return HORAS_OPCOES.map(h => `<option value="${h}" ${h===selecionado?'selected':''}>${h}</option>`).join('');
+        }
+        function optsMinutos(selecionado) {
+            return MINUTOS_OPCOES.map(m => `<option value="${m}" ${m===selecionado?'selected':''}>${m}</option>`).join('');
+        }
+        function inicializarSelectsExcecao() {
+            document.getElementById('excecao-inicio-selects').innerHTML = `<select id="excecao-ini-h">${optsHoras('09')}</select><span>:</span><select id="excecao-ini-m">${optsMinutos('00')}</select>`;
+            document.getElementById('excecao-fim-selects').innerHTML = `<select id="excecao-fim-h">${optsHoras('18')}</select><span>:</span><select id="excecao-fim-m">${optsMinutos('00')}</select>`;
+        }
+        inicializarSelectsExcecao();
+
+        async function adicionarExcecao() {
+            const data = document.getElementById('excecao-data').value;
+            if (!data) { mostrarToast('Selecione uma data'); return; }
+            const inicio = `${document.getElementById('excecao-ini-h').value}:${document.getElementById('excecao-ini-m').value}`;
+            const fim    = `${document.getElementById('excecao-fim-h').value}:${document.getElementById('excecao-fim-m').value}`;
+            if (fim <= inicio) { mostrarToast('A hora final deve ser depois da inicial'); return; }
+
+            if (!dadosAtuais.excecoes) dadosAtuais.excecoes = [];
+            dadosAtuais.excecoes = dadosAtuais.excecoes.filter(e => e.dataISO !== data);
+            dadosAtuais.excecoes.push({ dataISO: data, inicio, fim });
+            dadosAtuais.excecoes.sort((a,b) => a.dataISO.localeCompare(b.dataISO));
+            await salvarDados();
+            document.getElementById('excecao-data').value = '';
+            renderizarListaExcecoes();
+            mostrarToast('Exceção adicionada!');
+        }
+
+        async function removerExcecao(data) {
+            dadosAtuais.excecoes = (dadosAtuais.excecoes || []).filter(e => e.dataISO !== data);
+            await salvarDados();
+            renderizarListaExcecoes();
+            mostrarToast('Exceção removida');
+        }
+
+        function renderizarListaExcecoes() {
+            const lista = document.getElementById('lista-excecoes');
+            const excs = dadosAtuais.excecoes || [];
+            if (excs.length === 0) {
+                lista.innerHTML = '<p style="text-align:center; color:var(--muted); font-size:0.88rem; padding:16px;">Nenhuma exceção cadastrada.</p>';
+                return;
+            }
+            lista.innerHTML = excs.map(e => {
+                const fmt = new Date(e.dataISO+'T00:00:00').toLocaleDateString('pt-BR', { day:'2-digit', month:'long' });
+                return `
+                    <div class="user-card">
+                        <div>
+                            <strong>${fmt}</strong>
+                            <span>${e.inicio} às ${e.fim}</span>
+                        </div>
+                        <div class="user-card-actions">
+                            <button class="btn-icon-sm remove" onclick="removerExcecao('${e.dataISO}')" title="Remover"><i class="bi bi-trash-fill"></i></button>
+                        </div>
+                    </div>`;
+            }).join('');
         }
 
         async function cancelarAgendamento(dataISO, horario) {
             if (!confirm('Cancelar esta aula? O horário ficará disponível novamente para outros alunos.')) return;
-            dadosAtuais.slots = dadosAtuais.slots.map(s => {
-                if (s.dataISO === dataISO && s.horario === horario) {
-                    return { dataISO: s.dataISO, horario: s.horario, servico: s.servico, ocupado: false };
-                }
-                return s;
-            });
+            dadosAtuais.agendamentos = dadosAtuais.agendamentos.filter(a => !(a.dataISO === dataISO && a.horario === horario));
             await salvarDados();
             renderizarTudo();
             mostrarToast('Aula cancelada — horário liberado');
@@ -462,7 +554,7 @@
 
         function definirEstadoInicialCalendario() {
             const hojeISO = new Date().toISOString().split('T')[0];
-            const dias = [...new Set((dadosAtuais.slots || []).filter(s => s.ocupado).map(s => s.dataISO))].sort();
+            const dias = [...new Set((dadosAtuais.agendamentos || []).map(a => a.dataISO))].sort();
             let escolhido = dias.includes(hojeISO) ? hojeISO : (dias.find(d => d >= hojeISO) || dias[0] || null);
             if (escolhido) {
                 const [ano, mes] = escolhido.split('-').map(Number);
@@ -473,7 +565,7 @@
 
         function renderizarCalendario() {
             document.getElementById('calendar-mes-label').textContent = `${MESES_NOME[calMes]} de ${calAno}`;
-            const diasComAula = new Set((dadosAtuais.slots || []).filter(s => s.ocupado).map(s => s.dataISO));
+            const diasComAula = new Set((dadosAtuais.agendamentos || []).map(a => a.dataISO));
             const hojeISO = new Date().toISOString().split('T')[0];
             const primeiroDiaSemana = new Date(calAno, calMes, 1).getDay();
             const totalDias = new Date(calAno, calMes + 1, 0).getDate();
@@ -497,8 +589,8 @@
                 bookingsList.innerHTML = '<div class="empty-msg">Selecione um dia marcado no calendário para ver as aulas.</div>';
                 return;
             }
-            const aulasDoDia = (dadosAtuais.slots || [])
-                .filter(s => s.ocupado && s.dataISO === diaSelecionado)
+            const aulasDoDia = (dadosAtuais.agendamentos || [])
+                .filter(a => a.dataISO === diaSelecionado)
                 .sort((a,b) => a.horario.localeCompare(b.horario));
 
             if (aulasDoDia.length === 0) {
@@ -528,26 +620,9 @@
         }
 
         function renderizarTudo() {
-            const slots = [...dadosAtuais.slots].sort((a,b) => new Date(a.dataISO+'T'+a.horario) - new Date(b.dataISO+'T'+b.horario));
-            const slotsList = document.getElementById('slots-list');
-
-            if (slots.length === 0) {
-                slotsList.innerHTML = '<div class="empty-msg">Nenhum horário cadastrado ainda.</div>';
-            } else {
-                slotsList.innerHTML = slots.map(s => {
-                    const dataFmt = new Date(s.dataISO+'T00:00:00').toLocaleDateString('pt-BR', { day:'2-digit', month:'short', weekday:'short' });
-                    const badge = s.ocupado ? 'ocupado' : 'livre';
-                    const label = s.ocupado ? `Ocupado${s.servico ? ' · ' + s.servico : ''}` : `Livre${s.servico ? ' · ' + s.servico : ''}`;
-                    return `
-                        <div class="slot-row ${s.ocupado ? 'ocupado' : ''}">
-                            <div class="slot-row-info">
-                                <strong>${dataFmt} às ${s.horario}</strong>
-                                <span class="slot-badge ${badge}">${label}</span>
-                            </div>
-                            ${!s.ocupado ? `<button class="btn-remove" onclick="removerSlot('${s.dataISO}','${s.horario}')"><i class="bi bi-trash"></i></button>` : ''}
-                        </div>`;
-                }).join('');
-            }
+            renderizarHorarioSemanalForm();
+            renderizarListaBloqueios();
+            renderizarListaExcecoes();
 
             if (!calendarioInicializado) { definirEstadoInicialCalendario(); calendarioInicializado = true; }
             renderizarCalendario();
