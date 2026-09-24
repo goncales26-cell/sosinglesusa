@@ -392,13 +392,14 @@
         // ════════════════════════════════════════
         // Crie um NOVO bin em jsonbin.io (não use o da Flora!)
         // e cole o ID e a Master Key abaixo:
-        const JSONBIN_ID  = '6a64c864f5f4af5e29bfef7e';
-        const JSONBIN_KEY = '$2a$10$8In7BF0QhgmBKqCO7BgCYeK7GFk7cn/pO3qbcO2wV5dKDzNpbMoMa';
+        const JSONBIN_ID  = 'COLOQUE_O_ID_DO_BIN_AQUI';
+        const JSONBIN_KEY = 'COLOQUE_A_MASTER_KEY_AQUI';
         const JSONBIN_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_ID}`;
 
         const WHATSAPP_TEACHER = '5515981793811';
         const MESES = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
         const SERVICOS = ['Conversação & Fluência', 'Business English', 'Inglês para Viagens', 'Mentoria Personalizada'];
+        const DIAS_A_FRENTE = 60; // até quantos dias no futuro mostrar disponibilidade
 
         let dadosAtuais = null;
         let slotEscolhido = null;
@@ -407,6 +408,52 @@
 
         function gerarToken() {
             return Math.random().toString(36).substring(2, 10) + Date.now().toString(36).substring(4);
+        }
+
+        function pad(n) { return String(n).padStart(2,'0'); }
+
+        // Retorna { inicio, fim } da janela de atendimento numa data, ou null se fechado
+        function janelaDoDia(dataISO) {
+            if ((dadosAtuais.datasBloqueadas || []).includes(dataISO)) return null;
+            const excecao = (dadosAtuais.excecoes || []).find(e => e.dataISO === dataISO);
+            if (excecao) return { inicio: excecao.inicio, fim: excecao.fim };
+            const diaSemana = new Date(dataISO + 'T00:00:00').getDay();
+            const cfg = (dadosAtuais.horarioSemanal || {})[diaSemana];
+            if (!cfg || !cfg.ativo) return null;
+            return { inicio: cfg.inicio, fim: cfg.fim };
+        }
+
+        // Gera os horários de 60 em 60 min dentro da janela
+        function horariosDaJanela(janela) {
+            const [iniH, iniM] = janela.inicio.split(':').map(Number);
+            const [fimH, fimM] = janela.fim.split(':').map(Number);
+            const ini = iniH * 60 + iniM;
+            const fim = fimH * 60 + fimM;
+            const horarios = [];
+            for (let m = ini; m < fim; m += 60) horarios.push(`${pad(Math.floor(m/60))}:${pad(m%60)}`);
+            return horarios;
+        }
+
+        // Gera a disponibilidade (horários livres) para os próximos DIAS_A_FRENTE dias
+        function gerarDisponibilidade() {
+            const disponiveis = [];
+            const agora = new Date();
+            for (let i = 0; i <= DIAS_A_FRENTE; i++) {
+                const d = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate() + i);
+                const dataISO = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+                const janela = janelaDoDia(dataISO);
+                if (!janela) continue;
+
+                horariosDaJanela(janela).forEach(hora => {
+                    if (i === 0) {
+                        const [hh, mm] = hora.split(':').map(Number);
+                        if (hh < agora.getHours() || (hh === agora.getHours() && mm <= agora.getMinutes())) return;
+                    }
+                    const ocupado = (dadosAtuais.agendamentos || []).some(a => a.dataISO === dataISO && a.horario === hora);
+                    if (!ocupado) disponiveis.push({ dataISO, horario: hora });
+                });
+            }
+            return disponiveis;
         }
 
         // ── TOOLTIPS ──
@@ -463,7 +510,10 @@
                 const res = await fetch(JSONBIN_URL + '/latest', { headers: { 'X-Master-Key': JSONBIN_KEY } });
                 const json = await res.json();
                 dadosAtuais = json.record;
-                if (!dadosAtuais.slots) dadosAtuais.slots = [];
+                if (!dadosAtuais.horarioSemanal) dadosAtuais.horarioSemanal = {};
+                if (!dadosAtuais.datasBloqueadas) dadosAtuais.datasBloqueadas = [];
+                if (!dadosAtuais.excecoes) dadosAtuais.excecoes = [];
+                if (!dadosAtuais.agendamentos) dadosAtuais.agendamentos = [];
                 renderizarSlots();
             } catch (e) {
                 container.innerHTML = `
@@ -476,7 +526,7 @@
 
         function renderizarSlots() {
             const container = document.getElementById('slots-container');
-            const slots = (dadosAtuais.slots || []).filter(s => !s.ocupado);
+            const slots = gerarDisponibilidade();
 
             if (slots.length === 0) {
                 container.innerHTML = `
@@ -487,14 +537,11 @@
                 return;
             }
 
-            slots.sort((a,b) => new Date(a.dataISO+'T'+a.horario) - new Date(b.dataISO+'T'+b.horario));
-
             container.innerHTML = slots.map(slot => {
                 const data = new Date(slot.dataISO + 'T00:00:00');
                 const dia  = data.getDate();
                 const mes  = MESES[data.getMonth()];
                 const diaSemana = data.toLocaleDateString('pt-BR', { weekday: 'long' });
-                const labelServico = slot.servico ? `<span style="color:var(--red); font-weight:600;">${slot.servico}</span>` : '';
 
                 return `
                     <div class="slot-card" onclick='abrirModal(${JSON.stringify(slot)})'>
@@ -506,7 +553,6 @@
                             <div class="slot-text">
                                 <strong>${diaSemana.charAt(0).toUpperCase() + diaSemana.slice(1)}</strong>
                                 <span>${slot.horario} · 50 a 60 min</span>
-                                ${labelServico}
                             </div>
                         </div>
                         <i class="bi bi-arrow-right slot-arrow"></i>
@@ -529,7 +575,7 @@
                 <div class="form-group">
                     <label>Tipo de aula</label>
                     <select id="f-servico">
-                        ${SERVICOS.map(s => `<option value="${s}"${slot.servico === s ? ' selected' : ''}>${s}</option>`).join('')}
+                        ${SERVICOS.map(s => `<option value="${s}">${s}</option>`).join('')}
                     </select>
                 </div>
                 <div class="form-group">
@@ -592,13 +638,9 @@
             tokenGerado = gerarToken();
 
             try {
-                const slots = dadosAtuais.slots.map(s => {
-                    if (s.dataISO === slotEscolhido.dataISO && s.horario === slotEscolhido.horario) {
-                        return { ...s, ocupado: true, aluno: nome, telefone: tel, servico, nivel, token: tokenGerado };
-                    }
-                    return s;
-                });
-                const novoEstado = { ...dadosAtuais, slots };
+                const novoAgendamento = { dataISO: slotEscolhido.dataISO, horario: slotEscolhido.horario, servico, aluno: nome, telefone: tel, nivel, token: tokenGerado };
+                const agendamentos = [...(dadosAtuais.agendamentos || []), novoAgendamento];
+                const novoEstado = { ...dadosAtuais, agendamentos };
 
                 await fetch(JSONBIN_URL, {
                     method: 'PUT',
@@ -695,8 +737,8 @@
                 return;
             }
 
-            const encontrados = (dadosAtuais.slots || []).filter(s =>
-                s.ocupado && (s.telefone || '').replace(/\D/g,'') === telDigitado
+            const encontrados = (dadosAtuais.agendamentos || []).filter(a =>
+                (a.telefone || '').replace(/\D/g,'') === telDigitado
             );
 
             if (encontrados.length === 0) {
@@ -704,15 +746,15 @@
                 return;
             }
 
-            resultados.innerHTML = encontrados.map(s => {
-                const data = new Date(s.dataISO + 'T00:00:00');
+            resultados.innerHTML = encontrados.map(a => {
+                const data = new Date(a.dataISO + 'T00:00:00');
                 const dataFormatada = data.toLocaleDateString('pt-BR', { day:'2-digit', month:'long' });
                 return `
                     <div style="background:var(--sand); border-radius:10px; padding:14px 16px; margin-top:12px; font-size:0.9rem;">
-                        <strong style="color:var(--navy);">${s.servico || 'Aula'}</strong><br>
-                        <span style="color:var(--muted);">${dataFormatada} às ${s.horario}</span>
+                        <strong style="color:var(--navy);">${a.servico || 'Aula'}</strong><br>
+                        <span style="color:var(--muted);">${dataFormatada} às ${a.horario}</span>
                         <button class="btn-cancel" style="width:100%; margin-top:12px; border-color:var(--red); color:var(--red);"
-                            onclick='mostrarConfirmacaoCancelamento(${JSON.stringify(s)})'>
+                            onclick='mostrarConfirmacaoCancelamento(${JSON.stringify(a)})'>
                             <i class="bi bi-x-circle"></i> Cancelar esta aula
                         </button>
                     </div>`;
@@ -740,18 +782,13 @@
 
         async function executarCancelamento(dataISO, horario) {
             try {
-                const slotAtual = dadosAtuais.slots.find(s => s.dataISO === dataISO && s.horario === horario);
-                const nomeAluno = slotAtual?.aluno || '';
-                const telAluno  = slotAtual?.telefone || '';
-                const servico   = slotAtual?.servico || '';
+                const agendamentoAtual = dadosAtuais.agendamentos.find(a => a.dataISO === dataISO && a.horario === horario);
+                const nomeAluno = agendamentoAtual?.aluno || '';
+                const telAluno  = agendamentoAtual?.telefone || '';
+                const servico   = agendamentoAtual?.servico || '';
 
-                const slots = dadosAtuais.slots.map(s => {
-                    if (s.dataISO === dataISO && s.horario === horario) {
-                        return { dataISO: s.dataISO, horario: s.horario, servico: s.servico, ocupado: false };
-                    }
-                    return s;
-                });
-                const novoEstado = { ...dadosAtuais, slots };
+                const agendamentos = dadosAtuais.agendamentos.filter(a => !(a.dataISO === dataISO && a.horario === horario));
+                const novoEstado = { ...dadosAtuais, agendamentos };
 
                 await fetch(JSONBIN_URL, {
                     method: 'PUT',
@@ -791,12 +828,12 @@
             const params = new URLSearchParams(window.location.search);
             const token = params.get('cancelar');
             if (!token || !dadosAtuais) return;
-            const slot = (dadosAtuais.slots || []).find(s => s.token === token && s.ocupado);
-            if (!slot) {
+            const agendamento = (dadosAtuais.agendamentos || []).find(a => a.token === token);
+            if (!agendamento) {
                 alert('Este link de cancelamento não é mais válido — talvez a aula já tenha sido cancelada.');
                 return;
             }
-            mostrarConfirmacaoCancelamento(slot);
+            mostrarConfirmacaoCancelamento(agendamento);
         }
 
         carregarHorarios().then(verificarLinkCancelamento);
