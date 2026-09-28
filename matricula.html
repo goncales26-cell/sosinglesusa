@@ -26,12 +26,20 @@
         .form-group { display: flex; flex-direction: column; }
         .form-group label { font-weight: bold; margin-bottom: 5px; color: #333; font-size: 0.9rem; }
         .form-group input, .form-group select { padding: 10px; border: 2px solid #e0e0e0; border-radius: 6px; font-family: inherit; font-size: 1rem; background: white; }
+        .form-group input.campo-erro, .form-group select.campo-erro { border-color: #cc0000; background: #fff5f5; }
+        .msg-erro { color: #cc0000; font-size: 0.8rem; margin-top: 4px; display: none; }
+        .dica { font-size: 0.8rem; color: #777; margin-top: 4px; font-weight: normal; }
+        
+        #bloco-responsavel { display: none; background: #fff8e6; border: 1px solid #f0d78c; border-left: 4px solid #d4a017; border-radius: 6px; padding: 18px; margin-bottom: 15px; }
+        #bloco-responsavel h4 { color: #8a6d00; font-size: 0.95rem; margin-bottom: 4px; }
+        #bloco-responsavel .aviso { text-align: left; font-size: 0.85rem; color: #6b5500; margin-bottom: 12px; }
         
         .contrato-box { height: 350px; overflow-y: scroll; border: 1px solid #ccc; padding: 20px; background: #f9f9f9; border-radius: 6px; font-size: 0.85rem; color: #555; margin-bottom: 20px; }
         .contrato-box h4 { color: #003366; margin-top: 15px; margin-bottom: 5px; font-size: 0.9rem; border-bottom: 1px dashed #ddd; padding-bottom: 2px; }
         .contrato-box p { text-align: justify; margin-bottom: 10px; }
         
         .assinatura-box { background: #eef2f5; padding: 20px; border-radius: 6px; border-left: 4px solid #003366; margin-bottom: 20px; }
+        .resumo-aulas { background: white; border: 1px dashed #003366; border-radius: 6px; padding: 10px 14px; margin-bottom: 15px; font-size: 0.9rem; color: #003366; }
         .checkbox-label { display: flex; align-items: flex-start; gap: 10px; font-size: 0.9rem; margin-bottom: 15px; cursor: pointer; }
         
         .btn-submit { background-color: #cc0000; color: white; border: none; padding: 15px; font-size: 1.1rem; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 15px; width: 100%; text-transform: uppercase; }
@@ -61,7 +69,7 @@
                 <p>O contrato assinado foi encaminhado para a secretaria da SOS English. Entraremos em contato em breve.</p>
             </div>
 
-            <form id="formMatricula" onsubmit="processarInscricao(event)">
+            <form id="formMatricula" onsubmit="processarInscricao(event)" novalidate>
                 <h2>Contrato de Matrícula</h2>
                 <p>Preencha seus dados oficiais para efetivar sua inscrição.</p>
                 
@@ -72,13 +80,23 @@
                 </div>
 
                 <div class="grid-3">
-                    <div class="form-group"><label>CPF *</label><input type="text" id="ins-cpf" required></div>
+                    <div class="form-group"><label>CPF *</label><input type="text" id="ins-cpf" inputmode="numeric" required><span class="msg-erro" id="erro-ins-cpf">CPF inválido. Confira os números.</span></div>
                     <div class="form-group"><label>RG *</label><input type="text" id="ins-rg" required></div>
-                    <div class="form-group"><label>Data de Nascimento *</label><input type="date" id="ins-nascimento" required></div>
+                    <div class="form-group"><label>Data de Nascimento *</label><input type="date" id="ins-nascimento" required onchange="verificarMenorDeIdade()"><span class="msg-erro" id="erro-ins-nascimento">Data de nascimento inválida.</span></div>
+                </div>
+
+                <div id="bloco-responsavel">
+                    <h4>Responsável legal</h4>
+                    <p class="aviso">Como o aluno é menor de 18 anos, é necessário informar os dados do responsável legal.</p>
+                    <div class="grid-3">
+                        <div class="form-group"><label>Nome do Responsável *</label><input type="text" id="resp-nome"></div>
+                        <div class="form-group"><label>CPF do Responsável *</label><input type="text" id="resp-cpf" inputmode="numeric"><span class="msg-erro" id="erro-resp-cpf">CPF inválido. Confira os números.</span></div>
+                        <div class="form-group"><label>Parentesco *</label><input type="text" id="resp-parentesco" placeholder="Ex.: mãe, pai, tutor"></div>
+                    </div>
                 </div>
 
                 <div class="grid-3">
-                    <div class="form-group"><label>WhatsApp *</label><input type="tel" id="ins-whatsapp" required></div>
+                    <div class="form-group"><label>WhatsApp *</label><input type="tel" id="ins-whatsapp" inputmode="numeric" required><span class="dica">Com DDD. Ex.: 15 99999-9999</span><span class="msg-erro" id="erro-ins-whatsapp">Telefone inválido. Informe DDD + número.</span></div>
                     <div class="form-group">
                         <label>Estado Civil *</label>
                         <select id="ins-estadocivil" required>
@@ -100,7 +118,7 @@
                 <div class="grid-3">
                     <div class="form-group"><label>Bairro *</label><input type="text" id="ins-bairro" required></div>
                     <div class="form-group"><label>Cidade *</label><input type="text" id="ins-cidade" required></div>
-                    <div class="form-group"><label>CEP *</label><input type="text" id="ins-cep" required></div>
+                    <div class="form-group"><label>CEP *</label><input type="text" id="ins-cep" inputmode="numeric" required><span class="msg-erro" id="erro-ins-cep">CEP inválido. Informe 8 dígitos.</span></div>
                 </div>
 
                 <h3 class="section-title">3. Informações Acadêmicas</h3>
@@ -133,6 +151,25 @@
                             <option value="Tarde">Tarde</option>
                             <option value="Noite">Noite</option>
                         </select>
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Dia da semana das aulas *</label>
+                        <select id="ins-dia-aula" required onchange="atualizarResumoAulas()">
+                            <option value="">Selecione</option>
+                            <option value="Segunda-feira">Segunda-feira</option>
+                            <option value="Terça-feira">Terça-feira</option>
+                            <option value="Quarta-feira">Quarta-feira</option>
+                            <option value="Quinta-feira">Quinta-feira</option>
+                            <option value="Sexta-feira">Sexta-feira</option>
+                            <option value="Sábado">Sábado</option>
+                            <option value="Domingo">Domingo</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Horário das aulas *</label>
+                        <input type="time" id="ins-hora-aula" required onchange="atualizarResumoAulas()">
                     </div>
                 </div>
 
@@ -206,6 +243,7 @@
                 </div>
 
                 <div class="assinatura-box">
+                    <div class="resumo-aulas" id="resumo-aulas">Aulas escolhidas: preencha o dia e o horário na seção 3.</div>
                     <label class="checkbox-label">
                         <input type="checkbox" required id="ins-aceite">
                         <span>Declaro que li e concordo integralmente com os termos do contrato.</span>
@@ -222,9 +260,124 @@
     </div>
 
     <script>
-        function processarInscricao(event) {
-            event.preventDefault(); 
-            
+        // Altere esta constante SEMPRE que o texto do contrato for modificado.
+        // Ela vai no e-mail da secretaria junto com o hash do texto exibido ao aluno.
+        const VERSAO_CONTRATO = 'v1.0 - 2026-09-28';
+
+        // ── VALIDAÇÕES ──
+        function apenasDigitos(v) { return (v || '').replace(/\D/g, ''); }
+
+        function cpfValido(valor) {
+            const cpf = apenasDigitos(valor);
+            if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
+            for (let t = 9; t < 11; t++) {
+                let soma = 0;
+                for (let i = 0; i < t; i++) soma += parseInt(cpf[i], 10) * (t + 1 - i);
+                const digito = ((soma * 10) % 11) % 10;
+                if (digito !== parseInt(cpf[t], 10)) return false;
+            }
+            return true;
+        }
+
+        function telefoneValido(valor) {
+            const d = apenasDigitos(valor);
+            return d.length === 10 || d.length === 11;
+        }
+
+        function cepValido(valor) {
+            return apenasDigitos(valor).length === 8;
+        }
+
+        function calcularIdade(dataISO) {
+            const [a, m, d] = dataISO.split('-').map(Number);
+            if (!a || !m || !d) return null;
+            const hoje = new Date();
+            let idade = hoje.getFullYear() - a;
+            const jaFezAniversario = (hoje.getMonth() + 1 > m) || (hoje.getMonth() + 1 === m && hoje.getDate() >= d);
+            if (!jaFezAniversario) idade--;
+            return idade;
+        }
+
+        function nascimentoValido(dataISO) {
+            const idade = calcularIdade(dataISO);
+            return idade !== null && idade >= 0 && idade <= 110;
+        }
+
+        function marcarErro(id, ativo) {
+            const campo = document.getElementById(id);
+            const msg = document.getElementById('erro-' + id);
+            if (campo) campo.classList.toggle('campo-erro', ativo);
+            if (msg) msg.style.display = ativo ? 'block' : 'none';
+        }
+
+        // ── MENOR DE IDADE: exibe bloco do responsável legal ──
+        function verificarMenorDeIdade() {
+            const nasc = document.getElementById('ins-nascimento').value;
+            const bloco = document.getElementById('bloco-responsavel');
+            const campos = ['resp-nome', 'resp-cpf', 'resp-parentesco'];
+            const idade = nasc ? calcularIdade(nasc) : null;
+            const menor = idade !== null && idade >= 0 && idade < 18;
+            bloco.style.display = menor ? 'block' : 'none';
+            campos.forEach(id => { document.getElementById(id).required = menor; });
+            if (!menor) {
+                campos.forEach(id => { document.getElementById(id).value = ''; });
+                marcarErro('resp-cpf', false);
+            }
+        }
+
+        // ── RESUMO DAS AULAS ESCOLHIDAS (ao lado da assinatura) ──
+        function atualizarResumoAulas() {
+            const dia = document.getElementById('ins-dia-aula').value;
+            const hora = document.getElementById('ins-hora-aula').value;
+            const el = document.getElementById('resumo-aulas');
+            if (dia && hora) el.textContent = 'Aulas escolhidas: ' + dia + ', às ' + hora + '.';
+            else if (dia) el.textContent = 'Aulas escolhidas: ' + dia + ' (falta informar o horário).';
+            else if (hora) el.textContent = 'Aulas escolhidas: horário ' + hora + ' (falta informar o dia).';
+            else el.textContent = 'Aulas escolhidas: preencha o dia e o horário na seção 3.';
+        }
+
+        // ── HASH DO TEXTO DO CONTRATO (prova de qual versão foi exibida) ──
+        async function hashContrato() {
+            const texto = document.querySelector('.contrato-box').innerText.replace(/\s+/g, ' ').trim();
+            if (window.crypto && window.crypto.subtle) {
+                const buf = await window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(texto));
+                return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+            }
+            return 'indisponivel (navegador sem suporte a SHA-256)';
+        }
+
+        function validarFormulario() {
+            let primeiroErro = null;
+            const checar = (id, ok) => {
+                marcarErro(id, !ok);
+                if (!ok && !primeiroErro) primeiroErro = document.getElementById(id);
+            };
+
+            checar('ins-cpf', cpfValido(document.getElementById('ins-cpf').value));
+            checar('ins-whatsapp', telefoneValido(document.getElementById('ins-whatsapp').value));
+            checar('ins-cep', cepValido(document.getElementById('ins-cep').value));
+            const nasc = document.getElementById('ins-nascimento').value;
+            checar('ins-nascimento', !!nasc && nascimentoValido(nasc));
+
+            const blocoVisivel = document.getElementById('bloco-responsavel').style.display === 'block';
+            if (blocoVisivel) checar('resp-cpf', cpfValido(document.getElementById('resp-cpf').value));
+
+            if (primeiroErro) {
+                primeiroErro.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                primeiroErro.focus();
+                return false;
+            }
+            return true;
+        }
+
+        async function processarInscricao(event) {
+            event.preventDefault();
+
+            // validação nativa dos campos obrigatórios (o form usa novalidate para controlar as mensagens)
+            const form = document.getElementById('formMatricula');
+            if (!form.checkValidity()) { form.reportValidity(); return; }
+            if (!validarFormulario()) return;
+
             const btn = document.querySelector('button[type="submit"]');
             if (btn) {
                 btn.innerText = "Processando envio...";
@@ -249,7 +402,20 @@
             const nivel = document.getElementById('ins-nivel').value;
             const objetivo = document.getElementById('ins-objetivo').value;
             const horario = document.getElementById('ins-horario').value;
+            const diaAula = document.getElementById('ins-dia-aula').value;
+            const horaAula = document.getElementById('ins-hora-aula').value;
             const assinatura = document.getElementById('ins-assinatura').value;
+
+            const idade = calcularIdade(nascimento);
+            const menor = idade !== null && idade < 18;
+            const blocoResponsavel = menor ? `
+RESPONSÁVEL LEGAL (aluno menor de 18 anos)
+Nome: ${document.getElementById('resp-nome').value}
+CPF: ${document.getElementById('resp-cpf').value}
+Parentesco: ${document.getElementById('resp-parentesco').value}
+` : '';
+
+            const hashDoContrato = await hashContrato();
             
             const dossieTexto = `
 =============================================
@@ -262,7 +428,7 @@ CPF: ${cpf} | RG: ${rg}
 Data Nasc: ${nascimento} | Estado Civil: ${estadocivil}
 E-mail: ${email} | WhatsApp: ${zap}
 Profissão: ${profissao}
-
+${blocoResponsavel}
 2. ENDEREÇO COMPLETO
 ${rua}, ${numero} - ${bairro}
 ${cidade} - CEP: ${cep}
@@ -271,12 +437,17 @@ ${cidade} - CEP: ${cep}
 Nível Atual: ${nivel}
 Objetivo: ${objetivo}
 Turno de Estudo: ${horario}
+Dia das Aulas: ${diaAula}
+Horário das Aulas: ${horaAula}
 
 4. VALIDAÇÃO JURÍDICA E ACEITE DIGITAL
 O aluno marcou a caixa de seleção concordando integralmente com os termos e cláusulas contratuais da SOS English.
 
+Versão do Contrato: ${VERSAO_CONTRATO}
+Hash SHA-256 do texto exibido: ${hashDoContrato}
+
 Assinatura Eletrônica Registrada: ${assinatura}
-Data e Hora do Aceite: ${new Date().toLocaleString('pt-BR')}
+Data e Hora do Aceite (relógio do dispositivo do aluno): ${new Date().toLocaleString('pt-BR')}
 =============================================
 `;
             
@@ -288,7 +459,7 @@ Data e Hora do Aceite: ${new Date().toLocaleString('pt-BR')}
                 },
                 body: JSON.stringify({
                     access_key: "4f661909-e646-42fc-82e2-9db19886d6fe",
-                    subject: "CONTRATO ASSINADO - " + nome,
+                    subject: "CONTRATO ASSINADO - " + nome + " - " + diaAula + " " + horaAula,
                     from_name: "Matrícula SOS English",
                     Contrato_do_Aluno: dossieTexto
                 })
