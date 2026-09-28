@@ -37,6 +37,7 @@
         .contrato-box { height: 350px; overflow-y: scroll; border: 1px solid #ccc; padding: 20px; background: #f9f9f9; border-radius: 6px; font-size: 0.85rem; color: #555; margin-bottom: 20px; }
         .contrato-box h4 { color: #003366; margin-top: 15px; margin-bottom: 5px; font-size: 0.9rem; border-bottom: 1px dashed #ddd; padding-bottom: 2px; }
         .contrato-box p { text-align: justify; margin-bottom: 10px; }
+        .c-dinamico { font-weight: bold; color: #003366; }
         
         .assinatura-box { background: #eef2f5; padding: 20px; border-radius: 6px; border-left: 4px solid #003366; margin-bottom: 20px; }
         .resumo-aulas { background: white; border: 1px dashed #003366; border-radius: 6px; padding: 10px 14px; margin-bottom: 15px; font-size: 0.9rem; color: #003366; }
@@ -122,7 +123,7 @@
                 </div>
 
                 <h3 class="section-title">3. Informações Acadêmicas</h3>
-                <div class="grid-3">
+                <div class="grid-2">
                     <div class="form-group">
                         <label>Nível Atual *</label>
                         <select id="ins-nivel" required>
@@ -141,15 +142,6 @@
                             <option value="Viagens">Viagens</option>
                             <option value="Trabalho">Trabalho</option>
                             <option value="Entrevistas">Entrevistas</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Turno *</label>
-                        <select id="ins-horario" required>
-                            <option value="">Selecione</option>
-                            <option value="Manhã">Manhã</option>
-                            <option value="Tarde">Tarde</option>
-                            <option value="Noite">Noite</option>
                         </select>
                     </div>
                 </div>
@@ -180,7 +172,7 @@
                     
                     <strong>INSCRIÇÃO:</strong>
                     <p>Curso: Clube de Conversação<br>
-                    Turma: Aos Sábados<br>
+                    Turma: <span class="c-dinamico" id="c-turma">[dia e horário a definir]</span><br>
                     Carga Horária: 24 horas</p>
 
                     <h4>CLÁUSULA 01 - OBJETO</h4>
@@ -188,7 +180,7 @@
                     
                     <h4>CLÁUSULA 02 - RESPONSABILIDADES DA SOS ENGLISH</h4>
                     <p>Dentre outras, são de responsabilidade da SOS ENGLISH, ministrar ao (a) ALUNO(A) o curso acima identificado na modalidade de ensino remoto – que será prestado majoritariamente na cidade de São Paulo – através dos sistemas disponíveis no mercado de tecnologia, a disponibilização do link para acesso a plataforma que será ministrada a aula ao vivo, definição do cronograma e horário das aulas remotas, a fixação da carga horária e calendário.</p>
-                    <p><strong>Parágrafo Primeiro</strong> – As aulas serão ministradas nos dias Sabados iniciando-se às 13.00 horas- e finalizando às , no período de manhã totalizando a carga horária de 24 horas, ressalvando o caso de feriados. As aulas poderão ser alteradas caso aviso prévio e com a disponibilidade do professor para o atendimento do horário remanejado. As aulas serão ministradas pelo professor responsável Lourival A. Sampaio conforme plano contratado.</p>
+                    <p><strong>Parágrafo Primeiro</strong> – As aulas serão ministradas <span class="c-dinamico" id="c-dia">[dia a definir]</span>, iniciando-se às <span class="c-dinamico" id="c-ini">[horário a definir]</span> e finalizando às <span class="c-dinamico" id="c-fim">[horário a definir]</span>, totalizando a carga horária de 24 horas, ressalvando o caso de feriados. As aulas poderão ser alteradas caso aviso prévio e com a disponibilidade do professor para o atendimento do horário remanejado. As aulas serão ministradas pelo professor responsável Lourival A. Sampaio conforme plano contratado.</p>
                     
                     <h4>CLÁUSULA 03 - RESPONSABILIDADE DO ALUNO</h4>
                     <p>São de responsabilidade do (a) ALUNO(A), se comprometer a seguir as orientações dos professores para alcançar o objetivo almejado ao fazer a matrícula, ter foco e realizar as tarefas aplicadas para o sucesso das partes; a constante atualização de seus dados pessoais, devendo comunicar a SOS ENGLISH eventual mudança de endereço e/ou telefone; o pagamento integral do valor contratado, dentre outras.</p>
@@ -262,7 +254,7 @@
     <script>
         // Altere esta constante SEMPRE que o texto do contrato for modificado.
         // Ela vai no e-mail da secretaria junto com o hash do texto exibido ao aluno.
-        const VERSAO_CONTRATO = 'v1.0 - 2026-09-28';
+        const VERSAO_CONTRATO = 'v1.1 - 2026-09-28';
 
         // ── VALIDAÇÕES ──
         function apenasDigitos(v) { return (v || '').replace(/\D/g, ''); }
@@ -326,14 +318,45 @@
         }
 
         // ── RESUMO DAS AULAS ESCOLHIDAS (ao lado da assinatura) ──
+        // Cada aula dura 60 minutos (mesma duração usada no sistema de agendamento)
+        const DURACAO_AULA_MIN = 60;
+
+        const DIA_NO_CONTRATO = {
+            'Segunda-feira': 'toda segunda-feira',
+            'Terça-feira': 'toda terça-feira',
+            'Quarta-feira': 'toda quarta-feira',
+            'Quinta-feira': 'toda quinta-feira',
+            'Sexta-feira': 'toda sexta-feira',
+            'Sábado': 'todo sábado',
+            'Domingo': 'todo domingo'
+        };
+
+        function horarioFinalAula(horaInicio) {
+            const [h, m] = horaInicio.split(':').map(Number);
+            const total = (h * 60 + m + DURACAO_AULA_MIN) % (24 * 60);
+            return String(Math.floor(total / 60)).padStart(2, '0') + ':' + String(total % 60).padStart(2, '0');
+        }
+
         function atualizarResumoAulas() {
             const dia = document.getElementById('ins-dia-aula').value;
             const hora = document.getElementById('ins-hora-aula').value;
+            const fim = hora ? horarioFinalAula(hora) : '';
             const el = document.getElementById('resumo-aulas');
-            if (dia && hora) el.textContent = 'Aulas escolhidas: ' + dia + ', às ' + hora + '.';
+
+            if (dia && hora) el.textContent = 'Aulas escolhidas: ' + dia + ', das ' + hora + ' às ' + fim + '.';
             else if (dia) el.textContent = 'Aulas escolhidas: ' + dia + ' (falta informar o horário).';
             else if (hora) el.textContent = 'Aulas escolhidas: horário ' + hora + ' (falta informar o dia).';
             else el.textContent = 'Aulas escolhidas: preencha o dia e o horário na seção 3.';
+
+            // preenche os trechos do contrato
+            const turma = document.getElementById('c-turma');
+            const cDia = document.getElementById('c-dia');
+            const cIni = document.getElementById('c-ini');
+            const cFim = document.getElementById('c-fim');
+            cDia.textContent = dia ? DIA_NO_CONTRATO[dia] : '[dia a definir]';
+            cIni.textContent = hora ? hora : '[horário a definir]';
+            cFim.textContent = hora ? fim : '[horário a definir]';
+            turma.textContent = (dia && hora) ? (dia + ', das ' + hora + ' às ' + fim) : '[dia e horário a definir]';
         }
 
         // ── HASH DO TEXTO DO CONTRATO (prova de qual versão foi exibida) ──
@@ -401,7 +424,6 @@
             
             const nivel = document.getElementById('ins-nivel').value;
             const objetivo = document.getElementById('ins-objetivo').value;
-            const horario = document.getElementById('ins-horario').value;
             const diaAula = document.getElementById('ins-dia-aula').value;
             const horaAula = document.getElementById('ins-hora-aula').value;
             const assinatura = document.getElementById('ins-assinatura').value;
@@ -415,6 +437,7 @@ CPF: ${document.getElementById('resp-cpf').value}
 Parentesco: ${document.getElementById('resp-parentesco').value}
 ` : '';
 
+            atualizarResumoAulas(); // garante o contrato preenchido antes de gerar o hash
             const hashDoContrato = await hashContrato();
             
             const dossieTexto = `
@@ -436,9 +459,8 @@ ${cidade} - CEP: ${cep}
 3. INFORMAÇÕES ACADÊMICAS
 Nível Atual: ${nivel}
 Objetivo: ${objetivo}
-Turno de Estudo: ${horario}
 Dia das Aulas: ${diaAula}
-Horário das Aulas: ${horaAula}
+Horário das Aulas: ${horaAula} às ${horarioFinalAula(horaAula)}
 
 4. VALIDAÇÃO JURÍDICA E ACEITE DIGITAL
 O aluno marcou a caixa de seleção concordando integralmente com os termos e cláusulas contratuais da SOS English.
