@@ -39,6 +39,8 @@
         .contrato-box p { text-align: justify; margin-bottom: 10px; }
         .c-dinamico { font-weight: bold; color: #003366; }
         
+        .contrato-box .c-destaque { background: #fff4e5; border: 2px solid #cc0000; border-left-width: 8px; border-radius: 6px; padding: 12px 16px; margin: 12px 0 14px; color: #222; font-weight: 700; font-size: 1.1rem; text-align: justify; }
+        .contrato-box .c-destaque .c-destaque-titulo { color: #cc0000; font-size: 0.95rem; letter-spacing: 0.5px; }
         .assinatura-box { background: #eef2f5; padding: 20px; border-radius: 6px; border-left: 4px solid #003366; margin-bottom: 20px; }
         .resumo-aulas { background: white; border: 1px dashed #003366; border-radius: 6px; padding: 10px 14px; margin-bottom: 15px; font-size: 0.9rem; color: #003366; }
         .checkbox-label { display: flex; align-items: flex-start; gap: 10px; font-size: 0.9rem; margin-bottom: 15px; cursor: pointer; }
@@ -164,16 +166,78 @@
                         <input type="time" id="ins-hora-aula" required onchange="atualizarResumoAulas()">
                     </div>
                 </div>
+                <div class="grid-3">
+                    <div class="form-group">
+                        <label>Formação Acadêmica *</label>
+                        <select id="ins-formacao" required>
+                            <option value="">Selecione</option>
+                            <option value="Ensino Fundamental">Ensino Fundamental</option>
+                            <option value="Ensino Médio">Ensino Médio</option>
+                            <option value="Nível Técnico">Nível Técnico</option>
+                            <option value="Ensino Superior">Ensino Superior</option>
+                            <option value="Pós-graduação">Pós-graduação</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Data de Início das Aulas *</label>
+                        <input type="date" id="ins-inicio" required>
+                        <span class="msg-erro" id="erro-ins-inicio">Informe a data de hoje em diante.</span>
+                    </div>
+                    <div class="form-group">
+                        <label>Prazo do Contrato (meses) *</label>
+                        <input type="number" id="ins-prazo" min="1" max="24" step="1" inputmode="numeric" required>
+                        <span class="dica">A data de término é calculada automaticamente.</span>
+                        <span class="msg-erro" id="erro-ins-prazo">Informe um prazo de 1 a 24 meses.</span>
+                    </div>
+                </div>
 
-                <h3 class="section-title">4. Termos do Contrato</h3>
+                <h3 class="section-title">4. Pagamento</h3>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Forma de Pagamento *</label>
+                        <select id="ins-pagamento" required>
+                            <option value="">Selecione</option>
+                            <option value="PIX (à vista)">PIX (à vista)</option>
+                            <option value="Cartão de crédito (à vista)">Cartão de crédito (à vista)</option>
+                            <option value="Parcelado em mensalidades">Parcelado em mensalidades</option>
+                        </select>
+                        <span class="dica">À vista: 10% de desconto. Parcelado em mensalidades: sem desconto.</span>
+                    </div>
+                    <div class="form-group" id="bloco-datapag">
+                        <label>Data do Pagamento (à vista) *</label>
+                        <input type="date" id="ins-datapag" required>
+                        <span class="dica">Os dados para pagamento serão informados pela SOS English.</span>
+                        <span class="msg-erro" id="erro-ins-datapag">Informe a data de hoje em diante.</span>
+                    </div>
+                </div>
+
+                <h3 class="section-title">5. Termos do Contrato</h3>
                 <div class="contrato-box">
+                    <strong>CONTRATANTE:</strong>
+                    <p>Nome: <span class="c-dinamico c-nome"></span><br>
+                    Estado civil: <span class="c-dinamico c-estadocivil"></span><br>
+                    Data de nascimento: <span class="c-dinamico c-nascimento"></span><br>
+                    RG: <span class="c-dinamico c-rg"></span> | CPF: <span class="c-dinamico c-cpf"></span><br>
+                    E-mail: <span class="c-dinamico c-email"></span><br>
+                    Endereço: <span class="c-dinamico c-rua"></span>, <span class="c-dinamico c-numero"></span><br>
+                    Bairro: <span class="c-dinamico c-bairro"></span> | Cidade: <span class="c-dinamico c-cidade"></span> | CEP: <span class="c-dinamico c-cep"></span><br>
+                    Celular (WhatsApp): <span class="c-dinamico c-whatsapp"></span><br>
+                    Profissão: <span class="c-dinamico c-profissao"></span><br>
+                    Formação acadêmica: <span class="c-dinamico c-formacao"></span></p>
+                    <div id="c-resp-bloco" style="display:none;">
+                        <p>Responsável legal: <span class="c-dinamico c-resp-nome"></span>, CPF <span class="c-dinamico c-resp-cpf"></span>, parentesco: <span class="c-dinamico c-resp-parentesco"></span></p>
+                    </div>
+
                     <strong>CONTRATADA:</strong>
                     <p>Razão social: LOURIVAL ANTÔNIO SAMPAIO e nome fantasia SOS ENGLISH, inscrito no CNPJ/MF: 21.536.075/0001-61, com sede em Sorocaba, na Rua Igino Giordani, n.º 194, Complemento Sala 03 Andar 2 º, Jd. Siriema, CEP: 18.075-772, no estado de São Paulo, neste ato representada pelo proprietário Lourival Antônio Sampaio, brasileiro, casado, professor de Inglês, carteira de identidade n.º 12.660.459, CPF n.º 010.226.138.55 residente e domiciliado na Rua Silva Barros, n.º 355, bairro Vila Fiori, CEP: 18075-570, cidade Sorocaba no estado de São Paulo.</p>
                     
                     <strong>INSCRIÇÃO:</strong>
                     <p>Curso: Clube de Conversação<br>
                     Turma: <span class="c-dinamico" id="c-turma">[dia e horário a definir]</span><br>
-                    Carga Horária: 24 horas</p>
+                    Carga Horária: 24 horas<br>
+                    Início: <span class="c-dinamico c-inicio"></span><br>
+                    Prazo: <span class="c-dinamico c-prazo"></span><br>
+                    Término: <span class="c-dinamico c-termino"></span></p>
 
                     <h4>CLÁUSULA 01 - OBJETO</h4>
                     <p>O objeto deste contrato consiste na prestação de serviços de ensino de língua estrangeira pela CONTRATADA: SOS ENGLISH ao CONTRATANTE (devidamente qualificado e identificado pelos dados pessoais preenchidos no formulário eletrônico acima), sendo este individual e intransferível.</p>
@@ -189,12 +253,12 @@
                     <p><strong>§3º</strong> - Caso o ALUNO não consiga repor as aulas dentro do prazo do contrato, essas aulas não terão mais validade.</p>
                     
                     <h4>CLÁUSULA 04 - DO VALOR DA PRESTAÇÃO DE SERVIÇOS</h4>
-                    <p>Em contrapartida aos serviços a serem prestados o CONTRATANTE pagará a SOS ENGLISH o valor de R$ 900,00( novecentos reais), que por solicitação deste, será pago a vista via PIX- R$ 900,00( novecentos reais) o (a) ALUNO (A) deverá realizar transferência na no chave PIX (15) 9.8179 - 3811 Na hipótese de o presente contrato ser pago integralmente à vista, o aluno obterá o desconto de 5%.</p>
-                    <p><strong>§1º</strong> - O vencimento das parcelas se dará sempre no dia NÃO TEM de cada mês de forma ininterrupta e sucessiva, independente da frequência do (a) ALUNO(A) no curso.</p>
-                    <p><strong>§2º</strong> - Optando o (a) ALUNO(A) pelo pagamento antecipado até 10 (dez) dias antes do vencimento, obterá desconto de 5% do valor.</p>
+                    <p>Em contrapartida aos serviços a serem prestados, o CONTRATANTE pagará à SOS ENGLISH o valor total de R$ 900,00 (novecentos reais), referente ao curso de 01 (um) módulo, com carga horária de 24 horas.</p>
+                    <p><strong>§1º</strong> - O pagamento será realizado pela forma escolhida pelo (a) ALUNO (A) no ato da matrícula: <span class="c-dinamico c-pagamento"></span>. São aceitos o PIX, o cartão de crédito e o pagamento parcelado em mensalidades, e os dados para pagamento serão informados pela SOS ENGLISH ao (à) ALUNO (A).</p>
+                    <p><strong>§2º</strong> - No pagamento à vista, seja por PIX ou por cartão de crédito, o (a) ALUNO (A) obterá o desconto de 10% (dez por cento), de modo que o valor a pagar será de R$ 810,00 (oitocentos e dez reais). O pagamento parcelado em mensalidades não tem desconto.</p>
+                    <div class="c-destaque"><span class="c-destaque-titulo">DATAS DE PAGAMENTO</span><br><span class="c-datas-pagamento"></span></div>
                     <p><strong>§3º</strong> - Não estão incluídos, neste contrato, os serviços extras (se houver), tais como: gravação dos áudios das aulas ministradas que terá o custo de R$20,00 caso seja requerido e materiais didáticos dependendo do curso contratado.</p>
-                    <p><strong>§4º</strong> - Para melhor compreensão entre as partes, esclarece-se que o valor da parcela descrito no caput da presente cláusula não se confunde com o valor total do módulo. Assim, reitera-se que, o valor total da prestação de serviços é de R$ 900,00( novecentos reais) e que, considerando que o presente curso possui 01 módulo.</p>
-                    
+
                     <h4>CLÁUSULA 05 – DA INADIMPLÊNCIA</h4>
                     <p>O presente contrato será regido conforme as normas do Código Civil Brasileiro, notadamente os arts. 476 e 783, além dos demais dispositivos aplicáveis.</p>
                     <p><strong>§1º</strong> - Em caso de atraso no pagamento de qualquer débito, será cobrada multa de 2% (dois por cento) e juros de 1% (um por cento) ao mês.</p>
@@ -220,7 +284,7 @@
                     <p><strong>§ 4º</strong> - Em caso de rescisão contratual pelo (a) ALUNO (A) cujo pagamento tenha ocorrido de forma antecipada, a multa de 10% será abatida do valor a ser restituído.</p>
                     
                     <h4>CLÁUSULA 11 – DO PRAZO</h4>
-                    <p>O presente contrato terá o prazo de SEIS MESES, iniciando no dia 28 Junho e terminando no dia 28 de Dezembro Serão descontados os feriados que ocorrerem ao longo do curso, essas aulas poderão ser feitas em dias e horário a combinar.</p>
+                    <p>O presente contrato terá o prazo de <span class="c-dinamico c-prazo"></span>, iniciando no dia <span class="c-dinamico c-inicio"></span> e terminando no dia <span class="c-dinamico c-termino"></span>. Serão descontados os feriados que ocorrerem ao longo do curso, essas aulas poderão ser feitas em dias e horário a combinar.</p>
                     
                     <h4>CLÁUSULA 12 - DISPOSIÇÕES GERAIS</h4>
                     <p>A vigência deste contrato se inicia com o pagamento da inscrição e sua assinatura e se encerra com o cumprimento de todas as obrigações pelas partes.</p>
@@ -232,6 +296,13 @@
                     <h4>CLÁUSULA 13 - FORO</h4>
                     <p>Fica eleito o Foro da Comarca do consumidor como competente para dirimir questões oriundas do presente Contrato.</p>
                     <p style="margin-top: 15px; font-weight: bold;">E, por estarem justos e contratados, assinam o presente instrumento eletronicamente em uma via, para que produza todos os efeitos legais.</p>
+                    <p style="margin-top: 15px;">São Paulo / Capivari, <span class="c-dinamico c-data-assinatura"></span>.</p>
+                    <p style="margin-top: 25px; text-align: left;">_________________________________<br>
+                    <span class="c-dinamico c-assinatura-aluno"></span><br>
+                    CONTRATANTE</p>
+                    <p style="margin-top: 25px; text-align: left;">_________________________________<br>
+                    SOS ENGLISH / Lourival Antônio Sampaio<br>
+                    CONTRATADA</p>
                 </div>
 
                 <div class="assinatura-box">
@@ -254,7 +325,7 @@
     <script>
         // Altere esta constante SEMPRE que o texto do contrato for modificado.
         // Ela vai no e-mail da secretaria junto com o hash do texto exibido ao aluno.
-        const VERSAO_CONTRATO = 'v1.1 - 2026-09-28';
+        const VERSAO_CONTRATO = 'v1.2 - 2026-11-18';
 
         // ── VALIDAÇÕES ──
         function apenasDigitos(v) { return (v || '').replace(/\D/g, ''); }
@@ -357,6 +428,147 @@
             cIni.textContent = hora ? hora : '[horário a definir]';
             cFim.textContent = hora ? fim : '[horário a definir]';
             turma.textContent = (dia && hora) ? (dia + ', das ' + hora + ' às ' + fim) : '[dia e horário a definir]';
+
+            atualizarDadosContrato();
+        }
+
+        // ── PRAZO, PAGAMENTO E DADOS DO CONTRATANTE (preenchem o texto do contrato) ──
+        // Estes valores precisam bater com o texto da Cláusula 04.
+        const VALOR_TOTAL_TXT = 'R$ 900,00';
+        const VALOR_AVISTA_TXT = 'R$ 810,00';   // 10% de desconto no pagamento à vista (PIX ou cartão de crédito)
+        const DESCONTO_AVISTA_TXT = '10%';
+        const PRAZO_MIN_MESES = 1;
+        const PRAZO_MAX_MESES = 24;
+        const LOCAL_ASSINATURA = 'São Paulo / Capivari';
+        const FORMA_PARCELADO = 'Parcelado em mensalidades';
+
+        // PENDENTE (professor): dia fixo de vencimento das mensalidades (1 a 28). Enquanto for null,
+        // o contrato mostra "[dia de vencimento a definir]". Exemplo de preenchimento: 10
+        const DIA_VENCIMENTO_MENSALIDADES = null;
+        // PENDENTE (professor): valor de cada mensalidade. Enquanto for null, o contrato mostra
+        // "[valor da mensalidade a definir]". Exemplo de preenchimento: 'R$ 150,00'
+        const VALOR_MENSALIDADE_TXT = null;
+
+        const MESES_EXTENSO = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+        const NUMEROS_EXTENSO = ['zero','um','dois','três','quatro','cinco','seis','sete','oito','nove','dez','onze','doze','treze','quatorze','quinze','dezesseis','dezessete','dezoito','dezenove','vinte','vinte e um','vinte e dois','vinte e três','vinte e quatro'];
+
+        function hojeISO() {
+            const h = new Date();
+            return h.getFullYear() + '-' + String(h.getMonth() + 1).padStart(2, '0') + '-' + String(h.getDate()).padStart(2, '0');
+        }
+
+        function dataISOvalida(iso) { return /^\d{4}-\d{2}-\d{2}$/.test(iso || ''); }
+        function inicioValido(iso) { return dataISOvalida(iso) && iso >= hojeISO(); }
+        function dataPagamentoValida(iso) { return dataISOvalida(iso) && iso >= hojeISO(); }
+        function prazoValido(v) {
+            const n = Number(v);
+            return v !== '' && Number.isInteger(n) && n >= PRAZO_MIN_MESES && n <= PRAZO_MAX_MESES;
+        }
+
+        function partesData(iso) { const [a, m, d] = iso.split('-').map(Number); return { a, m: m - 1, d }; }
+        function dataExtenso(p) { return p.d + ' de ' + MESES_EXTENSO[p.m] + ' de ' + p.a; }
+        function dataBR(iso) { return dataISOvalida(iso) ? iso.split('-').reverse().join('/') : ''; }
+
+        // início + N meses, mantendo o mesmo dia (ou o último dia do mês, se o mês de destino for mais curto)
+        function calcularTermino(inicioISO, meses) {
+            const p = partesData(inicioISO);
+            const total = p.m + meses;
+            const ano = p.a + Math.floor(total / 12);
+            const mes = total % 12;
+            const ultimoDia = new Date(Date.UTC(ano, mes + 1, 0)).getUTCDate();
+            return { a: ano, m: mes, d: Math.min(p.d, ultimoDia) };
+        }
+
+        function obterCondicoesContrato() {
+            const inicio = document.getElementById('ins-inicio').value;
+            const prazoStr = document.getElementById('ins-prazo').value;
+            const pagamento = document.getElementById('ins-pagamento').value;
+            const dataPag = document.getElementById('ins-datapag').value;
+            const prazoOk = prazoValido(prazoStr);
+            const inicioOk = dataISOvalida(inicio);
+            const n = Number(prazoStr);
+            const parcelado = pagamento === FORMA_PARCELADO;
+            const dataPagTxt = dataISOvalida(dataPag) ? dataExtenso(partesData(dataPag)) : '[data de pagamento a definir]';
+            const nFem = prazoOk ? NUMEROS_EXTENSO[n].replace(/\bum$/, 'uma').replace(/\bdois$/, 'duas') : '';
+            const mensalidadesTxt = prazoOk ? n + ' (' + nFem + ') ' + (n === 1 ? 'mensalidade' : 'mensalidades') : '[número de mensalidades a definir]';
+            const valorMensTxt = VALOR_MENSALIDADE_TXT || '[valor da mensalidade a definir]';
+            const diaTxt = DIA_VENCIMENTO_MENSALIDADES ? String(DIA_VENCIMENTO_MENSALIDADES) : '[dia de vencimento a definir]';
+
+            let datasTxt, linhasEmail;
+            if (!pagamento) {
+                datasTxt = '[forma de pagamento a escolher]';
+                linhasEmail = 'Datas de pagamento: [forma de pagamento não informada]';
+            } else if (parcelado) {
+                datasTxt = 'Pagamento parcelado em ' + mensalidadesTxt + ' de ' + valorMensTxt + ', com vencimento todo dia ' + diaTxt +
+                    ' de cada mês, de forma ininterrupta e sucessiva, independente da frequência do (a) ALUNO (A) no curso. Sem desconto.';
+                linhasEmail = 'Número de mensalidades: ' + mensalidadesTxt + '\nValor de cada mensalidade: ' + valorMensTxt +
+                    '\nDia de vencimento: todo dia ' + diaTxt + ' de cada mês\nDesconto: não se aplica (pagamento parcelado)';
+            } else {
+                datasTxt = 'Pagamento à vista (' + pagamento.replace(/ \(à vista\)$/, '') + ') em ' + dataPagTxt + ', no valor de ' + VALOR_AVISTA_TXT + ' (com desconto de ' + DESCONTO_AVISTA_TXT + ').';
+                linhasEmail = 'Data do Pagamento: ' + dataPagTxt + '\nDesconto no pagamento à vista: ' + DESCONTO_AVISTA_TXT +
+                    '\nValor a Pagar à Vista (com desconto): ' + VALOR_AVISTA_TXT;
+            }
+            return {
+                prazoTxt: prazoOk ? n + ' (' + NUMEROS_EXTENSO[n] + ') ' + (n === 1 ? 'mês' : 'meses') : '[prazo a definir]',
+                inicioTxt: inicioOk ? dataExtenso(partesData(inicio)) : '[data de início a definir]',
+                terminoTxt: (inicioOk && prazoOk) ? dataExtenso(calcularTermino(inicio, n)) : '[data de término a definir]',
+                pagamentoTxt: pagamento || '[forma de pagamento a escolher]',
+                parcelado: parcelado,
+                datasPagamentoTxt: datasTxt,
+                linhasPagamentoEmail: linhasEmail
+            };
+        }
+
+        function preencherContrato(classe, texto, vazio) {
+            document.querySelectorAll('.' + classe).forEach(el => { el.textContent = texto || vazio; });
+        }
+
+        // A data de pagamento só se aplica ao pagamento à vista. No parcelado vale o dia de vencimento das mensalidades.
+        function ajustarCamposPagamento(parcelado) {
+            const bloco = document.getElementById('bloco-datapag');
+            const campo = document.getElementById('ins-datapag');
+            bloco.style.display = parcelado ? 'none' : '';
+            campo.required = !parcelado;   // campo oculto e obrigatório travaria o envio
+            if (parcelado) { campo.value = ''; marcarErro('ins-datapag', false); }
+        }
+
+        function atualizarDadosContrato() {
+            const val = id => (document.getElementById(id).value || '').trim();
+            const A = '[a preencher]';
+
+            preencherContrato('c-nome', val('ins-nome'), A);
+            preencherContrato('c-estadocivil', val('ins-estadocivil'), A);
+            preencherContrato('c-nascimento', dataBR(val('ins-nascimento')), A);
+            preencherContrato('c-rg', val('ins-rg'), A);
+            preencherContrato('c-cpf', val('ins-cpf'), A);
+            preencherContrato('c-email', val('ins-email'), A);
+            preencherContrato('c-rua', val('ins-rua'), A);
+            preencherContrato('c-numero', val('ins-numero'), A);
+            preencherContrato('c-bairro', val('ins-bairro'), A);
+            preencherContrato('c-cidade', val('ins-cidade'), A);
+            preencherContrato('c-cep', val('ins-cep'), A);
+            preencherContrato('c-whatsapp', val('ins-whatsapp'), A);
+            preencherContrato('c-profissao', val('ins-profissao'), A);
+            preencherContrato('c-formacao', val('ins-formacao'), A);
+
+            const nasc = val('ins-nascimento');
+            const idade = nasc ? calcularIdade(nasc) : null;
+            const menor = idade !== null && idade >= 0 && idade < 18;
+            document.getElementById('c-resp-bloco').style.display = menor ? 'block' : 'none';
+            preencherContrato('c-resp-nome', val('resp-nome'), A);
+            preencherContrato('c-resp-cpf', val('resp-cpf'), A);
+            preencherContrato('c-resp-parentesco', val('resp-parentesco'), A);
+
+            const c = obterCondicoesContrato();
+            ajustarCamposPagamento(c.parcelado);
+            preencherContrato('c-prazo', c.prazoTxt);
+            preencherContrato('c-inicio', c.inicioTxt);
+            preencherContrato('c-termino', c.terminoTxt);
+            preencherContrato('c-pagamento', c.pagamentoTxt);
+            preencherContrato('c-datas-pagamento', c.datasPagamentoTxt);
+
+            preencherContrato('c-data-assinatura', new Date().toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' }));
+            preencherContrato('c-assinatura-aluno', val('ins-assinatura'), '[assinatura digital no campo abaixo]');
         }
 
         // ── HASH DO TEXTO DO CONTRATO (prova de qual versão foi exibida) ──
@@ -381,6 +593,11 @@
             checar('ins-cep', cepValido(document.getElementById('ins-cep').value));
             const nasc = document.getElementById('ins-nascimento').value;
             checar('ins-nascimento', !!nasc && nascimentoValido(nasc));
+            checar('ins-inicio', inicioValido(document.getElementById('ins-inicio').value));
+            checar('ins-prazo', prazoValido(document.getElementById('ins-prazo').value));
+            if (document.getElementById('ins-pagamento').value !== FORMA_PARCELADO) {
+                checar('ins-datapag', dataPagamentoValida(document.getElementById('ins-datapag').value));
+            }
 
             const blocoVisivel = document.getElementById('bloco-responsavel').style.display === 'block';
             if (blocoVisivel) checar('resp-cpf', cpfValido(document.getElementById('resp-cpf').value));
@@ -427,6 +644,7 @@
             const diaAula = document.getElementById('ins-dia-aula').value;
             const horaAula = document.getElementById('ins-hora-aula').value;
             const assinatura = document.getElementById('ins-assinatura').value;
+            const formacao = document.getElementById('ins-formacao').value;
 
             const idade = calcularIdade(nascimento);
             const menor = idade !== null && idade < 18;
@@ -438,6 +656,8 @@ Parentesco: ${document.getElementById('resp-parentesco').value}
 ` : '';
 
             atualizarResumoAulas(); // garante o contrato preenchido antes de gerar o hash
+            const cond = obterCondicoesContrato();
+            const dataAssinatura = new Date().toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' });
             const hashDoContrato = await hashContrato();
             
             const dossieTexto = `
@@ -457,18 +677,28 @@ ${rua}, ${numero} - ${bairro}
 ${cidade} - CEP: ${cep}
 
 3. INFORMAÇÕES ACADÊMICAS
+Formação Acadêmica: ${formacao}
 Nível Atual: ${nivel}
 Objetivo: ${objetivo}
 Dia das Aulas: ${diaAula}
 Horário das Aulas: ${horaAula} às ${horarioFinalAula(horaAula)}
 
-4. VALIDAÇÃO JURÍDICA E ACEITE DIGITAL
+4. PRAZO E PAGAMENTO
+Data de Início: ${cond.inicioTxt}
+Prazo do Contrato: ${cond.prazoTxt}
+Data de Término: ${cond.terminoTxt}
+Valor Total do Curso: ${VALOR_TOTAL_TXT}
+Forma de Pagamento escolhida: ${cond.pagamentoTxt}
+${cond.linhasPagamentoEmail}
+
+5. VALIDAÇÃO JURÍDICA E ACEITE DIGITAL
 O aluno marcou a caixa de seleção concordando integralmente com os termos e cláusulas contratuais da SOS English.
 
 Versão do Contrato: ${VERSAO_CONTRATO}
 Hash SHA-256 do texto exibido: ${hashDoContrato}
 
 Assinatura Eletrônica Registrada: ${assinatura}
+Local e Data do Contrato: ${LOCAL_ASSINATURA}, ${dataAssinatura}
 Data e Hora do Aceite (relógio do dispositivo do aluno): ${new Date().toLocaleString('pt-BR')}
 =============================================
 `;
@@ -512,6 +742,16 @@ Data e Hora do Aceite (relógio do dispositivo do aluno): ${new Date().toLocaleS
                 }
             });
         }
+
+        // ── INICIALIZAÇÃO: mantém o texto do contrato sincronizado com o formulário ──
+        (function () {
+            const form = document.getElementById('formMatricula');
+            form.addEventListener('input', atualizarResumoAulas);
+            form.addEventListener('change', atualizarResumoAulas);
+            document.getElementById('ins-inicio').min = hojeISO();
+            document.getElementById('ins-datapag').min = hojeISO();
+            atualizarResumoAulas();
+        })();
     </script>
 </body>
 </html>
